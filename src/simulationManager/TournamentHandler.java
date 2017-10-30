@@ -22,37 +22,38 @@ public class TournamentHandler {
 
 	// Private Variable
 	private static String tournamentStats;
-
+	private static String TOURNAMENTBOARD = "TB/TB.csv";
+	private static String FILENOTFOUND = "File not found";
 	/**
 	 * tournHandler method generates for each tournament a groups for the agents
 	 * and splits up players into groupds of pairs.
 	 * 
-	 * @param myHomeList
+	 * @param homeList
 	 *            : Group of Agents that forms the first half
-	 * @param myAwayList
+	 * @param awayList
 	 *            : Group of Agents that forms the last half
 	 * 
 	 */
-	protected static void tournHandler(ArrayList<Object> myHomeList,
-			ArrayList<Object> myAwayList) {
-		for (int currentTournament = 0; currentTournament < Scheduler.NumOfTournament; currentTournament++) {
+	protected static void tournHandler(ArrayList<Object> homeList,
+			ArrayList<Object> awayList) {
+		for (int currentTournament = 0; currentTournament < Scheduler.numOfTournament; currentTournament++) {
 
 			
 			printTournamentStats(currentTournament);
 
-			// Set total rounds in a tournament
-			int totalRounds = (Scheduler.agentsTotal - 1); 
-			int matchesPerRound = Scheduler.agentsTotal / 2; 
+			
+			int totalRounds = (Scheduler.agentsTotal - 1); // Set total rounds in a tournament
+			int matchesPerRound = Scheduler.agentsTotal / 2; // Set matches per round in a tournament
 
 			// Group players into two for fair matching
 			for (int j = 0; j < matchesPerRound; j++) {
-				myHomeList.add(new Scheduler());
-				myAwayList.add(new Scheduler());
+				homeList.add(new Scheduler());
+				awayList.add(new Scheduler());
 			}
 
 			
 			RoundHandler.roundMgr(currentTournament, totalRounds, matchesPerRound,
-					myHomeList, myAwayList);
+					homeList, awayList);
 
 			try {
 				HIM.displayAgentsTournamentStats(currentTournament);
@@ -83,10 +84,10 @@ public class TournamentHandler {
 
 		
 		try {
-			Files.write(Paths.get("TB/TB.csv"), tx.getBytes());
+			Files.write(Paths.get(TOURNAMENTBOARD), tx.getBytes());
 			HIM.updateLog(tournamentStats);
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "File not found");
+			JOptionPane.showMessageDialog(null, FILENOTFOUND);
 		}
 
 	}

@@ -25,20 +25,21 @@ import setupManager.StrategySetupManager;
 public class Scheduler {
 
 	// Scheduler Parameters 
-	protected static float tempt = 0;
+	protected static float tempt  = 0;
 	protected static float reward = 0;
 	protected static float punish = 0;
 	protected static float sucker = 0;
 	protected static float uLevel = 0;
-	protected static float NumOfTournament = 0;
+	protected static float numOfTournament = 0;
 	protected static int agentsTotal = 0;
-	
+	protected static String[] strategies;
+
 	//Private variables
-	//private static boolean flags = false;
-	//private static float[] reqLimit = new float[3];
-	protected static String[] Strategies;
 	private static boolean readySign = false;
-	static int ExperimentIndex = 1;
+	static int experimentIndex = 1;
+	private static String TOURNAMENTBOARD = "TB/TB.csv";
+	private static String FILENOTFOUND = "File not found";
+
 
 	/**
 	 * Main method is known to be the class' application entry point
@@ -105,14 +106,14 @@ public class Scheduler {
 	 * 
 	 */
 	public static void getSetupParam(String[] param, int agentsTotal,
-			String[] AgentStrategies) throws IOException {
+			String[] agentStrategies) throws IOException {
 
 		float[] setupValues = new float[param.length];
 		for (int i = 0; i < param.length; i++) {
 			setupValues[i] = Float.parseFloat(param[i]);
 		}
 
-		initializeParam(setupValues, agentsTotal, AgentStrategies);
+		initializeParam(setupValues, agentsTotal, agentStrategies);
 	}
 
 	/**
@@ -123,26 +124,26 @@ public class Scheduler {
 	 *            : Simulation setup values received from the Paramter Manager
 	 * @param numOfAgents
 	 *            : Total number of agents in current experiment
-	 * @param AgentStrategies
+	 * @param agentStrategies
 	 *            : List of agents' strategies in current experiment
 	 * 
 	 * @throws IOException
 	 */
 	private static void initializeParam(float[] setupValues, int numOfAgents,
-			String[] AgentStrategies) throws IOException {
+			String[] agentStrategies) throws IOException {
 		tempt = setupValues[0];
 		reward = setupValues[1];
 		punish = setupValues[2];
 		sucker = setupValues[3];
-		NumOfTournament = setupValues[4];
+		numOfTournament = setupValues[4];
 		agentsTotal = numOfAgents;
-		Strategies = AgentStrategies;
+		strategies = agentStrategies;
 
-		ArrayList<Object> myHomeList = new ArrayList<Object>();
-		ArrayList<Object> myAwayList = new ArrayList<Object>();
+		ArrayList<Object> homeList = new ArrayList<Object>();
+		ArrayList<Object> awayList = new ArrayList<Object>();
 
 		
-		startSimulation(myHomeList, myAwayList);
+		startSimulation(homeList, awayList);
 
 	}
 
@@ -150,19 +151,19 @@ public class Scheduler {
 	 * simulationStart after receiving invocation from initializeParam begins
 	 * simulation experiment for the current experimental setup
 	 * 
-	 * @param myHomeList
+	 * @param homeList
 	 *            : Group of Agents that forms the first half
-	 * @param myAwayList
+	 * @param awayList
 	 *            : Group of Agents that forms the last half
 	 * @throws IOException
 	 */
-	public static void startSimulation(ArrayList<Object> myHomeList,
-			ArrayList<Object> myAwayList) throws IOException {
+	public static void startSimulation(ArrayList<Object> homeList,
+			ArrayList<Object> awayList) throws IOException {
 		printExperiment();
-		TournamentHandler.tournHandler(myHomeList, myAwayList);
-		HIM.displayAgentsTournamentPerformance(ExperimentIndex);
-		ExperimentIndex++;
-		requestSimParam(true, ExperimentIndex);
+		TournamentHandler.tournHandler(homeList, awayList);
+		HIM.displayAgentsTournamentPerformance(experimentIndex);
+		experimentIndex++;
+		requestSimParam(true, experimentIndex);
 
 	}
 
@@ -170,24 +171,24 @@ public class Scheduler {
 	 * printExperiment method reports on a statistics of current Experiment
 	 * index agents' payoffs, strategies and positions .
 	 * 
-	 * @param ExperimentIndex
+	 * @param experimentIndex
 	 *            : Current Tournament index
 	 * 
 	 */
 	private static void printExperiment() {
 
 		// Save to TB and signal HIM
-		String experimentTitle = "\n\nEXPERIMENT " + (ExperimentIndex)
+		String experimentTitle = "\n\nEXPERIMENT " + (experimentIndex)
 				+ "\n-----------------------\n";
-		String experimentTitle2 = "\nEXPERIMENT " + (ExperimentIndex) + "\n";
+		String experimentTitle2 = "\nEXPERIMENT " + (experimentIndex) + "\n";
 		GUI_Simulation.txtSim.append(experimentTitle);
 
 		try {
-			Files.write(Paths.get("TB/TB.csv"), experimentTitle2.getBytes());
+			Files.write(Paths.get(TOURNAMENTBOARD), experimentTitle2.getBytes());
 			HIM.updateLog(experimentTitle2);
-			HIM.startExp(ExperimentIndex);
+			HIM.startExp(experimentIndex);
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "File not found");
+			JOptionPane.showMessageDialog(null, FILENOTFOUND);
 		}
 
 	}

@@ -79,6 +79,7 @@ public class GUI {
 					UIManager.setLookAndFeel(UIManager
 							.getSystemLookAndFeelClassName());
 					GUI_Simulation.main(null);
+					System.out.println("hello");
 
 				} catch (Exception e) {
 					e.printStackTrace();

@@ -31,15 +31,19 @@ public class RoundHandler {
 	 *            : Total number of rounds in current Tounrament
 	 * @param matchesPerRound
 	 *            : Total number of matches to be played in every round
-	 * @param myHomeList
+	 * @param homeList
 	 *            : Group of Agents that forms the first half
-	 * @param myAwayList
+	 * @param awayList
 	 *            : Group of Agents that forms the last half
 	 * 
 	 */
+	private static String DUMMY = "Dummy";
+	private static String TOURNAMENTBOARD = "TB/TB.csv";
+	private static String FILENOTFOUND = "File not found";
+
 	public static void roundMgr(int currentTournament, int totalRounds,
-			int matchesPerRound, ArrayList<Object> myHomeList,
-			ArrayList<Object> myAwayList) {
+			int matchesPerRound, ArrayList<Object> homeList,
+			ArrayList<Object> awayList) {
 
 		for (int round = 0; round < totalRounds; round++) {
 
@@ -53,8 +57,8 @@ public class RoundHandler {
 				if (match == 0)
 					away = Scheduler.agentsTotal - 1;
 
-				myHomeList.set(match, String.valueOf(home + 1));
-				myAwayList.set(match, String.valueOf(away + 1));
+				homeList.set(match, String.valueOf(home + 1));
+				awayList.set(match, String.valueOf(away + 1));
 			}
 
 			
@@ -67,50 +71,45 @@ public class RoundHandler {
 			GUI_Simulation.txtSim.append(text);
 
 			try {
-				Files.write(Paths.get("TB/TB.csv"), textx.getBytes());
+				Files.write(Paths.get(TOURNAMENTBOARD), textx.getBytes());
 				HIM.updateLog(text);
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null, "File not found");
+				JOptionPane.showMessageDialog(null, FILENOTFOUND);
 			}
 
 			
 			for (int j = 0; j < matchesPerRound; j++) {
 
-				int agentID = Integer.parseInt((String) (myHomeList.get(j))) - 1;
-				int oppnentID = Integer.parseInt((String) (myAwayList.get(j))) - 1;
+				int agentID = Integer.parseInt((String) (homeList.get(j))) - 1;
+				int oppnentID = Integer.parseInt((String) (awayList.get(j))) - 1;
 
-				String agentStrategy = Scheduler.Strategies[Integer
-						.parseInt((String) (myHomeList.get(j))) - 1];
-				String opponentStrategy = Scheduler.Strategies[Integer
-						.parseInt((String) (myAwayList.get(j))) - 1];
+				String agentStrategy = Scheduler.strategies[Integer
+						.parseInt((String) (homeList.get(j))) - 1];
+				String   opponentStrategy = Scheduler.strategies[Integer
+						.parseInt((String) (awayList.get(j))) - 1];
 
 				
-				if (!opponentStrategy.contains("Dummy")) {
-					System.out.println("Agent " + myHomeList.get(j)
-							+ "\t vrs \t " + "Agent " + myAwayList.get(j));
+				if (!opponentStrategy.contains(DUMMY)) {
+					System.out.println("Agent " + homeList.get(j)
+							+ "\t vrs \t " + "Agent " + awayList.get(j));
 					System.out.println(agentStrategy + "\t vrs \t " + opponentStrategy);
 
-					String matchedAgentID = "Agent " + myHomeList.get(j)
-							+ "\t \t vrs \t Agent " + myAwayList.get(j) + "\n"
+					String matchedAgentID = "Agent " + homeList.get(j)
+							+ "\t \t vrs \t Agent " + awayList.get(j) + "\n"
 							+ agentStrategy + "\t \t vrs \t " + opponentStrategy;
 					GUI_Simulation.txtSim.append(matchedAgentID);
-					String matchedAgentID2 = "\nAgent " + myHomeList.get(j)
-							+ "\t \t vrs \t Agent " + myAwayList.get(j) + "\n";
+					String matchedAgentID2 = "\nAgent " + homeList.get(j)
+							+ "\t \t vrs \t Agent " + awayList.get(j) + "\n";
 					String matchedAgentStrategies = "\n" + agentStrategy + "\t \t vrs \t " + opponentStrategy + "\n";
-
 					
 					try {
-						Files.write(Paths.get("TB/TB.csv"), matchedAgentID2.getBytes());
+						Files.write(Paths.get(TOURNAMENTBOARD), matchedAgentID2.getBytes());
 						HIM.updateLog(matchedAgentID);
-					} catch (IOException e) {
-						JOptionPane.showMessageDialog(null, "File not found");
-					}
-
-					try {
-						Files.write(Paths.get("TB/TB.csv"), matchedAgentStrategies.getBytes());
+						
+						Files.write(Paths.get(TOURNAMENTBOARD), matchedAgentStrategies.getBytes());
 						HIM.updateLog(matchedAgentStrategies);
 					} catch (IOException e) {
-						JOptionPane.showMessageDialog(null, "File not found");
+						JOptionPane.showMessageDialog(null, FILENOTFOUND);
 					}
 					
 					// Transfer control to MatchManager
