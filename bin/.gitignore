@@ -1,6 +1,2 @@
-/agents
-/gui
-/historicalInformationManager
 /org
-/setupManager
-/simulationManager
+/historicalInformationManager

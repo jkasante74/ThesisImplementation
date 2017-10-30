@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
+
 import javax.swing.JOptionPane;
 
 import agents.Agent;
@@ -22,12 +23,14 @@ public class HIM {
 
 	/* Private Variables */
 	private static float experimentUncertaintyLevel;
-	private static int totalNumOfTournament, currentExperimentIndex;
-	private static int totalNumOfAgents;
-	private static String opponentPastInfo, chartsInfo = "";
-	private static String agentsTournamentStatistics = "", agentTournamentStats = "";
+	private static int totalNumOfTournament, currentExperimentIndex, totalNumOfAgents;
+	private static String opponentPastInfo, chartsInfo = "", agentsTournamentStatistics = "", agentTournamentStats = "";
 	private static double sum = 0, min = 0, max = 0;
 	private static String[] experimentPayOff;
+	private static String SIMULATIONLEADERBOARDFILE = "HIR/SimLeaderBoard.csv";
+	private static String SIMULATIONSTATSFILE = "HIR/SimStats.csv";
+	private static String DUMMY = "Dummy";
+
 	private static String experimentLeaderboard = "", tournamentBoardInfo = "", currentExperimentResults = "",
 			requestLimitOptions;
 
@@ -90,6 +93,7 @@ public class HIM {
 			
 		case 1 :
 			requestInfo = agentsTournamentStatistics;
+			break;
 		}
 		
 		return requestInfo;
@@ -107,10 +111,8 @@ public class HIM {
 	 */
 
 	private static String applyUncertaintyLimit(String opponentPastInfo) {
-
 		
 		double currentUncertaintyLimit = experimentUncertaintyLevel;
-
 		String pastInfoAfterUncertainty = opponentPastInfo.substring(0,
 				(int) ((opponentPastInfo.length()) * currentUncertaintyLimit));
 
@@ -134,27 +136,27 @@ public class HIM {
 			char[] agentsAction) {
 
 		// Initialize Parameters 
-		char actionA, actionB;
-		actionA = agentsAction[0]; 
-		actionB = agentsAction[1]; 
+		char agentMatchAct, opponentMatchAct;
+		agentMatchAct = agentsAction[0]; 
+		opponentMatchAct = agentsAction[1]; 
 		
 		// Store match actions in HIR based on agents IDs for easy response
-		HIR.agentActionsDbase[currentTournamentIndex][opponentID][requestingAgentID] = actionA;
-		HIR.agentActionsDbase[currentTournamentIndex][requestingAgentID][opponentID] = actionB;
+		HIR.agentActionsDbase[currentTournamentIndex][opponentID][requestingAgentID] = agentMatchAct;
+		HIR.agentActionsDbase[currentTournamentIndex][requestingAgentID][opponentID] = opponentMatchAct;
 
 		// Store match actions in HIR in time order for easy query response 
 		if (HIR.agentActs[requestingAgentID] == null)
-			HIR.agentActs[requestingAgentID] = String.valueOf(actionA);
+			HIR.agentActs[requestingAgentID] = String.valueOf(agentMatchAct);
 		else
 			HIR.agentActs[requestingAgentID] = HIR.agentActs[requestingAgentID]
-					+ String.valueOf(actionA);
+					+ String.valueOf(agentMatchAct);
 
 		if (HIR.agentActs[opponentID] == null)
-			HIR.agentActs[opponentID] = String.valueOf(actionB);
+			HIR.agentActs[opponentID] = String.valueOf(opponentMatchAct);
 
 		else
 			HIR.agentActs[opponentID] = HIR.agentActs[opponentID]
-					+ String.valueOf(actionB);
+					+ String.valueOf(opponentMatchAct);
 	}
 
 	/**
@@ -172,10 +174,10 @@ public class HIM {
 	 * 
 	 */
 
-	public static String displayAgentsTournamentPerformance(int ExpNum) throws IOException {
-		experimentLeaderboard = experimentLeaderboard + "\nExperiment " + ExpNum
+	public static String displayAgentsTournamentPerformance(int currentExpIndex) throws IOException {
+		experimentLeaderboard = experimentLeaderboard + "\nExperiment " + currentExpIndex
 				+ " Simulation Leaderboard\n=========================\n";
-		currentExperimentResults = currentExperimentResults + "\nExperiment " + ExpNum
+		currentExperimentResults = currentExperimentResults + "\nExperiment " + currentExpIndex
 				+ "\n==========================\n";
 		currentExperimentResults = currentExperimentResults + "Number of Tournament : ," + totalNumOfTournament + "\n";
 		currentExperimentResults = currentExperimentResults + "Payoffs : ,T = " + experimentPayOff[0] + ", R = "
@@ -208,7 +210,7 @@ public class HIM {
 		});
 
 		for (int i = HIR.data.length - 1; i >= 0; i--) {
-			if (HIR.data[i][1] != "Dummy") {
+			if (HIR.data[i][1] != DUMMY) {
 				System.out.println(HIR.data[i][0] + "\t" + HIR.data[i][1]
 						+ "\t" + HIR.data[i][2] + "\t");
 				experimentLeaderboard = experimentLeaderboard + HIR.data[i][0] + "\t"
@@ -237,7 +239,7 @@ public class HIM {
 	 */
 	private static void updateHistoricalRepository(String currentExperimentResults) throws IOException {
 
-		Files.write(Paths.get("HIR/SimLeaderBoard.csv"),
+		Files.write(Paths.get(SIMULATIONLEADERBOARDFILE),
 				currentExperimentResults.getBytes());
 	}
 
@@ -291,7 +293,7 @@ public class HIM {
 
 		// Store the information in descending order
 		for (int i = HIR.data.length - 1; i >= 0; i--) {
-			if (HIR.data[i][1] != "Dummy") {
+			if (HIR.data[i][1] != DUMMY) {
 				System.out.println(HIR.data[i][0] + "\t" + HIR.data[i][1]
 						+ "\t" + HIR.data[i][2] + "\t");
 				agentsTournamentStatistics = agentsTournamentStatistics + HIR.data[i][0] + "\t" + HIR.data[i][1] + "\t"
@@ -348,7 +350,7 @@ public class HIM {
 
 	private static void writeTournamentStatsToFile(String agentTournamentStats) throws IOException {
 
-		Files.write(Paths.get("HIR/SimStats.csv"), agentTournamentStats.getBytes());
+		Files.write(Paths.get(SIMULATIONSTATSFILE), agentTournamentStats.getBytes());
 	}
 
 	/**
@@ -407,9 +409,7 @@ public class HIM {
 	private static String get2ndLevelAction(int requestingAgentID, int opponentID) {
 
 		// Set up Parameters
-		String opponentPastInfo = "";
-		String pastInfoAfterUncertainty = "";
-
+		String opponentPastInfo = "", pastInfoAfterUncertainty = "";
 		
 		if (HIR.agentsRequestLimit[requestingAgentID] == 0) {
 			pastInfoAfterUncertainty = "";
@@ -418,7 +418,6 @@ public class HIM {
 
 		}
 
-		
 		else {
 
 			AgentStrategies.infoAcquired = true;
