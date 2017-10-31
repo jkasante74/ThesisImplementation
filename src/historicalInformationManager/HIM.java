@@ -27,12 +27,12 @@ public class HIM {
 	private static String opponentPastInfo, chartsInfo = "", agentsTournamentStatistics = "", agentTournamentStats = "";
 	private static double sum = 0, min = 0, max = 0;
 	private static String[] experimentPayOff;
-	private static String SIMULATIONLEADERBOARDFILE = "HIR/SimLeaderBoard.csv";
-	private static String SIMULATIONSTATSFILE = "HIR/SimStats.csv";
-	private static String CHARTSFILE = "HIR/chartInfo.csv";
-	private static String TOURNAMENTBOARD = "TB/TB.csv";
-	private static String SIMULATIONLOGFILE ="HIR/SimLog.csv";
-	private static String FILENOTFOUND = "File not found";
+	private static String SIMULATION_LEADERBOARD_FILE = "HIR/SimLeaderBoard.csv";
+	private static String SIMULATION_STATS_FILE = "HIR/SimStats.csv";
+	private static String CHARTS_FILE = "HIR/chartInfo.csv";
+	private static String TOURNAMENT_BOARD_FILE = "TB/TB.csv";
+	private static String SIMULATION_LOG_FILE ="HIR/SimLog.csv";
+	private static String FILE_NOT_FOUND = "File not found";
 
 
 	private static String DUMMY = "Dummy";
@@ -118,7 +118,7 @@ public class HIM {
 
 	private static String applyUncertaintyLimit(String opponentPastInfo) {
 		
-		double currentUncertaintyLimit = experimentUncertaintyLevel;
+		double currentUncertaintyLimit = (double)experimentUncertaintyLevel;
 		String pastInfoAfterUncertainty = opponentPastInfo.substring(0,
 				(int) ((opponentPastInfo.length()) * currentUncertaintyLimit));
 
@@ -245,7 +245,7 @@ public class HIM {
 	 */
 	private static void updateHistoricalRepository(String currentExperimentResults) throws IOException {
 
-		Files.write(Paths.get(SIMULATIONLEADERBOARDFILE),
+		Files.write(Paths.get(SIMULATION_LEADERBOARD_FILE),
 				currentExperimentResults.getBytes());
 	}
 
@@ -338,7 +338,7 @@ public class HIM {
 		chartsInfo = chartsInfo + String.valueOf(currentExperimentIndex) + "," + HIR.data[i][2]
 				+ "," + HIR.data[i][0] + "," + x_axis + "\n";
 
-		Files.write(Paths.get(CHARTSFILE), chartsInfo.getBytes());
+		Files.write(Paths.get(CHARTS_FILE), chartsInfo.getBytes());
 	}
 
 	
@@ -355,7 +355,7 @@ public class HIM {
 
 	private static void writeTournamentStatsToFile(String agentTournamentStats) throws IOException {
 
-		Files.write(Paths.get(SIMULATIONSTATSFILE), agentTournamentStats.getBytes());
+		Files.write(Paths.get(SIMULATION_STATS_FILE), agentTournamentStats.getBytes());
 	}
 
 	/**
@@ -377,6 +377,7 @@ public class HIM {
 		switch (requestOption) {
 		case 0:
 			opponentPastInfo = getOppFirstAction(requestingAgentID, opponentID);
+
 			break;
 
 		case 1:
@@ -474,11 +475,9 @@ public class HIM {
 			if (HIR.agentActs[opponentID] != null) {
 				opponentPastInfo = String.valueOf(HIR.agentActs[opponentID]
 						.substring(0, 1));
-
 				pastInfoAfterUncertainty = applyUncertaintyLimit(opponentPastInfo);
 
 				HIR.agentsRequestLimit[requestingAgentID] = HIR.agentsRequestLimit[requestingAgentID] - 1;
-
 			//	System.out.println(opponentPastInfo);
 			//	System.out.println(pastInfoAfterUncertainty);
 
@@ -668,7 +667,7 @@ public class HIM {
 		String expTitle = readTB();
 
 		tournamentBoardInfo = tournamentBoardInfo + expTitle + "\n";
-		Files.write(Paths.get(SIMULATIONLOGFILE), tournamentBoardInfo.getBytes());
+		Files.write(Paths.get(SIMULATION_LOG_FILE), tournamentBoardInfo.getBytes());
 
 	}
 
@@ -687,7 +686,7 @@ public class HIM {
 		String boardInfo = "";
 		try {
 
-			File f = new File(TOURNAMENTBOARD);
+			File f = new File(TOURNAMENT_BOARD_FILE);
 			BufferedReader b = new BufferedReader(new FileReader(f));
 			String readLine = "";
 			readLine = b.readLine();
@@ -697,7 +696,7 @@ public class HIM {
 			}
 			b.close();
 		} catch (IOException err) {
-			JOptionPane.showMessageDialog(null, FILENOTFOUND);
+			JOptionPane.showMessageDialog(null, FILE_NOT_FOUND);
 		}
 		return boardInfo;
 
@@ -737,7 +736,7 @@ public class HIM {
 		String[] chartDataset = null;
 		try {
 
-			File f = new File(CHARTSFILE);
+			File f = new File(CHARTS_FILE);
 
 			BufferedReader b = new BufferedReader(new FileReader(f));
 
@@ -761,7 +760,7 @@ public class HIM {
 
 			b.close();
 		} catch (IOException err) {
-			JOptionPane.showMessageDialog(null, FILENOTFOUND);
+			JOptionPane.showMessageDialog(null, FILE_NOT_FOUND);
 		}
 
 		return null;

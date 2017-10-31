@@ -4,130 +4,22 @@ Experiment 1
 Number of Tournament : ,4
 Payoffs : ,T = 5, R = 3, P = 1, S = 0
 Uncertainty Level : ,1.0
-Request Limit : ,Assigned
+Request Limit : ,Random
 Simulation Leaderboard
 ------------------------
-Player 4,Advanced_D,32.0
+Player 8,Advanced_C,51.0
  
-Player 3,Advanced_D,32.0
+Player 7,Advanced_C,51.0
  
-Player 7,Advanced_C,30.0
+Player 3,Advanced_C,51.0
  
-Player 2,Advanced_C,30.0
+Player 6,Advanced_D,48.0
  
-Player 8,Advanced_D,28.0
+Player 2,Advanced_D,48.0
  
-Player 1,Advanced_D,28.0
+Player 1,Advanced_D,48.0
  
-Player 6,Advanced_C,27.0
+Player 4,Naive_D,44.0
  
-Player 5,Advanced_C,27.0
- 
-
-Experiment 2
-==========================
-Number of Tournament : ,4
-Payoffs : ,T = 5, R = 3, P = 1, S = 0
-Uncertainty Level : ,1.0
-Request Limit : ,Assigned
-Simulation Leaderboard
-------------------------
-Player 2,Advanced_D,24.0
- 
-Player 1,Advanced_D,24.0
- 
-Player 4,Advanced_D,20.0
- 
-Player 3,Advanced_D,20.0
- 
-Player 6,Advanced_C,19.0
- 
-Player 5,Advanced_C,19.0
- 
-
-Experiment 3
-==========================
-Number of Tournament : ,4
-Payoffs : ,T = 5, R = 3, P = 1, S = 0
-Uncertainty Level : ,1.0
-Request Limit : ,Assigned
-Simulation Leaderboard
-------------------------
-Player 3,Advanced_D,24.0
- 
-Player 2,Advanced_D,24.0
- 
-Player 6,Advanced_C,22.0
- 
-Player 1,Advanced_C,22.0
- 
-Player 5,Advanced_C,19.0
- 
-Player 4,Advanced_C,19.0
- 
-
-Experiment 4
-==========================
-Number of Tournament : ,4
-Payoffs : ,T = 5, R = 3, P = 1, S = 0
-Uncertainty Level : ,1.0
-Request Limit : ,Assigned
-Simulation Leaderboard
-------------------------
-Player 12,Advanced_D,48.0
- 
-Player 10,Naive_D,48.0
- 
-Player 5,Naive_D,48.0
- 
-Player 2,Naive_D,48.0
- 
-Player 9,Advanced_D,44.0
- 
-Player 7,Naive_D,44.0
- 
-Player 6,Advanced_D,44.0
- 
-Player 4,Advanced_D,44.0
- 
-Player 11,Advanced_C,43.0
- 
-Player 8,Advanced_C,43.0
- 
-Player 3,Advanced_C,43.0
- 
-Player 1,Advanced_C,43.0
- 
-
-Experiment 5
-==========================
-Number of Tournament : ,4
-Payoffs : ,T = 5, R = 3, P = 1, S = 0
-Uncertainty Level : ,1.0
-Request Limit : ,Assigned
-Simulation Leaderboard
-------------------------
-Player 10,Advanced_D,112.0
- 
-Player 6,Advanced_D,112.0
- 
-Player 4,Advanced_D,112.0
- 
-Player 11,Advanced_D,108.0
- 
-Player 9,Advanced_C,107.0
- 
-Player 7,Advanced_C,107.0
- 
-Player 3,Advanced_C,107.0
- 
-Player 5,Advanced_C,106.0
- 
-Player 8,Naive_C,39.0
- 
-Player 12,Naive_C,36.0
- 
-Player 2,Naive_C,36.0
- 
-Player 1,Naive_C,36.0
+Player 5,Naive_C,36.0
  

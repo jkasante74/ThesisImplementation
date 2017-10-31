@@ -12,10 +12,10 @@ public class Agent {
 	
 	//Private variables
 	private static int currentTournament;
-	private static final String ADVANCECOOPERATOR = "Advanced_C";
-	private static final String ADVANCEDEFECTOR = "Advanced_D";
-	private static final String NAIVEDEFECTOR = "Naive_D";
-	private static final String NAIVECOOPERATOR = "Naive_C";
+	private static final String ADVANCE_COOPERATOR = "Advanced_C";
+	private static final String ADVANCE_DEFECTOR = "Advanced_D";
+	private static final String NAIVE_DEFECTOR = "Naive_D";
+	private static final String NAIVE_COOPERATOR = "Naive_C";
 
 	/**
 	 * initialize method sets up the variables and data structures used by the
@@ -74,7 +74,7 @@ public class Agent {
 		
 		// Advance agents create beliefs as summary information about opponent
 		for (int i = 0; i < agentStrategies.length; i++) {
-			if ((agentStrategies[i] == ADVANCECOOPERATOR)||(agentStrategies[i] == ADVANCEDEFECTOR)) {
+			if ((agentStrategies[i] == ADVANCE_COOPERATOR)||(agentStrategies[i] == ADVANCE_DEFECTOR)) {
 				for (int j = 0; j < agentStrategies.length; j++) {
 					agentBeliefs[i][j] = 0.0; 
 				}
@@ -119,26 +119,26 @@ public class Agent {
 		String b = agentStrategies[opponentID];
 
 		// Get action of agent 
-		if (a.equalsIgnoreCase(NAIVECOOPERATOR))
+		if (a.equalsIgnoreCase(NAIVE_COOPERATOR))
 			agentAction = AgentStrategies.cooperateAll();
-		if (a.equalsIgnoreCase(NAIVEDEFECTOR))
+		if (a.equalsIgnoreCase(NAIVE_DEFECTOR))
 			agentAction = AgentStrategies.defectAll();
-		if (a.equalsIgnoreCase(ADVANCECOOPERATOR))
+		if (a.equalsIgnoreCase(ADVANCE_COOPERATOR))
 			agentAction = AgentStrategies.advanceCooperator(agentID,
 					opponentID, currentTournament, currentRound);
-		if (a.equalsIgnoreCase(ADVANCEDEFECTOR))
+		if (a.equalsIgnoreCase(ADVANCE_DEFECTOR))
 			agentAction = AgentStrategies.advanceDefector(agentID, opponentID,
 					currentTournament, currentRound);
 
 		// Get  action of opponent 
-		if (b.equalsIgnoreCase(NAIVECOOPERATOR))
+		if (b.equalsIgnoreCase(NAIVE_COOPERATOR))
 			OpponentAction = AgentStrategies.cooperateAll();
-		if (b.equalsIgnoreCase(NAIVEDEFECTOR))
+		if (b.equalsIgnoreCase(NAIVE_DEFECTOR))
 			OpponentAction = AgentStrategies.defectAll();
-		if (b.equalsIgnoreCase(ADVANCECOOPERATOR))
+		if (b.equalsIgnoreCase(ADVANCE_COOPERATOR))
 			OpponentAction = AgentStrategies.advanceCooperator(opponentID,
 					agentID, currentTournament, currentRound);
-		if (b.equalsIgnoreCase(ADVANCEDEFECTOR))
+		if (b.equalsIgnoreCase(ADVANCE_DEFECTOR))
 			OpponentAction = AgentStrategies.advanceDefector(agentID,
 					opponentID, currentTournament, currentRound);
 		

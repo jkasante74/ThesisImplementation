@@ -1,5 +1,7 @@
 package agents;
 
+import javax.swing.JOptionPane;
+
 import historicalInformationManager.HIM;
 
 public class AgentStrategies {
@@ -10,6 +12,7 @@ public class AgentStrategies {
 	// Private Variables
 	private static final char COOPERATE = 'C';
 	private static final char DEFECT = 'D';
+	private static final double HIGH_RATING = 1.00;
 
 	/**
 	 * DefectAll strategy defects at all times no matter what the opponent does
@@ -63,21 +66,16 @@ public class AgentStrategies {
 
 		else {
 
-			double oppRating = getOpponentPastInfo(agentID, opponentID);
-
-			updateBelief(agentID, opponentID, oppRating);
-
-			double opponentRating = Agent.readOpponentRating(agentID,
-					opponentID);
-
-			if (opponentRating >= 0.9)
-				matchAction = COOPERATE; // promote cooperation with known
-											// cooperators
-
+			double opponentRating = getOpponentPastInfo(agentID, opponentID);
+			
+			updateBelief(agentID, opponentID, opponentRating);
+				
+			if(Agent.readOpponentRating(agentID,
+					opponentID) >= 0.9)
+				matchAction = COOPERATE; // promote cooperation
+			
 			else
-				matchAction = DEFECT; // protect against exploiters  
-									 //	when unsure
-										
+				matchAction = DEFECT; // protect against exploiters if unsure  					
 
 		}
 
@@ -104,14 +102,13 @@ public class AgentStrategies {
 
 		else {
 
-			double oppRating = getOpponentPastInfo(agentID, opponentID);
+			double opponentRating = getOpponentPastInfo(agentID, opponentID);
 
-			updateBelief(agentID, opponentID, oppRating);
+			updateBelief(agentID, opponentID, opponentRating);
 
-			double opponentRating = Agent.readOpponentRating(agentID,
-					opponentID);
-
-			if ((opponentRating <= 0.1) || (opponentRating >= 0.9)) {
+			if ((Agent.readOpponentRating(agentID,
+					opponentID) <= 0.1) || (Agent.readOpponentRating(agentID,
+							opponentID) >= 0.9)) {
 				matchAction = DEFECT; // Exploit naive cooperators and protect
 										// against exploiters
 			}
@@ -145,20 +142,20 @@ public class AgentStrategies {
 
 		String opponentInformation = "";
 		int pastInfoTypeIndex = Agent.expInfoRequestOption;
-		double oppRating = 0;
-
+		double opponentRating = 0;
+	//	JOptionPane.showMessageDialog(null, pastInfoTypeIndex);
 		switch (pastInfoTypeIndex) {
 		
 		case 0:
 			opponentInformation = HIM.requestOppPastInfo(agentID, opponentID,
 					pastInfoTypeIndex); //Request opponent's first action
-
+			
 			if (infoAcquired) {
 
 				if (opponentInformation.equalsIgnoreCase("D"))
-					oppRating = 0; 
+					opponentRating = 0.0; 
 				else
-					oppRating = 1; 
+					opponentRating = 1.0; 
 
 			}
 			break;
@@ -171,7 +168,7 @@ public class AgentStrategies {
 			
 			if (infoAcquired) {
 				int pastInfo = Integer.parseInt(opponentInformation);
-				oppRating = pastInfo / 10;
+				opponentRating = pastInfo / 10;
 			}
 			break;
 
@@ -182,7 +179,7 @@ public class AgentStrategies {
 
 			
 			if (infoAcquired) 
-				oppRating = calcOppRating(opponentInformation);
+				opponentRating = calcOppRating(opponentInformation);
 			
 			break;
 
@@ -194,7 +191,7 @@ public class AgentStrategies {
 
 			if (infoAcquired) {
 
-				oppRating = calcOppRating(opponentInformation);
+				opponentRating = calcOppRating(opponentInformation);
 
 			}
 			break;
@@ -207,11 +204,11 @@ public class AgentStrategies {
 
 			
 			if (infoAcquired) 
-				oppRating = calcOppRating(opponentInformation);
+				opponentRating = calcOppRating(opponentInformation);
 
 			break;
 		}
-		return oppRating;
+		return opponentRating;
 	}
 
 	/**
@@ -221,7 +218,7 @@ public class AgentStrategies {
 	 * @param opponentInformation
 	 *            : list of past actions of opponent or secondary opponents
 	 *            received from HIM.
-	 * @return oppRating : agent's calculated rating of the opponent.
+	 * @return opponentRating : agent's calculated rating of the opponent.
 	 * 
 	 */
 	private static double calcOppRating(String opponentInformation) {
@@ -248,7 +245,7 @@ public class AgentStrategies {
 	}
 
 	/**
-	 * setBeliefBase upon invocation by an agent updates the opponent's current
+	 * updateBelief upon invocation by an agent updates the opponent's current
 	 * rating in the requesting agent's belief base
 	 * 
 	 * 
@@ -256,16 +253,20 @@ public class AgentStrategies {
 	 * 
 	 * @param opponentID : Opponent ID
 	 * 
-	 * @param oppRating
+	 * @param opponentRating
 	 *            : agent's calculated rating of the opponent.
 	 * 
 	 */
 	private static void updateBelief(int agentID, int opponentID,
-			double oppRating) {
-		if (oppRating != 0.0)
-			Agent.agentBeliefs[agentID][opponentID] = (Agent.agentBeliefs[agentID][opponentID] + oppRating) / 2;
+			double opponentRating) {
+	/*	if (opponentRating > 0.0){
+			Agent.agentBeliefs[agentID][opponentID] = (Agent.agentBeliefs[agentID][opponentID] + opponentRating) / 2;
+			JOptionPane.showMessageDialog(null, Agent.agentBeliefs[agentID][opponentID] );
+		}
 		else
 			Agent.agentBeliefs[agentID][opponentID] = Agent.agentBeliefs[agentID][opponentID];
+	*/
+		Agent.agentBeliefs[agentID][opponentID] = opponentRating;
 	}
 
 }
