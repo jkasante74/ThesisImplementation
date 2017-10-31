@@ -75,8 +75,8 @@ public class TournamentHandler {
 	 */
 	private static void printTournamentStats(float currentTournamentIndex) {
 
-		System.out.println("\nRound-Robin Tournament " + (currentTournamentIndex + 1)
-				+ "\n====================================="); 
+	//	System.out.println("\nRound-Robin Tournament " + (currentTournamentIndex + 1)
+		//		+ "\n====================================="); 
 		tournamentStats = "\nRound-Robin Tournament " + (currentTournamentIndex + 1) + "\n"
 				+ "===================\n";
 		GUI_Simulation.txtSim.append(tournamentStats);

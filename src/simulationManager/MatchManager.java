@@ -29,6 +29,8 @@ public class MatchManager {
 	private static final char COOPERATE = 'C';
 	private static final char DEFECT = 'D';
 	private static final char DUMMY = 'A';
+	private static String TOURNAMENTBOARD = "TB/TB.csv";
+	private static String FILENOTFOUND = "File not found";
 	/**
 	 * matchMgr method initiates the function of managing all agents activities
 	 * in various matches in current round
@@ -52,7 +54,7 @@ public class MatchManager {
 		
 		agentsAction = Agent.getMatchedAgentActions(agentID, opponentID, currentTournament, currentRound);
 
-		System.out.println(agentsAction[0] + "\t \t vrs \t " + agentsAction[1]);
+		//System.out.println(agentsAction[0] + "\t \t vrs \t " + agentsAction[1]);
 
 		String text = "\n" + agentsAction[0] + "\t \t vrs \t "
 				+ agentsAction[1] + "\n";
@@ -60,10 +62,10 @@ public class MatchManager {
 
 		// Store actions in TB for HIM to pick up
 		try {
-			Files.write(Paths.get("TB/TB.csv"), text.getBytes());
+			Files.write(Paths.get(TOURNAMENTBOARD), text.getBytes());
 			HIM.updateLog(text);
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "File not found");
+			JOptionPane.showMessageDialog(null, FILENOTFOUND);
 		}
 
 		float[] matchScores = MatchManager.calcMatchedAgentsScores(agentsAction);
@@ -122,18 +124,18 @@ public class MatchManager {
 		matchScores[1] = scoreB;
 
 		if (agentsActions[1] != DUMMY) {
-			System.out.println(matchScores[0] + "\t \t vrs \t "
-					+ matchScores[1] + "\n");
+		//	System.out.println(matchScores[0] + "\t \t vrs \t "
+		//			+ matchScores[1] + "\n");
 			String calculatedScores = matchScores[0] + "\t \t vrs \t " + matchScores[1]
 					+ "\n\n";
 			GUI_Simulation.txtSim.append(calculatedScores);
 
 			
 			try {
-				Files.write(Paths.get("TB/TB.csv"), calculatedScores.getBytes());
+				Files.write(Paths.get(TOURNAMENTBOARD), calculatedScores.getBytes());
 				HIM.updateLog(calculatedScores);
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null, "File not found");
+				JOptionPane.showMessageDialog(null, FILENOTFOUND);
 			}
 
 		}

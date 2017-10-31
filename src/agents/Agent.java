@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Agent {
 
-	/* Parameters for Agent */
+	// Parameters for Agent 
 	protected static String[] agentStrategies; // change
 	protected static double agentBeliefs[][];
 	public static float[] agentScores;

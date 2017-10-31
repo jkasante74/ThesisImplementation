@@ -62,9 +62,9 @@ public class RoundHandler {
 			}
 
 			
-			System.out.println();
-			System.out.println("\nRound " + (round + 1));
-			System.out.println("---------------------------------");
+			//System.out.println();
+			//System.out.println("\nRound " + (round + 1));
+			//System.out.println("---------------------------------");
 			String text = "\n\nRound " + (round + 1) + "\n"
 					+ "---------------------------------\n";
 			String textx = "\nRound " + (round + 1) + "\n";
@@ -90,9 +90,9 @@ public class RoundHandler {
 
 				
 				if (!opponentStrategy.contains(DUMMY)) {
-					System.out.println("Agent " + homeList.get(j)
-							+ "\t vrs \t " + "Agent " + awayList.get(j));
-					System.out.println(agentStrategy + "\t vrs \t " + opponentStrategy);
+					//System.out.println("Agent " + homeList.get(j)
+					//		+ "\t vrs \t " + "Agent " + awayList.get(j));
+					//System.out.println(agentStrategy + "\t vrs \t " + opponentStrategy);
 
 					String matchedAgentID = "Agent " + homeList.get(j)
 							+ "\t \t vrs \t Agent " + awayList.get(j) + "\n"

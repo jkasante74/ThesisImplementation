@@ -27,7 +27,7 @@ import simulationManager.Scheduler;
  */
 public class ParamConfigMgr {
 
-	/* ParamConfigMgr Parameters */
+	// ParamConfigMgr Parameters 
 	private static boolean startSim = false;
 	private static int[] currentSetupValues;
 	private static float uncertaintyLevel;

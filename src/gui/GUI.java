@@ -41,7 +41,11 @@ import javax.swing.JTextArea;
 
 public class GUI {
 
-	/* Private Variables */
+	// Parameters of GUI component
+	public static boolean radomRequest = false;
+	public static JComboBox<Object> cmbExpSel;
+
+	// Private Variables 
 	private JFrame frame;
 	private JTextField txtTemptation;
 	private JTextField txtReward;
@@ -55,8 +59,6 @@ public class GUI {
 	private JTextField txtAdvancedCNum;
 	private JTextField txtAdvancedDNum;
 	private static boolean startSimulation = false;
-	public static boolean radomRequest = false;
-	public static JComboBox<Object> cmbExpSel;
 	private static JTextArea txtLeaderBoard = new JTextArea();
 	private static final JTextArea txtStats = new JTextArea();
 
@@ -66,7 +68,7 @@ public class GUI {
 	 * Main method is known to be the class' application entry point
 	 * 
 	 * @param args
-	 *            Java main array of command-line arguments whose data type is
+	 *            Java main array of command- line arguments whose data type is
 	 *            string passed to this method
 	 */
 	public static void main(String[] args) {
@@ -79,8 +81,6 @@ public class GUI {
 					UIManager.setLookAndFeel(UIManager
 							.getSystemLookAndFeelClassName());
 					GUI_Simulation.main(null);
-					System.out.println("hello");
-
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

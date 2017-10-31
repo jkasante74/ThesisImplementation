@@ -21,7 +21,7 @@ import setupManager.StrategySetupManager;
 
 public class HIM {
 
-	/* Private Variables */
+	// Private Variables 
 	private static float experimentUncertaintyLevel;
 	private static int totalNumOfTournament, currentExperimentIndex, totalNumOfAgents;
 	private static String opponentPastInfo, chartsInfo = "", agentsTournamentStatistics = "", agentTournamentStats = "";
@@ -29,6 +29,12 @@ public class HIM {
 	private static String[] experimentPayOff;
 	private static String SIMULATIONLEADERBOARDFILE = "HIR/SimLeaderBoard.csv";
 	private static String SIMULATIONSTATSFILE = "HIR/SimStats.csv";
+	private static String CHARTSFILE = "HIR/chartInfo.csv";
+	private static String TOURNAMENTBOARD = "TB/TB.csv";
+	private static String SIMULATIONLOGFILE ="HIR/SimLog.csv";
+	private static String FILENOTFOUND = "File not found";
+
+
 	private static String DUMMY = "Dummy";
 
 	private static String experimentLeaderboard = "", tournamentBoardInfo = "", currentExperimentResults = "",
@@ -140,11 +146,11 @@ public class HIM {
 		agentMatchAct = agentsAction[0]; 
 		opponentMatchAct = agentsAction[1]; 
 		
-		// Store match actions in HIR based on agents IDs for easy response
+		// Store agent's actions in HIR based on agents IDs for easy response
 		HIR.agentActionsDbase[currentTournamentIndex][opponentID][requestingAgentID] = agentMatchAct;
 		HIR.agentActionsDbase[currentTournamentIndex][requestingAgentID][opponentID] = opponentMatchAct;
 
-		// Store match actions in HIR in time order for easy query response 
+		// Store agents' actions in HIR in time order for easy query response 
 		if (HIR.agentActs[requestingAgentID] == null)
 			HIR.agentActs[requestingAgentID] = String.valueOf(agentMatchAct);
 		else
@@ -211,8 +217,8 @@ public class HIM {
 
 		for (int i = HIR.data.length - 1; i >= 0; i--) {
 			if (HIR.data[i][1] != DUMMY) {
-				System.out.println(HIR.data[i][0] + "\t" + HIR.data[i][1]
-						+ "\t" + HIR.data[i][2] + "\t");
+				//System.out.println(HIR.data[i][0] + "\t" + HIR.data[i][1]
+				//		+ "\t" + HIR.data[i][2] + "\t");
 				experimentLeaderboard = experimentLeaderboard + HIR.data[i][0] + "\t"
 						+ HIR.data[i][1] + "\t" + HIR.data[i][2] + "\n \n";
 				currentExperimentResults = currentExperimentResults + HIR.data[i][0] + "," + HIR.data[i][1]
@@ -267,11 +273,10 @@ public class HIM {
 				+ "\n-----------------------\n";
 		agentTournamentStats = agentsTournamentStatistics + "\n\n\nTounament " + (currentTournamentIndex + 1)
 				+ "\n-----------------------\n";
-		
 		HIR.data = new String[HIR.agentsRequestLimit.length][3];
 		String[] Strategy = StrategySetupManager.Strategies;
 
-		 // Create a 3-dimensional array to store agents' tournament performance
+		 // update agents' tournament information
 		for (int i = 0; i < (Strategy.length); i++) {
 			HIR.data[i][0] = "Agent " + (i + 1);
 			HIR.data[i][1] = Strategy[i];
@@ -294,8 +299,8 @@ public class HIM {
 		// Store the information in descending order
 		for (int i = HIR.data.length - 1; i >= 0; i--) {
 			if (HIR.data[i][1] != DUMMY) {
-				System.out.println(HIR.data[i][0] + "\t" + HIR.data[i][1]
-						+ "\t" + HIR.data[i][2] + "\t");
+				//System.out.println(HIR.data[i][0] + "\t" + HIR.data[i][1]
+						//+ "\t" + HIR.data[i][2] + "\t");
 				agentsTournamentStatistics = agentsTournamentStatistics + HIR.data[i][0] + "\t" + HIR.data[i][1] + "\t"
 						+ HIR.data[i][2] + "\n";
 				agentTournamentStats = agentTournamentStats + HIR.data[i][0] + ","
@@ -333,7 +338,7 @@ public class HIM {
 		chartsInfo = chartsInfo + String.valueOf(currentExperimentIndex) + "," + HIR.data[i][2]
 				+ "," + HIR.data[i][0] + "," + x_axis + "\n";
 
-		Files.write(Paths.get("HIR/chartInfo.csv"), chartsInfo.getBytes());
+		Files.write(Paths.get(CHARTSFILE), chartsInfo.getBytes());
 	}
 
 	
@@ -414,7 +419,7 @@ public class HIM {
 		if (HIR.agentsRequestLimit[requestingAgentID] == 0) {
 			pastInfoAfterUncertainty = "";
 			AgentStrategies.infoAcquired = false; // Deny info request
-			System.out.println("No more Info");
+			//System.out.println("No more Info");
 
 		}
 
@@ -431,8 +436,8 @@ public class HIM {
 			pastInfoAfterUncertainty = applyUncertaintyLimit(opponentPastInfo);
 			HIR.agentsRequestLimit[requestingAgentID] = HIR.agentsRequestLimit[requestingAgentID] - 1;
 
-			System.out.println(opponentPastInfo);
-			System.out.println(pastInfoAfterUncertainty);
+			//System.out.println(opponentPastInfo);
+			//System.out.println(pastInfoAfterUncertainty);
 		}
 
 		//return opponentPastInfo;
@@ -459,7 +464,7 @@ public class HIM {
 		if (HIR.agentsRequestLimit[requestingAgentID] == 0) {
 			opponentPastInfo = "";
 			AgentStrategies.infoAcquired = false; 
-			System.out.println("No more Info");
+			//System.out.println("No more Info");
 
 		}
 
@@ -474,8 +479,8 @@ public class HIM {
 
 				HIR.agentsRequestLimit[requestingAgentID] = HIR.agentsRequestLimit[requestingAgentID] - 1;
 
-				System.out.println(opponentPastInfo);
-				System.out.println(pastInfoAfterUncertainty);
+			//	System.out.println(opponentPastInfo);
+			//	System.out.println(pastInfoAfterUncertainty);
 
 			}
 
@@ -502,7 +507,7 @@ public class HIM {
 		if (HIR.agentsRequestLimit[requestingAgentID] == 0) {
 			pastInfoAfterUncertainty = "";
 			AgentStrategies.infoAcquired = false;
-			System.out.println("No more Info");
+		//	System.out.println("No more Info");
 
 		}
 
@@ -521,8 +526,8 @@ public class HIM {
 
 			pastInfoAfterUncertainty = applyUncertaintyLimit(opponentPastInfo);
 			HIR.agentsRequestLimit[requestingAgentID] = HIR.agentsRequestLimit[requestingAgentID] - 1;
-			System.out.println(opponentPastInfo);
-			System.out.println(pastInfoAfterUncertainty);
+		//	System.out.println(opponentPastInfo);
+		//	System.out.println(pastInfoAfterUncertainty);
 
 		}
 
@@ -549,7 +554,7 @@ public class HIM {
 
 		if (HIR.agentsRequestLimit[requestingAgentID] == 0) {
 			AgentStrategies.infoAcquired = false;
-			System.out.println("No more Info");
+		//	System.out.println("No more Info");
 		}
 
 		else {
@@ -574,8 +579,8 @@ public class HIM {
 
 			HIR.agentsRequestLimit[requestingAgentID] = HIR.agentsRequestLimit[requestingAgentID] - 1;
 
-			System.out.println(opponentPastInfo);
-			System.out.println(pastInfoAfterUncertainty);
+		//	System.out.println(opponentPastInfo);
+		//	System.out.println(pastInfoAfterUncertainty);
 
 		}
 
@@ -602,7 +607,7 @@ public class HIM {
 		if (HIR.agentsRequestLimit[requestingAgentID] == 0) {
 			pastInfoAfterUncertainty = "";
 			AgentStrategies.infoAcquired = false;
-			System.out.println("No more Info");
+		//	System.out.println("No more Info");
 		}
 
 		else {
@@ -622,9 +627,9 @@ public class HIM {
 			pastInfoAfterUncertainty = applyUncertaintyLimit(opponentPastInfo);
 			HIR.agentsRequestLimit[requestingAgentID] = HIR.agentsRequestLimit[requestingAgentID] - 1;
 			
-			System.out.println(opponentPastInfo);
-			System.out.println(opponentPastInfo);
-			System.out.println(pastInfoAfterUncertainty);
+		//	System.out.println(opponentPastInfo);
+		//	System.out.println(opponentPastInfo);
+		//	System.out.println(pastInfoAfterUncertainty);
 
 		}
 		return pastInfoAfterUncertainty;
@@ -663,7 +668,7 @@ public class HIM {
 		String expTitle = readTB();
 
 		tournamentBoardInfo = tournamentBoardInfo + expTitle + "\n";
-		Files.write(Paths.get("HIR/SimLog.csv"), tournamentBoardInfo.getBytes());
+		Files.write(Paths.get(SIMULATIONLOGFILE), tournamentBoardInfo.getBytes());
 
 	}
 
@@ -682,7 +687,7 @@ public class HIM {
 		String boardInfo = "";
 		try {
 
-			File f = new File("TB/TB.csv");
+			File f = new File(TOURNAMENTBOARD);
 			BufferedReader b = new BufferedReader(new FileReader(f));
 			String readLine = "";
 			readLine = b.readLine();
@@ -692,7 +697,7 @@ public class HIM {
 			}
 			b.close();
 		} catch (IOException err) {
-			JOptionPane.showMessageDialog(null, "File not found");
+			JOptionPane.showMessageDialog(null, FILENOTFOUND);
 		}
 		return boardInfo;
 
@@ -732,7 +737,7 @@ public class HIM {
 		String[] chartDataset = null;
 		try {
 
-			File f = new File("HIR/chartInfo.csv");
+			File f = new File(CHARTSFILE);
 
 			BufferedReader b = new BufferedReader(new FileReader(f));
 
@@ -756,7 +761,7 @@ public class HIM {
 
 			b.close();
 		} catch (IOException err) {
-			JOptionPane.showMessageDialog(null, "File not found");
+			JOptionPane.showMessageDialog(null, FILENOTFOUND);
 		}
 
 		return null;
