@@ -34,8 +34,8 @@ public class ParamConfigMgr {
 	private static int experimentCounter = 0;
 	private static int[] agentRequestLimit;
 	private static String requestLimitOption;
-	private static final String ADVANCECOOPERATOR = "ADVANCECOOPERATOR";
-	private static final String ADVANCEDEFECTOR = "ADVANCEDEFECTOR";
+	private static final String ADVANCED_COOPERATOR = "Advanced_C";
+	private static final String ADVANCED_DEFECTOR = "Advanced_D";
 	public static void initiate() throws IOException {
 
 		
@@ -187,7 +187,7 @@ public class ParamConfigMgr {
 			int numOfAgents = StrategySetupManager.agents;
 			String[] Strategies = StrategySetupManager.Strategies;
 			int[] agentsRequestLimit = getRequestLimit();
-
+						
 			HIM.initialize(i, NumOfTournament, uncertaintyLevel, agentsRequestLimit, numOfAgents,
 					setupParam, requestLimitOption);
 
@@ -220,12 +220,12 @@ public class ParamConfigMgr {
 
 			for (int i = 0; i < agentRequestLimit.length; i++) {
 				if (StrategySetupManager.Strategies[i]
-						.equalsIgnoreCase("ADVANCECOOPERATOR")) {
+						.equalsIgnoreCase(ADVANCED_COOPERATOR)) {
 					agentRequestLimit[i] = currentSetupValues[6];
 				}
 
 				else if (StrategySetupManager.Strategies[i]
-						.equalsIgnoreCase("ADVANCEDEFECTOR")) {
+						.equalsIgnoreCase(ADVANCED_DEFECTOR)) {
 					agentRequestLimit[i] = currentSetupValues[7];
 				}
 

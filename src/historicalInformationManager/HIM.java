@@ -75,6 +75,7 @@ public class HIM {
 		experimentPayOff = param;
 		HIR.agentActionsDbase = new char[numOfTournament][totalNumOfAgents][totalNumOfAgents];
 		HIR.agentActs = new String[totalNumOfAgents]; 
+		
 	}
 
 	/**
@@ -374,6 +375,8 @@ public class HIM {
 	 */
 	public static String requestOppPastInfo(int requestingAgentID, int opponentID, int requestOption) {
 		String opponentPastInfo = "";
+		
+		//JOptionPane.showMessageDialog(null, HIR.agentsRequestLimit[requestingAgentID]);
 		
 		// Has requesting agent exceeded request limit?
 		if (HIR.agentsRequestLimit[requestingAgentID] == 0) {

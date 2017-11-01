@@ -70,7 +70,7 @@ public class AgentStrategies {
 			updateBelief(agentID, opponentID, opponentRating);
 				
 			if(Agent.readOpponentRating(agentID,
-					opponentID) >= 0.4)
+					opponentID) >= 0.9)
 				matchAction = COOPERATE; // promote cooperation with Naive_C
 			
 			else
@@ -101,9 +101,9 @@ public class AgentStrategies {
 
 		else {
 
-		//	double opponentRating = getOpponentPastInfo(agentID, opponentID);
+			double opponentRating = getOpponentPastInfo(agentID, opponentID);
 
-		//	updateBelief(agentID, opponentID, opponentRating);
+			updateBelief(agentID, opponentID, opponentRating);
 
 			if ((Agent.readOpponentRating(agentID,
 					opponentID) <= 0.1) || (Agent.readOpponentRating(agentID,
