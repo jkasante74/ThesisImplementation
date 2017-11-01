@@ -67,12 +67,11 @@ public class AgentStrategies {
 		else {
 
 			double opponentRating = getOpponentPastInfo(agentID, opponentID);
-			
 			updateBelief(agentID, opponentID, opponentRating);
 				
 			if(Agent.readOpponentRating(agentID,
-					opponentID) >= 0.9)
-				matchAction = COOPERATE; // promote cooperation
+					opponentID) >= 0.4)
+				matchAction = COOPERATE; // promote cooperation with Naive_C
 			
 			else
 				matchAction = DEFECT; // protect against exploiters if unsure  					
@@ -102,9 +101,9 @@ public class AgentStrategies {
 
 		else {
 
-			double opponentRating = getOpponentPastInfo(agentID, opponentID);
+		//	double opponentRating = getOpponentPastInfo(agentID, opponentID);
 
-			updateBelief(agentID, opponentID, opponentRating);
+		//	updateBelief(agentID, opponentID, opponentRating);
 
 			if ((Agent.readOpponentRating(agentID,
 					opponentID) <= 0.1) || (Agent.readOpponentRating(agentID,
@@ -149,35 +148,28 @@ public class AgentStrategies {
 		case 0:
 			opponentInformation = HIM.requestOppPastInfo(agentID, opponentID,
 					pastInfoTypeIndex); //Request opponent's first action
-			
 			if (infoAcquired) {
-
 				if (opponentInformation.equalsIgnoreCase("D"))
-					opponentRating = 0.0; 
+					opponentRating = 0.0; // first time defectors get low rating
 				else
-					opponentRating = 1.0; 
+					opponentRating = 1.0; // first time cooperators get high rating
 
 			}
 			break;
-
-		/* Get opponent first time defection (MISTAKE FIX IT) */
+		
 		case 1:
 			opponentInformation = HIM.requestOppPastInfo(agentID, opponentID,
 					pastInfoTypeIndex); // Request opponent's first defection
-
-			
 			if (infoAcquired) {
 				int pastInfo = Integer.parseInt(opponentInformation);
 				opponentRating = pastInfo / 10;
 			}
 			break;
-
 		 
 		case 2:
 				opponentInformation = HIM.requestOppPastInfo(agentID, opponentID,
-				pastInfoTypeIndex); //Request opponent's past actions
-
-			
+				pastInfoTypeIndex); //Request all opponent's past actions
+			//	JOptionPane.showMessageDialog(null, (opponentID + 1) + " " + opponentInformation);
 			if (infoAcquired) 
 				opponentRating = calcOppRating(opponentInformation);
 			

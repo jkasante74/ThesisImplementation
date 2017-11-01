@@ -374,29 +374,41 @@ public class HIM {
 	 */
 	public static String requestOppPastInfo(int requestingAgentID, int opponentID, int requestOption) {
 		String opponentPastInfo = "";
-		switch (requestOption) {
-		case 0:
-			opponentPastInfo = getOppFirstAction(requestingAgentID, opponentID);
+		
+		// Has requesting agent exceeded request limit?
+		if (HIR.agentsRequestLimit[requestingAgentID] == 0) {
+			opponentPastInfo = "";
+			AgentStrategies.infoAcquired = false; 
+			//System.out.println("No more Info");
 
-			break;
-
-		case 1:
-			opponentPastInfo = getOpponentFirstDefection(requestingAgentID, opponentID);
-			break;
-
-		case 2:
-			opponentPastInfo = getOpponentPastInfo(requestingAgentID, opponentID);
-			break;
-
-		case 3:
-			opponentPastInfo = getOpponentActionsInRandomTournament(requestingAgentID, opponentID);
-			break;
-
-		case 4:
-			opponentPastInfo = get2ndLevelAction(requestingAgentID, opponentID);
-			break;
 		}
-
+		else{
+			AgentStrategies.infoAcquired = true;
+			switch (requestOption) {
+			case 0:
+				opponentPastInfo = getOppFirstAction(requestingAgentID, opponentID);
+	
+				break;
+	
+			case 1:
+				opponentPastInfo = getOpponentFirstDefection(requestingAgentID, opponentID);
+				break;
+	
+			case 2:
+				opponentPastInfo = getOpponentPastInfo(requestingAgentID, opponentID);
+				break;
+	
+			case 3:
+				opponentPastInfo = getOpponentActionsInRandomTournament(requestingAgentID, opponentID);
+				break;
+	
+			case 4:
+				opponentPastInfo = get2ndLevelAction(requestingAgentID, opponentID);
+				break;
+			}
+			
+			HIR.agentsRequestLimit[requestingAgentID] = HIR.agentsRequestLimit[requestingAgentID] - 1;
+		}
 		return opponentPastInfo;
 	}
 
@@ -417,29 +429,13 @@ public class HIM {
 		// Set up Parameters
 		String opponentPastInfo = "", pastInfoAfterUncertainty = "";
 		
-		if (HIR.agentsRequestLimit[requestingAgentID] == 0) {
-			pastInfoAfterUncertainty = "";
-			AgentStrategies.infoAcquired = false; // Deny info request
-			//System.out.println("No more Info");
-
-		}
-
-		else {
-
-			AgentStrategies.infoAcquired = true;
-			
-			// Stores past actions of those who played against opponent
+			// Retrieve past actions of all those who played against opponent
 			for (int i = 0; i < totalNumOfTournament; i++) {
 				for (int j = 0; j < totalNumOfAgents; j++)
 					opponentPastInfo = opponentPastInfo
 							+ HIR.agentActionsDbase[i][opponentID][j];
 			}
 			pastInfoAfterUncertainty = applyUncertaintyLimit(opponentPastInfo);
-			HIR.agentsRequestLimit[requestingAgentID] = HIR.agentsRequestLimit[requestingAgentID] - 1;
-
-			//System.out.println(opponentPastInfo);
-			//System.out.println(pastInfoAfterUncertainty);
-		}
 
 		//return opponentPastInfo;
 		return pastInfoAfterUncertainty;
@@ -461,27 +457,11 @@ public class HIM {
 
 		String pastInfoAfterUncertainty = "";
 
-		
-		if (HIR.agentsRequestLimit[requestingAgentID] == 0) {
-			opponentPastInfo = "";
-			AgentStrategies.infoAcquired = false; 
-			//System.out.println("No more Info");
-
-		}
-
-		
-		else {
-			AgentStrategies.infoAcquired = true;
+			
 			if (HIR.agentActs[opponentID] != null) {
 				opponentPastInfo = String.valueOf(HIR.agentActs[opponentID]
 						.substring(0, 1));
 				pastInfoAfterUncertainty = applyUncertaintyLimit(opponentPastInfo);
-
-				HIR.agentsRequestLimit[requestingAgentID] = HIR.agentsRequestLimit[requestingAgentID] - 1;
-			//	System.out.println(opponentPastInfo);
-			//	System.out.println(pastInfoAfterUncertainty);
-
-			}
 
 		}
 		return pastInfoAfterUncertainty;
@@ -502,34 +482,21 @@ public class HIM {
 
 	private static String getOpponentPastInfo(int requestingAgentID, int opponentID) {
 		String pastInfoAfterUncertainty = "";
-
-		if (HIR.agentsRequestLimit[requestingAgentID] == 0) {
-			pastInfoAfterUncertainty = "";
-			AgentStrategies.infoAcquired = false;
-		//	System.out.println("No more Info");
-
-		}
-
-		else {
-			AgentStrategies.infoAcquired = true;
-			for (int i = 0; i < totalNumOfTournament; i++) {
-				for (int j = 0; j < totalNumOfAgents; j++) {
-					if (opponentPastInfo == null)
-						opponentPastInfo = String
-								.valueOf(HIR.agentActionsDbase[i][j][opponentID]);
+	/*	for (int i = 0; i < totalNumOfTournament; i++) {
+			for (int j = 0; j < totalNumOfAgents; j++) {
+				if (opponentPastInfo == null)
+					opponentPastInfo = String.valueOf(HIR.agentActionsDbase[i][j][opponentID]);
 					else
-						opponentPastInfo = opponentPastInfo
-								+ HIR.agentActionsDbase[i][j][opponentID];
+						opponentPastInfo = opponentPastInfo + HIR.agentActionsDbase[i][j][opponentID];
 				}
 			}
-
+	 */
+		if (HIR.agentActs[opponentID] != null) {
+			opponentPastInfo = String.valueOf(HIR.agentActs[opponentID]);
+			System.out.println((opponentID+1) + " has played : "+ opponentPastInfo);
 			pastInfoAfterUncertainty = applyUncertaintyLimit(opponentPastInfo);
-			HIR.agentsRequestLimit[requestingAgentID] = HIR.agentsRequestLimit[requestingAgentID] - 1;
-		//	System.out.println(opponentPastInfo);
-		//	System.out.println(pastInfoAfterUncertainty);
-
 		}
-
+		
 		return pastInfoAfterUncertainty;
 
 	}
@@ -551,14 +518,7 @@ public class HIM {
 		String oppActions = "";
 		String pastInfoAfterUncertainty = "";
 
-		if (HIR.agentsRequestLimit[requestingAgentID] == 0) {
-			AgentStrategies.infoAcquired = false;
-		//	System.out.println("No more Info");
-		}
-
-		else {
-			AgentStrategies.infoAcquired = true;
-			oppActions = HIR.agentActs[opponentID];
+		oppActions = HIR.agentActs[opponentID];
 
 			// Determine the first time opponent defected 
 			for (int i = 0; i < oppActions.length(); i++) {
@@ -575,13 +535,6 @@ public class HIM {
 			}
 			
 			pastInfoAfterUncertainty = applyUncertaintyLimit(opponentPastInfo);
-
-			HIR.agentsRequestLimit[requestingAgentID] = HIR.agentsRequestLimit[requestingAgentID] - 1;
-
-		//	System.out.println(opponentPastInfo);
-		//	System.out.println(pastInfoAfterUncertainty);
-
-		}
 
 		return pastInfoAfterUncertainty;
 
@@ -602,17 +555,8 @@ public class HIM {
 
 	private static String getOpponentActionsInRandomTournament(int requestingAgentID, int opponentID) {
 		String pastInfoAfterUncertainty = "";
-
-		if (HIR.agentsRequestLimit[requestingAgentID] == 0) {
-			pastInfoAfterUncertainty = "";
-			AgentStrategies.infoAcquired = false;
-		//	System.out.println("No more Info");
-		}
-
-		else {
-			AgentStrategies.infoAcquired = true;
-
-			// Request agent to submit random tournament index
+		
+		// Request agent to submit random tournament index
 			int randomTournamentIndex = Agent.requestRandomTournament();
 			for (int j = 0; j < totalNumOfAgents; j++) {
 				if (opponentPastInfo == null)
@@ -624,14 +568,8 @@ public class HIM {
 			}
 
 			pastInfoAfterUncertainty = applyUncertaintyLimit(opponentPastInfo);
-			HIR.agentsRequestLimit[requestingAgentID] = HIR.agentsRequestLimit[requestingAgentID] - 1;
-			
-		//	System.out.println(opponentPastInfo);
-		//	System.out.println(opponentPastInfo);
-		//	System.out.println(pastInfoAfterUncertainty);
-
-		}
-		return pastInfoAfterUncertainty;
+			 
+			return pastInfoAfterUncertainty;
 	}
 
 	

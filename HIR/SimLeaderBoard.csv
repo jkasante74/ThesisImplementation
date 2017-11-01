@@ -7,19 +7,15 @@ Uncertainty Level : ,1.0
 Request Limit : ,Random
 Simulation Leaderboard
 ------------------------
-Player 8,Advanced_C,51.0
+Player 6,Naive_D,52.0
  
-Player 7,Advanced_C,51.0
+Player 2,Naive_C,48.0
  
-Player 3,Advanced_C,51.0
+Player 1,Naive_C,48.0
  
-Player 6,Advanced_D,48.0
+Player 5,Advanced_C,42.0
  
-Player 2,Advanced_D,48.0
+Player 4,Advanced_C,40.0
  
-Player 1,Advanced_D,48.0
- 
-Player 4,Naive_D,44.0
- 
-Player 5,Naive_C,36.0
+Player 3,Advanced_C,37.0
  
