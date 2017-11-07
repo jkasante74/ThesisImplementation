@@ -13,8 +13,8 @@ import agents.Agent;
 /**
  * The MatchManger provides the capacity for matches scheduled in each round to
  * be executed independent of one another. Also, it ensures that the right
- * scores are assigned to each participant based on their actions and the payoff
- * matrix stored in SR and accessed through interaction with SeM. After each
+ * scores are assigned to matched agents based on their actions and the payoff
+ * matrix stored in SR and accessed through interaction with Setup Manager. After each
  * match, the match manager stores information on strategies, actions and
  * payoffs on the Tournament Board to be accessed by the Historical Information
  * Manager.
@@ -24,20 +24,22 @@ import agents.Agent;
  */
 public class MatchManager {
 
-	// Private variables 
+	// Private variables
 	private static char[] agentsAction;
 	private static final char COOPERATE = 'C';
 	private static final char DEFECT = 'D';
 	private static final char DUMMY = 'A';
 	private static String TOURNAMENTBOARD = "TB/TB.csv";
 	private static String FILENOTFOUND = "File not found";
+
+	
 	/**
 	 * matchMgr method initiates the function of managing all agents activities
 	 * in various matches in current round
 	 * 
-	 * @param a
+	 * @param agentStrategy
 	 *            : Strategy of agent in current Experiment
-	 * @param b
+	 * @param opponentStrategy
 	 *            : Strategy of opponent in current Experiment
 	 * @param agentID
 	 *            : Agent id in current experiment
@@ -48,19 +50,17 @@ public class MatchManager {
 	 * @param currentRound
 	 *            : Current Round
 	 */
-	protected static void matchMgr(String agentStrategy, String opponentStrategy, int agentID, int opponentID, int currentTournament,
-			int currentRound) {
+	protected static void matchMgr(String agentStrategy,
+			String opponentStrategy, int agentID, int opponentID,
+			int currentTournament, int currentRound) {
 
-		
-		agentsAction = Agent.getMatchedAgentActions(agentID, opponentID, currentTournament, currentRound);
-
-		//System.out.println(agentsAction[0] + "\t \t vrs \t " + agentsAction[1]);
-
+		agentsAction = Agent.getMatchedAgentActions(agentID, opponentID,
+				currentTournament, currentRound);
 		String text = "\n" + agentsAction[0] + "\t \t vrs \t "
 				+ agentsAction[1] + "\n";
 		GUI_Simulation.txtSim.append(text);
 
-		// Store actions in TB for HIM to pick up
+		// Store mateched agents actions in Tournament Board
 		try {
 			Files.write(Paths.get(TOURNAMENTBOARD), text.getBytes());
 			HIM.updateLog(text);
@@ -68,19 +68,20 @@ public class MatchManager {
 			JOptionPane.showMessageDialog(null, FILENOTFOUND);
 		}
 
-		float[] matchScores = MatchManager.calcMatchedAgentsScores(agentsAction);
+		float[] matchScores = MatchManager
+				.calcMatchedAgentsScores(agentsAction);
 
-		Agent.agentsScores(agentID, opponentID, matchScores);
+		Agent.updateMatchedAgentsScores(agentID, opponentID, matchScores);
 
-		HIM.updateAgActionsInReposiory(currentTournament, agentID, opponentID, agentsAction);
+		HIM.updateAgActionsInReposiory(currentTournament, agentID, opponentID,
+				agentsAction);
 
 	}
 
+	
 	/**
 	 * calcMatchedAgentsScores method calculates the payoffs associated with the
-	 * selected actions of the players in customized simulation experiment of
-	 * the iterated round robin tourment of the PD Game.
-	 * 
+	 * actions of the matched agents	 * 
 	 * @param agentsActions
 	 *            : Selected actions of both player and his opponent
 	 * 
@@ -88,51 +89,47 @@ public class MatchManager {
 	 *         their actions
 	 * 
 	 */
-
 	private static float[] calcMatchedAgentsScores(char[] agentsActions) {
 
-		float scoreA = 0, scoreB = 0;
+		float agentScore = 0, opponentScore = 0;
 		float[] matchScores = new float[2];
 
-		
 		if ((agentsActions[0] == COOPERATE) && (agentsActions[1] == COOPERATE)) {
-			scoreA = (Scheduler.reward);
-			scoreB = (Scheduler.reward);
+			agentScore = (Scheduler.reward);
+			opponentScore = (Scheduler.reward);
 		}
 
 		if ((agentsActions[0] == COOPERATE) && (agentsActions[1] == DEFECT)) {
-			scoreA = (Scheduler.sucker);
-			scoreB = (Scheduler.tempt);
+			agentScore = (Scheduler.sucker);
+			opponentScore = (Scheduler.tempt);
 		}
 
 		if ((agentsActions[0] == DEFECT) && (agentsActions[1] == COOPERATE)) {
-			scoreA = (Scheduler.tempt);
-			scoreB = (Scheduler.sucker);
+			agentScore = (Scheduler.tempt);
+			opponentScore = (Scheduler.sucker);
 		}
 
 		if ((agentsActions[0] == DEFECT) && (agentsActions[1] == DEFECT)) {
-			scoreA = (Scheduler.punish);
-			scoreB = (Scheduler.punish);
+			agentScore = (Scheduler.punish);
+			opponentScore = (Scheduler.punish);
 		}
-
+		// No score given to agents matched against Dummies
 		if (agentsActions[1] == DUMMY) {
-			scoreA = 0;
-			scoreB = 0;
+			agentScore = 0;
+			opponentScore = 0;
 		}
-
-		matchScores[0] = scoreA;
-		matchScores[1] = scoreB;
+		matchScores[0] = agentScore;
+		matchScores[1] = opponentScore;
 
 		if (agentsActions[1] != DUMMY) {
-		//	System.out.println(matchScores[0] + "\t \t vrs \t "
-		//			+ matchScores[1] + "\n");
-			String calculatedScores = matchScores[0] + "\t \t vrs \t " + matchScores[1]
-					+ "\n\n";
+			String calculatedScores = matchScores[0] + "\t \t vrs \t "
+					+ matchScores[1] + "\n\n";
 			GUI_Simulation.txtSim.append(calculatedScores);
 
-			
+			// Store calculated actions in tournament board
 			try {
-				Files.write(Paths.get(TOURNAMENTBOARD), calculatedScores.getBytes());
+				Files.write(Paths.get(TOURNAMENTBOARD),
+						calculatedScores.getBytes());
 				HIM.updateLog(calculatedScores);
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, FILENOTFOUND);

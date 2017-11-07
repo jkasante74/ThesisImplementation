@@ -45,7 +45,7 @@ public class GUI {
 	public static boolean radomRequest = false;
 	public static JComboBox<Object> cmbExpSel;
 
-	// Private Variables 
+	// Private Variables
 	private JFrame frame;
 	private JTextField txtTemptation;
 	private JTextField txtReward;

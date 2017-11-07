@@ -23,7 +23,7 @@ import agents.Agent;
  */
 public class StrategySetupManager {
 
-	/* Variable declaration and initialization */
+	// Parameters for StrategySetupManager 
 	private static boolean startSim = false;
 	public static String[] Strategies;
 	protected static int[] AgentNum;
@@ -31,8 +31,11 @@ public class StrategySetupManager {
 	private static int expCounter = 0;
 	protected static boolean simEnd = false;
 
+	
 	/**
-	 * Main method is known to be the class' application entry point
+	 * Main method is known to be the class' application entry point initiates
+	 * the functions of the StrategySetupManager by reading and validating the 
+	 * agents. 
 	 * 
 	 * @param args
 	 *            Java main array of command-line arguments whose data type is
@@ -40,21 +43,18 @@ public class StrategySetupManager {
 	 * 
 	 * @throws IOException
 	 */
-
 	public static void main(String[] args) throws IOException {
 
-		/* Read and Verify Agents Strategy set-up */
 		readStrategyAssign("SR/AgentNum.csv");
-
-		/* Signal ParamConfigMgr to also perform its validation */
 		if (!startSim) {
 			ParamConfigMgr.initiate();
 		}
 	}
 
+	
 	/**
 	 * readStrategyAssign method reads assignment of strategies to agents from
-	 * the input file to be verified before simulation begins
+	 * the setup repository file to be verified before simulation begins
 	 * 
 	 * @param filename
 	 *            : Name of file with agents strategies information
@@ -62,8 +62,6 @@ public class StrategySetupManager {
 	 */
 
 	private static void readStrategyAssign(String filename) {
-
-		/* Read agents strategy setup component of Setup Repository */
 
 		/**
 		 * Modified from original code
@@ -87,8 +85,6 @@ public class StrategySetupManager {
 				if (!startSim)
 					getAgentStrategies(splited);
 			}
-
-			/* close the file reader */
 			b.close();
 		} catch (IOException err) {
 			JOptionPane.showMessageDialog(null, "File not found");
@@ -97,6 +93,7 @@ public class StrategySetupManager {
 
 	}
 
+	
 	/**
 	 * validateStrategies method is called after each line read of the number of
 	 * agents for each strategy. And this method performs the function of
@@ -140,7 +137,7 @@ public class StrategySetupManager {
 
 	/**
 	 * getSimParam is responsible for sending to the agent component the
-	 * verified numbers of agents for each strategy in the current simulation
+	 * verified number of agents for each strategy in the current simulation
 	 * experiment.
 	 * 
 	 * @param i
@@ -152,60 +149,43 @@ public class StrategySetupManager {
 
 	public static void getSimParam(int i) throws IOException {
 
-		/* Read requested numbers of agents for each strategy from file */
-
 		if (i <= expCounter) {
 
 			String lineParam = Files.readAllLines(Paths.get("SR/AgentNum.csv"))
 					.get(i);
-
-			/* Put them in an array */
 			String[] numOfAgentStrategies = lineParam.split(",");
-
-			/* Get info request option */
 			int infoApproachOption = Integer
 					.parseInt(numOfAgentStrategies[(numOfAgentStrategies.length - 1)]);
-
 			String[] AgentsStrategies = getAgentStrategies(numOfAgentStrategies);
-
-			/* Send number of Agent strategies to agent */
 			Agent.setVariable(agents, AgentsStrategies, infoApproachOption);
 		} else
 			return;
 
 	}
 
+	
 	/**
 	 * getAgentStrategies Sets up the strategy of each competing player n the
 	 * tournament.
 	 * 
 	 * @param strategiesNum
 	 *            : Agents strategies in the current experiment
-	 * 
-	 * 
 	 */
-
 	public static String[] getAgentStrategies(String[] strategiesNum) {
 
 		agents = 0;
 
-		/* Initialize variables */
-
-		/* Get total number of agents */
-		for (int i = 0; i < (strategiesNum.length - 1); i++) {
+		for (int i = 0; i < (strategiesNum.length - 1); i++) 
 			agents = agents + Integer.parseInt(strategiesNum[i]);
 
-		}
-
-		/* Set allocation for odd number of agents */
+		// Add a dummy player to odd number of agents 
 		if (agents % 2 != 0) {
 			agents = agents + 1;
 			Strategies = new String[agents];
-			Strategies[(agents - 1)] = "Dummy"; // Add dummy array to last
-												// location
+			Strategies[(agents - 1)] = "Dummy"; 
 		}
 
-		/* Set allocation for even number of agents */
+		// Set allocation for even number of agents 
 		else {
 
 			Strategies = new String[agents];
@@ -214,7 +194,7 @@ public class StrategySetupManager {
 
 		int count = 0;
 
-		/* Generate agent strategies and store in array */
+		// Generate agent strategies and store in array 
 		for (int i = 0; i < 4; i++) {
 
 			for (int j = 0; j < Integer.parseInt(strategiesNum[i]); j++) {
@@ -243,10 +223,8 @@ public class StrategySetupManager {
 			}
 		}
 
-		/*
-		 * Shuffle agent strategies so that position doesn't favor outcome in
-		 * first round
-		 */
+		
+		 // Shuffle agent strategies so that position doesn't favor outcome in first round
 		Collections.shuffle(Arrays.asList(Strategies));
 
 		return Strategies;

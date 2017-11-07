@@ -24,8 +24,8 @@ import setupManager.StrategySetupManager;
  */
 public class Scheduler {
 
-	// Scheduler Parameters 
-	protected static float tempt  = 0;
+	// Scheduler Parameters
+	protected static float tempt = 0;
 	protected static float reward = 0;
 	protected static float punish = 0;
 	protected static float sucker = 0;
@@ -34,12 +34,11 @@ public class Scheduler {
 	protected static int agentsTotal = 0;
 	protected static String[] strategies;
 
-	//Private variables
+	// Private variables
 	private static boolean readySign = false;
 	static int experimentIndex = 1;
 	private static String TOURNAMENTBOARD = "TB/TB.csv";
 	private static String FILENOTFOUND = "File not found";
-
 
 	/**
 	 * Main method is known to be the class' application entry point
@@ -50,18 +49,18 @@ public class Scheduler {
 	 * 
 	 * @throws IOException
 	 */
-
 	public static void main(String[] args) throws IOException {
-
 		
-		signalSetUpManager(); //Begin Scheduler activities
+		// Begin Scheduler activities
+		signalSetUpManager(); 
 	}
 
+	
 	/**
-	 * signalSetUpManager method of the scheduler calls the requestSimParam() to signal the
-	 * Setup Manager that the simulation engine is ready to begin simulation
-	 * experiment and also request for parameters required to initiate
-	 * simulation
+	 * signalSetUpManager method of the scheduler calls the requestSimParam() to
+	 * signal the Setup Manager that the simulation engine is ready to begin
+	 * simulation experiment and also request for parameters required to
+	 * initiate simulation
 	 * 
 	 * @throws IOException
 	 */
@@ -75,7 +74,7 @@ public class Scheduler {
 	}
 
 	/**
-	 * requestSimParam request from the StrategySetupManager simulation agents
+	 * requestSimParam request from the StrategySetupManager simulation agents's
 	 * strategies in current experiment and setup parameters from the
 	 * ParamConfigMgr
 	 * 
@@ -88,7 +87,7 @@ public class Scheduler {
 	private static void requestSimParam(boolean sign, int nextExp)
 			throws IOException {
 		if (sign) {
-
+			
 			StrategySetupManager.getSimParam(nextExp);
 			ParamConfigMgr.getSimulationParam(nextExp);
 
@@ -96,8 +95,8 @@ public class Scheduler {
 	}
 
 	/**
-	 * getSetupParam receives setup parameters from the ParamConfigMgr to be implemented in
-	 * the current experiment
+	 * setSetupParam receives setup parameters from the ParamConfigMgr to be
+	 * implemented in the current experiment
 	 * 
 	 * @param param
 	 *            : Current experimental setup vaules
@@ -105,7 +104,7 @@ public class Scheduler {
 	 * @throws IOException
 	 * 
 	 */
-	public static void getSetupParam(String[] param, int agentsTotal,
+	public static void setSetupParam(String[] param, int agentsTotal,
 			String[] agentStrategies) throws IOException {
 
 		float[] setupValues = new float[param.length];
@@ -117,8 +116,8 @@ public class Scheduler {
 	}
 
 	/**
-	 * initializeParam method received set-up parameters before simulation begins and
-	 * initializes them to be used by the Simulation Engine
+	 * initializeParam method received set-up parameters before simulation
+	 * begins and initializes them to be used by the Simulation Engine
 	 * 
 	 * @param setupValues
 	 *            : Simulation setup values received from the Paramter Manager
@@ -142,13 +141,12 @@ public class Scheduler {
 		ArrayList<Object> homeList = new ArrayList<Object>();
 		ArrayList<Object> awayList = new ArrayList<Object>();
 
-		
 		startSimulation(homeList, awayList);
 
 	}
 
 	/**
-	 * simulationStart after receiving invocation from initializeParam begins
+	 * startSimulation method upon invocation from initializeParam method begins
 	 * simulation experiment for the current experimental setup
 	 * 
 	 * @param homeList

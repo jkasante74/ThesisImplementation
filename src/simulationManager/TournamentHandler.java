@@ -24,9 +24,9 @@ public class TournamentHandler {
 	private static String tournamentStats;
 	private static String TOURNAMENTBOARD = "TB/TB.csv";
 	private static String FILENOTFOUND = "File not found";
+
 	/**
-	 * tournHandler method generates for each tournament a groups for the agents
-	 * and splits up players into groupds of pairs.
+	 * tournHandler method generates for each tournament a groups for the ageents.
 	 * 
 	 * @param homeList
 	 *            : Group of Agents that forms the first half
@@ -38,12 +38,10 @@ public class TournamentHandler {
 			ArrayList<Object> awayList) {
 		for (int currentTournament = 0; currentTournament < Scheduler.numOfTournament; currentTournament++) {
 
-			
 			printTournamentStats(currentTournament);
 
-			
-			int totalRounds = (Scheduler.agentsTotal - 1); // Set total rounds in a tournament
-			int matchesPerRound = Scheduler.agentsTotal / 2; // Set matches per round in a tournament
+			int totalRounds = (Scheduler.agentsTotal - 1); 
+			int matchesPerRound = Scheduler.agentsTotal / 2; 
 
 			// Group players into two for fair matching
 			for (int j = 0; j < matchesPerRound; j++) {
@@ -51,9 +49,8 @@ public class TournamentHandler {
 				awayList.add(new Scheduler());
 			}
 
-			
-			RoundHandler.roundMgr(currentTournament, totalRounds, matchesPerRound,
-					homeList, awayList);
+			RoundHandler.roundMgr(currentTournament, totalRounds,
+					matchesPerRound, homeList, awayList);
 
 			try {
 				HIM.displayAgentsTournamentStats(currentTournament);
@@ -75,14 +72,12 @@ public class TournamentHandler {
 	 */
 	private static void printTournamentStats(float currentTournamentIndex) {
 
-	//	System.out.println("\nRound-Robin Tournament " + (currentTournamentIndex + 1)
-		//		+ "\n====================================="); 
-		tournamentStats = "\nRound-Robin Tournament " + (currentTournamentIndex + 1) + "\n"
-				+ "===================\n";
+		tournamentStats = "\nRound-Robin Tournament "
+				+ (currentTournamentIndex + 1) + "\n" + "===================\n";
 		GUI_Simulation.txtSim.append(tournamentStats);
-		String tx = "\nRound-Robin Tournament " + (currentTournamentIndex + 1) + "\n";
-
-		
+		String tx = "\nRound-Robin Tournament " + (currentTournamentIndex + 1)
+				+ "\n";
+		// Store current tournament title in tournament board
 		try {
 			Files.write(Paths.get(TOURNAMENTBOARD), tx.getBytes());
 			HIM.updateLog(tournamentStats);

@@ -4,13 +4,13 @@ import java.util.Random;
 
 public class Agent {
 
-	// Parameters for Agent 
-	protected static String[] agentStrategies; // change
+	// Parameters for Agent
+	protected static String[] agentStrategies;
 	protected static double agentBeliefs[][];
 	public static float[] agentScores;
 	protected static int expInfoRequestOption;
-	
-	//Private variables
+
+	// Private variables
 	private static int currentTournament;
 	private static final String ADVANCE_COOPERATOR = "Advanced_C";
 	private static final String ADVANCE_DEFECTOR = "Advanced_D";
@@ -18,49 +18,52 @@ public class Agent {
 	private static final String NAIVE_COOPERATOR = "Naive_C";
 
 	/**
-	 * initialize method sets up the variables and data structures used by the
+	 * setVariable method sets up the variables and data structures used by the
 	 * Agent component.
 	 * 
 	 * @param numOfAgents
-	 *             : number of agents in current experiment
+	 *            : number of agents in current experiment
 	 * @param agentStrategies
 	 *            : Array of different agents' strategies for the current
 	 *            experiment
 	 * @param infoRequestsOption
-	 *            : Past information advanced agents can request about current
-	 *            opponent
+	 *            : Approach to information request
 	 * 
 	 */
 	public static void setVariable(int numOfAgents, String[] agentsStrategies,
 			int infoRequestsOption) {
 
 		// Initialize variables
-		agentScores = new float[numOfAgents]; 
-		agentStrategies = agentsStrategies; 
-		expInfoRequestOption = infoRequestsOption; 
+		agentScores = new float[numOfAgents];
+		agentStrategies = agentsStrategies;
+		expInfoRequestOption = infoRequestsOption;
 
 		createAgentsBeliefs(numOfAgents);
 	}
 
 	/**
-	 * readOpponentRating method returns the updated belief of an opponent stored
-	 * by an agent in its internal memory.
+	 * readOpponentRating method returns the updated belief of an opponent
+	 * stored by an agent in its internal memory.
 	 * 
-	 * @param agentID : Requesting agent ID
+	 * @param requestingAgentID
+	 *            : Requesting agent ID
 	 * 
-	 * @param opponentID : Opponent ID
-	 *  
-	 * @return agentBeliefs : return updated Agent's current belief about opponent
+	 * @param opponentID
+	 *            : Opponent ID
+	 * 
+	 * @return agentBeliefs : return updated Agent's current belief about
+	 *         opponent
 	 * 
 	 */
-	protected static double readOpponentRating(int agentID, int opponentID) {
+	protected static double readOpponentRating(int requestingAgentID,
+			int opponentID) {
 
-		return agentBeliefs[agentID][opponentID];
+		return agentBeliefs[requestingAgentID][opponentID];
 
 	}
 
 	/**
-	 * createAgBeliefs creates and initializes the beliefs for both advance
+	 * createAgBeliefs creates and initializes the beliefs for both advanced
 	 * cooperators and defectors about their ooponents.
 	 * 
 	 * @param numOfAgents
@@ -69,14 +72,14 @@ public class Agent {
 	 */
 	private static void createAgentsBeliefs(int numOfAgents) {
 
-		
 		agentBeliefs = new double[numOfAgents][numOfAgents];
-		
-		// Advance agents create beliefs as summary information about opponent
+
+		// Advanced agents assigns belief about other agents
 		for (int i = 0; i < agentStrategies.length; i++) {
-			if ((agentStrategies[i] == ADVANCE_COOPERATOR)||(agentStrategies[i] == ADVANCE_DEFECTOR)) {
+			if ((agentStrategies[i] == ADVANCE_COOPERATOR)
+					|| (agentStrategies[i] == ADVANCE_DEFECTOR)) {
 				for (int j = 0; j < agentStrategies.length; j++) {
-					agentBeliefs[i][j] = 0.0; 
+					agentBeliefs[i][j] = 0.0;
 				}
 			}
 
@@ -84,8 +87,7 @@ public class Agent {
 	}
 
 	/**
-	 * getStrategies returns the different strategies of agents stored as a
-	 * string array
+	 * getStrategies returns the different strategies of agents
 	 * 
 	 * @return agentStrategies : All competing agents' strategies
 	 */
@@ -95,53 +97,54 @@ public class Agent {
 	}
 
 	/**
-	 * getAgentActions method returns the chosen action of paired agent and its
-	 * opponent for the current Tournament, current Round,
+	 * getMatchedAgentActions method returns the chosen actions of paired agents
 	 * 
-	 * @param agentID : Requesting agent ID
-	 * 
-	 * @param opponentID : Opponent ID
-	 * @param currentTournament	: Current Tournament
-	 * @param currentRound : Current Round
+	 * @param requestingAgentID
+	 *            : Requesting agent ID
+	 * @param opponentID
+	 *            : Opponent ID
+	 * @param currentTournament
+	 *            : Current Tournament
+	 * @param currentRound
+	 *            : Current Round
 	 * 
 	 * @return actions : Selected actions of both agent and opponent
 	 * 
 	 */
-	public static char[] getMatchedAgentActions(int agentID, int opponentID,
-			int presentTournament, int currentRound) {
+	public static char[] getMatchedAgentActions(int requestingAgentID,
+			int opponentID, int presentTournament, int currentRound) {
 
-		
 		char[] actions = new char[2];
 		char agentAction = 0, OpponentAction = 0;
 		currentTournament = presentTournament;
 
-		String a = agentStrategies[agentID];
+		String a = agentStrategies[requestingAgentID];
 		String b = agentStrategies[opponentID];
 
-		// Get action of agent 
+		// Get action of requesting agent
 		if (a.equalsIgnoreCase(NAIVE_COOPERATOR))
 			agentAction = AgentStrategies.cooperateAll();
 		if (a.equalsIgnoreCase(NAIVE_DEFECTOR))
 			agentAction = AgentStrategies.defectAll();
 		if (a.equalsIgnoreCase(ADVANCE_COOPERATOR))
-			agentAction = AgentStrategies.advanceCooperator(agentID,
+			agentAction = AgentStrategies.advanceCooperator(requestingAgentID,
 					opponentID, currentTournament, currentRound);
 		if (a.equalsIgnoreCase(ADVANCE_DEFECTOR))
-			agentAction = AgentStrategies.advanceDefector(agentID, opponentID,
-					currentTournament, currentRound);
+			agentAction = AgentStrategies.advanceDefector(requestingAgentID,
+					opponentID, currentTournament, currentRound);
 
-		// Get  action of opponent 
+		// Get action of opponent
 		if (b.equalsIgnoreCase(NAIVE_COOPERATOR))
 			OpponentAction = AgentStrategies.cooperateAll();
 		if (b.equalsIgnoreCase(NAIVE_DEFECTOR))
 			OpponentAction = AgentStrategies.defectAll();
 		if (b.equalsIgnoreCase(ADVANCE_COOPERATOR))
 			OpponentAction = AgentStrategies.advanceCooperator(opponentID,
-					agentID, currentTournament, currentRound);
+					requestingAgentID, currentTournament, currentRound);
 		if (b.equalsIgnoreCase(ADVANCE_DEFECTOR))
-			OpponentAction = AgentStrategies.advanceDefector(agentID,
+			OpponentAction = AgentStrategies.advanceDefector(requestingAgentID,
 					opponentID, currentTournament, currentRound);
-		
+
 		actions[0] = agentAction;
 		actions[1] = OpponentAction;
 
@@ -150,18 +153,22 @@ public class Agent {
 	}
 
 	/**
-	 * agentScores method Updates the score for each agent participating in the simulation
-	 * experiment
+	 * updateMatchedAgentsScores method Updates the score for each agent
+	 * participating in the current match
 	 * 
-	 * @param agentID : Requesting agent ID
+	 * @param requestingAgentID
+	 *            : Requesting agent ID
 	 * 
-	 * @param opponentID : Opponent ID
- 	 *
-	 * @param matchScores : Scores of both agents and opponents 
+	 * @param opponentID
+	 *            : Opponent ID
+	 * 
+	 * @param matchScores
+	 *            : Scores of both agents and opponents
 	 */
-	public static void agentsScores(int agentID, int opponentID,
-			float[] matchScores) {
-		agentScores[agentID] = agentScores[agentID] + matchScores[0];
+	public static void updateMatchedAgentsScores(int requestingAgentID,
+			int opponentID, float[] matchScores) {
+		agentScores[requestingAgentID] = agentScores[requestingAgentID]
+				+ matchScores[0];
 		agentScores[opponentID] = agentScores[opponentID] + matchScores[1];
 	}
 
@@ -173,7 +180,7 @@ public class Agent {
 	 */
 	public static int requestRandomTournament() {
 
-		
+		// Generate Random tournament
 		Random rand = new Random();
 		int randomTournamentNumber = rand.nextInt((currentTournament - 0) + 1);
 
