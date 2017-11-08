@@ -7,15 +7,36 @@ Uncertainty Level : ,1.0
 Request Limit : ,Assigned
 Simulation Leaderboard
 ------------------------
-Agent 1,Advanced_D,40.0
+Agent 5,Advanced_D,40.0
  
-Agent 5,Naive_D,36.0
+Agent 3,Naive_D,40.0
  
-Agent 2,Advanced_D,36.0
+Agent 6,Advanced_D,36.0
  
-Agent 4,Advanced_C,28.0
+Agent 4,Advanced_C,27.0
  
-Agent 6,Advanced_C,27.0
+Agent 2,Advanced_C,27.0
  
-Agent 3,Naive_C,24.0
+Agent 1,Naive_C,24.0
+ 
+
+Experiment 2
+==========================
+Number of Tournament : ,4
+Payoffs : ,T = 5, R = 3, P = 1, S = 0
+Uncertainty Level : ,1.0
+Request Limit : ,Assigned
+Simulation Leaderboard
+------------------------
+Agent 6,Advanced_D,40.0
+ 
+Agent 4,Naive_D,36.0
+ 
+Agent 3,Advanced_D,36.0
+ 
+Agent 2,Advanced_C,36.0
+ 
+Agent 1,Advanced_C,35.0
+ 
+Agent 5,Naive_C,24.0
  

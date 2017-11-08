@@ -60,7 +60,7 @@ public class HIM {
 			float uLevel, int[] agentsRequestLimit, int numOfAgents,
 			String[] param, String requestLimitOption) {
 
-		// Set up Parameters
+		// Parameter Variables
 		totalNumOfAgents = numOfAgents;
 		HIR.agentsRequestLimit = agentsRequestLimit;
 		requestLimitOptions = requestLimitOption;
@@ -90,7 +90,8 @@ public class HIM {
 
 	public static String getExperimentResults(int requestOption) {
 		String requestInfo = "";
-
+		
+		// Return experiment results as a chart dataset
 		switch (requestOption) {
 		case 0:
 			requestInfo = experimentLeaderboard;
@@ -115,6 +116,8 @@ public class HIM {
 	 *         past actions after uncertainty limit application
 	 */
 	private static String applyUncertaintyLimit(String opponentPastInfo) {
+		
+		// Apply current uncertainty limit to past information acquired
 		double currentUncertaintyLimit = (double) experimentUncertaintyLevel;
 		String pastInfoAfterUncertainty = opponentPastInfo.substring(0,
 				(int) ((opponentPastInfo.length()) * currentUncertaintyLimit));
@@ -277,13 +280,13 @@ public class HIM {
 		HIR.data = new String[HIR.agentsRequestLimit.length][3];
 		String[] Strategy = StrategySetupManager.Strategies;
 
-		// update agents' tournament information
+		// Update agents' tournament information
 		for (int i = 0; i < (Strategy.length); i++) {
 			HIR.data[i][0] = "Agent " + (i + 1);
 			HIR.data[i][1] = Strategy[i];
 			HIR.data[i][2] = String.valueOf((Agent.agentScores[i]));
 
-			// store parameters in chart for later display
+			// Store parameters in chart for later display
 			writeChartDataset(currentTournamentIndex, i, HIR.data);
 		}
 
@@ -386,7 +389,7 @@ public class HIM {
 			AgentStrategies.infoAcquired = false;
 		}
 
-		// Honour request based on type of info reqired
+		// Honour request based on type of info set by experimenter
 		else {
 			AgentStrategies.infoAcquired = true;
 			switch (requestOption) {
@@ -492,8 +495,6 @@ public class HIM {
 	
 		if (HIR.agentActs[opponentID] != null) {
 			opponentPastInfo = String.valueOf(HIR.agentActs[opponentID]);
-			System.out.println((opponentID + 1) + " has played : "
-					+ opponentPastInfo);
 			pastInfoAfterUncertainty = applyUncertaintyLimit(opponentPastInfo);
 		}
 

@@ -1,14 +1,14 @@
-INSTALLING Thesis_4.0
+INSTALLING ThesisImplementation
 
 1. INTRODUCTION
 ======================
-This README file explains how to import and run the Thesis_4.0 project implementation developed for the iterated round robin tournament of the Prisoner Dilemma game which is freely available for distribution and experimentation.
+This README file explains how to import and run the ThesisImplementation project developed for the iterated round robin tournament of the Prisoner Dilemma game which is freely available for distribution and experimentation.
 
-The implementation of the simulator is divided into seven main packages six of which represent the main components of the System's Architecture: GUI, historicalInformationManager, setupManager, simulationManager, tournamentBoard, and agents.
+The implementation of the simulator is divided into seven main JAVA packages six of which represent the main components of the System's Architecture: GUI, historicalInformationManager, setupManager, simulationManager, tournamentBoard, and agents.
 
 These packages are collections of JAVA programs some of which are adopted from external sources and implemented to provide services such as creating line graph, scheduling of tournaments in Round Robin structure, reading and writing into a file, etc.  
 
-The packages shown in this implementation are described as the main components in the System Architecture section of the Thesis titled “Evolution of Cooperation Among Informed Agents”. 
+The packages shown in this implementation are described as the main components in the System Architecture section of the Thesis titled “Development of Cooperation Among Informed Agents”. 
 
 By Jonathan Nyantakyi.
 
@@ -26,7 +26,7 @@ The software requirements
   - Microsoft Excel 2003, Matlab version 6 or higher.
 
 
-I have successfully compiled “Ihesis_4.0” project under the following operating systems and compiler versions:
+I have successfully compiled “ThesisImplementation” project under the following operating systems and compiler versions:
 
   - Mac OS X with Eclipse IDE and JDK Compliance level 1.6 
 
@@ -40,7 +40,7 @@ I have successfully compiled “Ihesis_4.0” project under the following operating 
 
 To install,
 
-1) Download the compressed archive file “Thesis_4.0”.
+1) Download the compressed archive file “ThesisImplementation”.
 
 2) Import the compressed file into Eclipse IDE Kepler or above using the steps below:
 
@@ -50,7 +50,7 @@ To install,
 	d. Choose the "Select archive file" option and browse to import the compressed program file.
 	e. Click "Finish" to import the program.
 
-	This will create a new project labelled "Thesis_4.0" which contains the source 
+	This will create a new project labelled "ThesisImplementation" which contains the source 
 	code.
 
 
@@ -59,7 +59,7 @@ To install,
 
 To perform a simulation experiment, it is important to ensure that all other required external libraries are first imported
 
-1. Right click on the “Thesis_4.0” project in your package explorer and select "Properties" 
+1. Right click on the “ThesisImplementation” project in your package explorer and select "Properties" 
 2. In the Properties dialog, click on "Java Build Path" to show the various imported libraries.
 3. Click on add "External Libraries JARS"
 4. Locate the libraries "jcommon-1.0.23.jar" and "jfreechart-1.0.19,jar" in the externalLibraries package.
@@ -77,7 +77,7 @@ You have several options available to run the implementation
 If you want to run the in an IDE, such as Eclipse, follow the instruction 
 below;
 
-1. Expand the project "Thesis_4.0". 
+1. Expand the project "ThesisImplementation". 
 2. Locate the “GUI.java” file in the “gui” package.
 3. Right-Click on the “GUI.java"  file
 4. Select "Run As" option
@@ -89,7 +89,7 @@ below;
 
 If you know how to compile programs on the command line, and if you have
 downloaded the program, you can easily compile and run.
-Just change directory in terminal into “Thesis_4.0” and use
+Just change directory in terminal into “ThesisImplementation” and use
 the command “javac GUI.java” to compile.  
 As long as your compiler supports Java 7 or higher, there should be no errors.  
 
@@ -113,23 +113,23 @@ a. externalLibraries/   				--	Holds files with documentation for external servi
 b. gui/           					--	Holds files with documentation for all GUI subcomponents and Configuration Inspector component of the simulator.
 
 	gui/AreaChart					-- 	Creates an Area chart for selected experiment index.
-	gui/BarChart					--  	Creates an Bar chart for selected experiment index.
+	gui/BarChart					--  Creates an Bar chart for selected experiment index.
 	gui/LineChart					—-	Creates an Line chart for selected experiment index.
 	gui/GUI_Simulation				—-	Provides a window that displays simulation logs.
-	gui/GUI						—-	Provides application window from which user can setup, display and manipulate experiments.
+	gui/GUI							—-	Provides application window from which user can setup, display and manipulate experiments.
 
 
 
 
 c. historicalInformationManager/						—- 	Holds files and folders for managing and storing simulation experiments
 	
-	historicalInformationManager/HIM					—-	Manages HIR and answers request for information from Agents. Also answers experimenter’s queries through GUI.
-	historicalInformationManager/HIR					—-	Provides storage for all experimental statistics	
+	historicalInformationManager/HIM					—-	Manages HIR and answers request for information from Agents. HIM also answers experimenter’s queries through GUI.
+	historicalInformationManager/HIR					—-	Provides storage for all experimental statistics, leadershipboard and charts	
 		
 	
 
 
-d. setupManager						—-	Holds file for experimental set up and validations
+d. setupManager						—-	Holds files for experimental set up and validations
 	
 	setupManager/ParamConfigMgr			—-	Configures and also validates Experimental set up values  
 	setupManager/StrategySetupManager		—-	Configures and also validates agent strategies set up values

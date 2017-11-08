@@ -1,7 +1,5 @@
 package agents;
 
-import javax.swing.JOptionPane;
-
 import historicalInformationManager.HIM;
 
 public class AgentStrategies {
@@ -71,14 +69,19 @@ public class AgentStrategies {
 			double opponentCooperateRatio = getOpponentPastInfo(requestingAgentID,
 					opponentID);
 			updateBelief(requestingAgentID, opponentID, opponentCooperateRatio);
-
-			if (Agent.readOpponentRating(requestingAgentID, opponentID) >= 0.9)
+			//double opponentCooperatingRating = Agent.readOpponentRating(requestingAgentID, opponentID);
+			
+			// Promote cooperation
+			if (opponentCooperateRatio >= 0.9)
 				matchAction = COOPERATE;
-			else 
-				if(Agent.readOpponentRating(requestingAgentID, opponentID) <= 0.1)
+			 
+			// Protect against exploiters
+			else if(opponentCooperateRatio <= 0.1)
 				matchAction = DEFECT;
+			
+			// Decide using Returns-based belief
 			else
-				matchAction = getUnsureAction(opponentCooperateRatio,requestingAgentID, opponentID);
+				matchAction = returnBasedBeliefAction(opponentCooperateRatio,requestingAgentID, opponentID);
 
 		}
 
@@ -116,18 +119,10 @@ public class AgentStrategies {
 					|| (Agent.readOpponentRating(requestingAgentID, opponentID) >= 0.9)) {
 				matchAction = DEFECT;
 			}
-			/*
-			// Defect 60% of time if unsure
-			else {
-				if (Math.random() > 0.4)
-					matchAction = DEFECT;
-				else
-					matchAction = COOPERATE;
-
-			}
-			 */
+			
+			// Decide using Returns-based beliefs
 			else
-				matchAction = getUnsureAction(opponentCooperateRatio,requestingAgentID, opponentID);
+				matchAction = returnBasedBeliefAction(opponentCooperateRatio,requestingAgentID, opponentID);
 		}
 		return matchAction;
 	}
@@ -217,7 +212,7 @@ public class AgentStrategies {
 	 */
 	private static double calcOppRating(String opponentInformation) {
 
-		int numOfCooperations = 0, numOfDefections = 0;
+		double numOfCooperations = 0.0, numOfDefections = 0.0;
 		double opponentCooperateRatio = 0.0;
 
 		for (int i = 0; i < opponentInformation.length(); i++) {
@@ -233,7 +228,7 @@ public class AgentStrategies {
 		else
 			opponentCooperateRatio = numOfCooperations
 					/ (numOfCooperations + numOfDefections);
-
+		
 		return opponentCooperateRatio;
 	}
 
@@ -258,13 +253,13 @@ public class AgentStrategies {
 	}
 
 	/**
-	 * getUnsureAction returns the requesting agent's action based on returns-based belief about the agent
+	 * returnBasedBeliefAction returns the requesting agent's action based on returns-based belief about the agent
 	 * @param opponentCooperateRatio
 	 * @param requestingAgentID
 	 * @param opponentID
 	 * @return
 	 */
-	private static char getUnsureAction(double opponentCooperateRatio,
+	private static char returnBasedBeliefAction(double opponentCooperateRatio,
 			int requestingAgentID, int opponentID) {
 		
 		double gameValue = 0.0;
@@ -280,19 +275,23 @@ public class AgentStrategies {
 										+ ((punish  + Agent.gameValue[requestingAgentID][opponentID]) * opponentDefectRatio);
 		
 		// Calculate agent's probability of playing a strategy
-		double agentCooperateProbability = agentCooperateReward / (agentCooperateReward + agentDefectionReward);
-		double agentDefectProbability = agentDefectionReward / (agentCooperateReward + agentDefectionReward);
+		double agentCooperateProbability = (agentCooperateReward / (agentCooperateReward + agentDefectionReward));
+		double agentDefectProbability =    (agentDefectionReward / (agentCooperateReward + agentDefectionReward));
 		
-		JOptionPane.showMessageDialog(null, "Cooperate Probability : " + agentCooperateProbability + "\n" + "Defect Probability : " +agentDefectProbability);
+		double agentCProbability = (Math.round(agentCooperateProbability * 100));
+		double agentDProbability = (Math.round(agentDefectProbability * 100));
+		
+		
 		// Calculate the game value
 		gameValue = (agentCooperateProbability* (agentCooperateProbability * reward) + (agentDefectProbability * sucker)) 
 				+ (agentDefectProbability* (agentCooperateProbability * tempt) + (agentDefectProbability * punish));
+		double gameValueInSig = Math.round(gameValue * 100);
 		
 		// Update game value with opponent
-		Agent.gameValue[requestingAgentID][opponentID] = gameValue; 
+		Agent.gameValue[requestingAgentID][opponentID] = (gameValueInSig/100); 
 		
 		// Return Action based on highest probability
-		if(agentDefectProbability > agentCooperateProbability)
+		if((agentDProbability/100) > (agentCProbability/100))
 			return DEFECT;
 		else
 			return COOPERATE;
