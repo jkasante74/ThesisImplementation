@@ -29,7 +29,7 @@ public class ParamConfigMgr {
 
 	// Private ParamConfigMgr Parameters
 	private static boolean startSim = false;
-	private static int[] currentSetupValues;
+	protected static int[] currentSetupValues;
 	private static float uncertaintyLevel;
 	private static int experimentCounter = 0;
 	private static int[] agentRequestLimit;

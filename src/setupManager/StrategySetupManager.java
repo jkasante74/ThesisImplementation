@@ -12,6 +12,7 @@ import java.util.Collections;
 import javax.swing.JOptionPane;
 
 import agents.Agent;
+import agents.AgentStrategies;
 
 /**
  * StrategySetupManager validates the number of agents in the experiment and
@@ -158,6 +159,7 @@ public class StrategySetupManager {
 					.parseInt(numOfAgentStrategies[(numOfAgentStrategies.length - 1)]);
 			String[] AgentsStrategies = getAgentStrategies(numOfAgentStrategies);
 			Agent.setVariable(agents, AgentsStrategies, infoApproachOption);
+			AgentStrategies.setPayOffValues(ParamConfigMgr.currentSetupValues);
 		} else
 			return;
 

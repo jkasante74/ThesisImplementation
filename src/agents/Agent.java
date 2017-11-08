@@ -6,7 +6,7 @@ public class Agent {
 
 	// Parameters for Agent
 	protected static String[] agentStrategies;
-	protected static double agentBeliefs[][];
+	protected static double agentBeliefs[][], gameValue[][];
 	public static float[] agentScores;
 	protected static int expInfoRequestOption;
 
@@ -33,7 +33,7 @@ public class Agent {
 	public static void setVariable(int numOfAgents, String[] agentsStrategies,
 			int infoRequestsOption) {
 
-		// Initialize variables
+		// Set Parameter variables
 		agentScores = new float[numOfAgents];
 		agentStrategies = agentsStrategies;
 		expInfoRequestOption = infoRequestsOption;
@@ -73,13 +73,15 @@ public class Agent {
 	private static void createAgentsBeliefs(int numOfAgents) {
 
 		agentBeliefs = new double[numOfAgents][numOfAgents];
+		gameValue = new double[numOfAgents][numOfAgents];
 
-		// Advanced agents assigns belief about other agents
+		// Advanced agents assigns belief and game values about other agents
 		for (int i = 0; i < agentStrategies.length; i++) {
 			if ((agentStrategies[i] == ADVANCE_COOPERATOR)
 					|| (agentStrategies[i] == ADVANCE_DEFECTOR)) {
 				for (int j = 0; j < agentStrategies.length; j++) {
 					agentBeliefs[i][j] = 0.0;
+					gameValue[i][j] = 0.0;
 				}
 			}
 
@@ -186,5 +188,7 @@ public class Agent {
 
 		return randomTournamentNumber;
 	}
+
+	
 
 }
