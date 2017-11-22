@@ -45,7 +45,7 @@ public class GUI {
 	public static boolean radomRequest = false;
 	public static JComboBox<Object> cmbExpSel;
 
-	// Private Variables
+	// Private variables
 	private JFrame frame;
 	private JTextField txtTemptation;
 	private JTextField txtReward;
@@ -124,16 +124,16 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				/* Initialize parameters to be loaded into SeR */
+				// Initialize parameters to be loaded into Setup reopsitory
 				String[] param = new String[8];
 				String[] agentNum = new String[5];
 				startSimulation = true;
 
-				/* Check if we are not loading setup from batch file */
+				// Check if we are not loading setup from batch file 
 				if (!rdbtnLoadSetup.isSelected()) {
 
 					if (rdbtnAssign.isSelected())
-						/* check if request limits are empty */
+						// check if request limits textbox are empty 
 						if ((txtAdvancedDLimit.getText().isEmpty())
 								|| (txtAdvanceCLimit.getText().isEmpty())
 								&& (!radomRequest)) {
@@ -142,7 +142,7 @@ public class GUI {
 							return;
 						}
 
-					/* Store inputs of SetUp as an array */
+					// Store inputs of SetUp as an array 
 					param[0] = (txtTemptation.getText());
 					param[1] = (txtReward.getText());
 					param[2] = (txtPunishment.getText());
@@ -152,7 +152,7 @@ public class GUI {
 					param[6] = (txtAdvanceCLimit.getText());
 					param[7] = (txtAdvancedDLimit.getText());
 
-					/* Store agents SetUp array in the setup Repository */
+					// Store agents SetUp array in the setup repository 
 					try {
 						String FileHeading = "T,R,P,S,NumOfTournament,Uncertainty,AdvancedCLimit,AdvancedDLimit";
 						writeFile("SR/SetupParam.csv", FileHeading, param);
@@ -162,7 +162,7 @@ public class GUI {
 					}
 				}
 
-				/* Store inputs of agents Straategies Number as an array */
+				// Store inputs of agents Straategies Number as an array 
 				if (!rdbtnLoadAg.isSelected()) {
 					agentNum[0] = (txtCNum.getText());
 					agentNum[1] = (txtDNum.getText());
@@ -171,10 +171,9 @@ public class GUI {
 					agentNum[4] = String.valueOf((cmbInfoReqApproach
 							.getSelectedIndex()));
 
-					/*
-					 * Store agents Straategies Number array in the setup
-					 * Repository
-					 */
+					
+					 // Store number of agents Straategies in the setup repository
+					 
 					try {
 						String FileHeading = "NaiveC,NaiveD,AdvancedC,AdvancedD,infoRequestApproach";
 						writeFile("SR/AgentNum.csv", FileHeading, agentNum);
@@ -195,8 +194,8 @@ public class GUI {
 
 			/**
 			 * writeFile method picks up the experimenter's simulation inputs
-			 * and stores it in the Setup Repository to be accessed and
-			 * validated by the Setup Manager
+			 * and stores it in the setup repository to be accessed and
+			 * validated by the setup manager
 			 * 
 			 * @param fileName
 			 *            : Setup Repository
@@ -782,22 +781,14 @@ public class GUI {
 					}
 				});
 
-		/* Actions for tabs under display clicked */
-		tabbedPane_1.addChangeListener(new ChangeListener() { // add the
-																// Listener
-
+		// Actions for tabs under display clicked 
+		tabbedPane_1.addChangeListener(new ChangeListener() { 
 					@Override
 					public void stateChanged(ChangeEvent e) {
 						String info = "";
 						if (startSimulation) {
 							// Get leader board to observe players performance
-							if (tabbedPane_1.getSelectedIndex() == 0) // Index
-																		// starts
-																		// at 0,
-																		// so
-																		// Index
-																		// 2 =
-																		// Tab3
+							if (tabbedPane_1.getSelectedIndex() == 0) 
 							{
 								// print agents final scores
 

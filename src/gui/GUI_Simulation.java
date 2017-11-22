@@ -9,7 +9,7 @@ import java.awt.Color;
 
 public class GUI_Simulation {
 
-	/* Declare and initialize variables */
+	// Parameter variables 
 	private JFrame frmSimulation;
 	public static JTextArea txtSim = new JTextArea();
 

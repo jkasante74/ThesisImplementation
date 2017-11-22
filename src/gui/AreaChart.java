@@ -79,7 +79,7 @@ public class AreaChart extends JFrame {
 
 	/**
 	 * AreaChart constructor. (For invocation by subclass constructors,
-	 * typically implicit.) Creates an Area chart of Players' pay-offs against
+	 * typically implicit.) Creates an Area chart of agents' pay-offs against
 	 * each tournament of game played. AreaChart constructor also defines a
 	 * title for the chart as well as the frame. Modified sections identified
 	 * 
@@ -122,7 +122,7 @@ public class AreaChart extends JFrame {
 	/**
 	 * createDataset method updates information about the progress of players in
 	 * a specific experiment by retrieving agents' scores for different
-	 * tournaments from the Dataset stored HIR
+	 * tournaments from the dataset stored HIR
 	 * 
 	 * @return dataset contains up-to-date information about players' scores,
 	 *         and tournament information.

@@ -63,8 +63,7 @@ public class RoundHandler {
 				awayList.set(match, String.valueOf(away + 1));
 			}
 			
-			String text = "\n\nRound " + (round + 1) + "\n"
-					+ "---------------------------------\n";
+			String text = getRoundTitleLog(round);
 			String textx = "\nRound " + (round + 1) + "\n";
 			GUI_Simulation.txtSim.append(text);
 			
@@ -88,10 +87,8 @@ public class RoundHandler {
 						.parseInt((String) (awayList.get(j))) - 1];
 
 				if (!opponentStrategy.contains(DUMMY)) {
-					String matchedAgentID = "Agent " + homeList.get(j)
-							+ "\t \t vrs \t Agent " + awayList.get(j) + "\n"
-							+ agentStrategy + "\t \t vrs \t "
-							+ opponentStrategy;
+					String matchedAgentID = getMatchedAgentIDLog(homeList.get(j), awayList.get(j), 
+							agentStrategy, opponentStrategy);
 					GUI_Simulation.txtSim.append(matchedAgentID);
 					String matchedAgentID2 = "\nAgent " + homeList.get(j)
 							+ "\t \t vrs \t Agent " + awayList.get(j) + "\n";
@@ -117,5 +114,37 @@ public class RoundHandler {
 
 			}
 		}
+	}
+
+	
+	/**
+	 * getMatchedAgentIDLog returns the identty and strategy of matched agent and its opponent
+	 * to be displayed on the simulation log.
+	 * @param homeListAgent	: Agent id
+	 * @param awayListAgent : Opponent id
+	 * @param agentStrategy : Strategy of the agent
+	 * @param opponentStrategy : Strategy of the opponent
+	 * @return
+	 */
+	private static String getMatchedAgentIDLog(Object homeListAgent, Object awayListAgent,
+			String agentStrategy, String opponentStrategy) {
+		
+		String log = "Agent " + homeListAgent
+		+ "\t \t vrs \t Agent " + awayListAgent + "\n"
+		+ agentStrategy + "\t \t vrs \t "
+		+ opponentStrategy;
+		return log;
+	}
+
+	/**
+	 * getRoundTitleLog returns the title of the current round index
+	 * to be displayed in the simulation log window
+	 * @param round
+	 * @return
+	 */
+	private static String getRoundTitleLog(int round) {
+		String roundTitleLog = "\n\nRound " + (round + 1) + "\n"
+				+ "---------------------------------\n";
+		return roundTitleLog;
 	}
 }

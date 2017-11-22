@@ -105,10 +105,10 @@ public class StrategySetupManager {
 	 */
 	private static void validate(String[] strategyInput) {
 
-		/* Store number of agents for each Strategy into an array */
+		// Store number of agents for each Strategy into an array 
 		int[] AgentNum = new int[strategyInput.length];
 
-		/* Validate that payoffs are integer values */
+		// Validate payoffs as integer values 
 		for (int i = 0; i < (strategyInput.length - 1); i++) {
 
 			try {
@@ -201,26 +201,27 @@ public class StrategySetupManager {
 
 			for (int j = 0; j < Integer.parseInt(strategiesNum[i]); j++) {
 
-				if (i == 0) {
+				switch(i){
+				case 0:		
 					Strategies[(count)] = "Naive_C";
-				}
+					break;
 
-				else if (i == 1) {
+				case 1:			
 					Strategies[(count)] = "Naive_D";
-				}
+					break;
 
-				else if (i == 2) {
+				case 2:
 					Strategies[(count)] = "Advanced_C";
-				}
+					break;
 
-				else if (i == 3) {
+				case 3:
 					Strategies[(count)] = "Advanced_D";
-				}
+					break;
 
-				else if (i == 4) {
+				case 4: 
 					Strategies[(count)] = "Rater";
+					break;	
 				}
-
 				count++;
 			}
 		}

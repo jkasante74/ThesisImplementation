@@ -60,7 +60,7 @@ public class HIM {
 			float uLevel, int[] agentsRequestLimit, int numOfAgents,
 			String[] param, String requestLimitOption) {
 
-		// Parameter Variables
+		// Set up Parameters
 		totalNumOfAgents = numOfAgents;
 		HIR.agentsRequestLimit = agentsRequestLimit;
 		requestLimitOptions = requestLimitOption;
@@ -90,8 +90,7 @@ public class HIM {
 
 	public static String getExperimentResults(int requestOption) {
 		String requestInfo = "";
-		
-		// Return experiment results as a chart dataset
+
 		switch (requestOption) {
 		case 0:
 			requestInfo = experimentLeaderboard;
@@ -110,14 +109,12 @@ public class HIM {
 	 * opponent past information
 	 * 
 	 * @param opponentPastInfo
-	 *            : Requestion Information on opponent's past actions before
+	 *            : Information on opponent's past actions before
 	 *            uncertainty limit is applied
 	 * @return pastInfoAfterUncertainty : Requested Information on opponent's
 	 *         past actions after uncertainty limit application
 	 */
 	private static String applyUncertaintyLimit(String opponentPastInfo) {
-		
-		// Apply current uncertainty limit to past information acquired
 		double currentUncertaintyLimit = (double) experimentUncertaintyLevel;
 		String pastInfoAfterUncertainty = opponentPastInfo.substring(0,
 				(int) ((opponentPastInfo.length()) * currentUncertaintyLimit));
@@ -141,7 +138,7 @@ public class HIM {
 	public static void updateAgActionsInReposiory(int currentTournamentIndex,
 			int requestingAgentID, int opponentID, char[] agentsAction) {
 
-		// Initialize Parameters
+		// Parameter variables
 		char agentMatchAct, opponentMatchAct;
 		agentMatchAct = agentsAction[0];
 		opponentMatchAct = agentsAction[1];
@@ -254,7 +251,7 @@ public class HIM {
 	}
 
 	/**
-	 * displayAgentsTournamentStats methoddevelops a statistics of players
+	 * displayAgentsTournamentStats method develops a statistics of players
 	 * performance after every tournament in the current experiment.Statistics
 	 * will indicate the following;
 	 * <ul>
@@ -280,13 +277,13 @@ public class HIM {
 		HIR.data = new String[HIR.agentsRequestLimit.length][3];
 		String[] Strategy = StrategySetupManager.Strategies;
 
-		// Update agents' tournament information
+		// update agents' tournament information
 		for (int i = 0; i < (Strategy.length); i++) {
 			HIR.data[i][0] = "Agent " + (i + 1);
 			HIR.data[i][1] = Strategy[i];
 			HIR.data[i][2] = String.valueOf((Agent.agentScores[i]));
 
-			// Store parameters in chart for later display
+			// store parameters in chart for later display
 			writeChartDataset(currentTournamentIndex, i, HIR.data);
 		}
 
@@ -367,7 +364,8 @@ public class HIM {
 
 	/**
 	 * requestOppPastInfo accepts information request about an opponent from the
-	 * agent and based on limitations return the requested info
+	 * agent and based on limitations return the requested info after applying uncertainty
+	 * limit
 	 * 
 	 * @param requestingAgentID
 	 *            : Experiment identity for the agent
@@ -389,7 +387,7 @@ public class HIM {
 			AgentStrategies.infoAcquired = false;
 		}
 
-		// Honour request based on type of info set by experimenter
+		// Honour request based on type of info reqired
 		else {
 			AgentStrategies.infoAcquired = true;
 			switch (requestOption) {
@@ -397,7 +395,6 @@ public class HIM {
 			case 0:
 				opponentPastInfo = getOppFirstAction(requestingAgentID,
 						opponentID);
-
 				break;
 
 			case 1:
@@ -495,6 +492,8 @@ public class HIM {
 	
 		if (HIR.agentActs[opponentID] != null) {
 			opponentPastInfo = String.valueOf(HIR.agentActs[opponentID]);
+			System.out.println((opponentID + 1) + " has played : "
+					+ opponentPastInfo);
 			pastInfoAfterUncertainty = applyUncertaintyLimit(opponentPastInfo);
 		}
 
@@ -503,8 +502,7 @@ public class HIM {
 	}
 
 	/**
-	 * getOpponentFirstDefection method returns the first time current opponent
-	 * defected
+	 * getOpponentFirstDefection method returns the first time it defected
 	 * 
 	 * @param requestingAgentID
 	 *            : Experiment identity for the agent
@@ -709,3 +707,4 @@ public class HIM {
 	}
 
 }
+

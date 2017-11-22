@@ -56,8 +56,7 @@ public class MatchManager {
 
 		agentsAction = Agent.getMatchedAgentActions(agentID, opponentID,
 				currentTournament, currentRound);
-		String text = "\n" + agentsAction[0] + "\t \t vrs \t "
-				+ agentsAction[1] + "\n";
+		String text = getMatchedAgentsLog();
 		GUI_Simulation.txtSim.append(text);
 
 		// Store mateched agents actions in Tournament Board
@@ -78,10 +77,22 @@ public class MatchManager {
 
 	}
 
-	
+	/**
+	 * getMatchedAgentsLog() returns a string of the actions of the matched
+	 * agent and its opponent to be displayed on the simulation log window.
+	 * 
+	 * @return log : string of actions of agent and its opponent 
+	 */
+	private static String getMatchedAgentsLog() {
+		String log = "\n" + agentsAction[0] + "\t \t vrs \t "
+				+ agentsAction[1] + "\n";
+		return log;
+	}
+
+
 	/**
 	 * calcMatchedAgentsScores method calculates the payoffs associated with the
-	 * actions of the matched agents	 * 
+	 * actions of the matched agents	 
 	 * @param agentsActions
 	 *            : Selected actions of both player and his opponent
 	 * 
@@ -122,8 +133,7 @@ public class MatchManager {
 		matchScores[1] = opponentScore;
 
 		if (agentsActions[1] != DUMMY) {
-			String calculatedScores = matchScores[0] + "\t \t vrs \t "
-					+ matchScores[1] + "\n\n";
+			String calculatedScores = getCalculatedScoreLog(matchScores);
 			GUI_Simulation.txtSim.append(calculatedScores);
 
 			// Store calculated actions in tournament board
@@ -139,5 +149,17 @@ public class MatchManager {
 
 		return matchScores;
 
+	}
+
+	/**
+	 * getCalculatedScoreLog returns the calculated scores of the match
+	 * between the two paired agents to be displayed on the simulation log window
+	 * @param matchScores	: Scores of agent and opponent
+	 * @return log	: String of scores for both agent and opponent 
+	 */
+	private static String getCalculatedScoreLog(float matchScores[]) {
+		String log = matchScores[0] + "\t \t vrs \t "
+				+ matchScores[1] + "\n\n";
+		return log;
 	}
 }

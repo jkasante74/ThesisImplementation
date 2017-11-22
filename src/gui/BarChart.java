@@ -73,14 +73,14 @@ import java.awt.Font;
  */
 public class BarChart extends JFrame {
 
-	/* Variables Declaration and initialization */
-	private static final long serialVersionUID = 1L;
+	/* Parameter variables */
 	public static DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+	private static final long serialVersionUID = 1L;
 	private static int expNum; // requested experiment index
 
 	/**
 	 * BarChart constructor. (For invocation by subclass constructors, typically
-	 * implicit.) Creates a Bar chart of Players' pay-offs against each
+	 * implicit.) Creates a bar chart of Players' pay-offs against each
 	 * tournament of game played. BarChart constructor also defines a title for
 	 * the chart as well as the frame. Modified sections identified
 	 * 
@@ -94,7 +94,6 @@ public class BarChart extends JFrame {
 
 		super(frameTitle);
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		// final CategoryDataset dataset = createDataset();
 		final JFreeChart chart = ChartFactory.createBarChart(chartTitle,
 				"Tournament", "Pay-Off", /** Modified from original code **/
 				createDataset(), PlotOrientation.VERTICAL, true, true, false);
@@ -125,10 +124,9 @@ public class BarChart extends JFrame {
 	 *         and tournament information.
 	 */
 	private DefaultCategoryDataset createDataset() {
-		/* clear dataset */
 		dataset.clear();
 
-		/* Query HIM to submit data for bar chart display */
+		// Query HIM to submit data for bar chart display 
 		HIM.getDataset(expNum);
 
 		return dataset; // add the data point (y-value, variable, x-value)

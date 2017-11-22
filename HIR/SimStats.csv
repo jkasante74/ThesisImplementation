@@ -7,62 +7,66 @@ EXPERIMENT 1
 
 Tounament 1
 -----------------------
-Agent 5	Advanced_D	13.0
-Agent 3	Naive_D	13.0
-Agent 6	Advanced_D	9.0
-Agent 4	Advanced_C	6.0
-Agent 2	Advanced_C	6.0
-Agent 1	Naive_C	6.0
+Agent 1	Advanced_C	11.0
+Agent 8	Advanced_D	10.0
+Agent 6	Naive_D	10.0
+Agent 4	Advanced_C	8.0
+Agent 5	Advanced_C	7.0
+Agent 3	Advanced_C	7.0
+Agent 2	Advanced_D	6.0
 
 Statistics 
- Min : 6.0
-Average : 8.833333333333334
-Max : 13.0
+ Min : 0.0
+Average : 7.375
+Max : 11.0
 
 
 Tounament 2
 -----------------------
-Agent 5	Advanced_D	22.0
-Agent 3	Naive_D	22.0
-Agent 6	Advanced_D	18.0
-Agent 4	Advanced_C	13.0
-Agent 2	Advanced_C	13.0
-Agent 1	Naive_C	12.0
+Agent 1	Advanced_C	17.0
+Agent 8	Advanced_D	16.0
+Agent 6	Naive_D	16.0
+Agent 4	Advanced_C	14.0
+Agent 5	Advanced_C	13.0
+Agent 3	Advanced_C	13.0
+Agent 2	Advanced_D	12.0
 
 Statistics 
- Min : 12.0
-Average : 16.666666666666668
-Max : 22.0
+ Min : 0.0
+Average : 12.625
+Max : 17.0
 
 
 Tounament 3
 -----------------------
-Agent 5	Advanced_D	31.0
-Agent 3	Naive_D	31.0
-Agent 6	Advanced_D	27.0
+Agent 1	Advanced_C	23.0
+Agent 8	Advanced_D	22.0
+Agent 6	Naive_D	22.0
 Agent 4	Advanced_C	20.0
-Agent 2	Advanced_C	20.0
-Agent 1	Naive_C	18.0
+Agent 5	Advanced_C	19.0
+Agent 3	Advanced_C	19.0
+Agent 2	Advanced_D	18.0
 
 Statistics 
- Min : 18.0
-Average : 24.5
-Max : 31.0
+ Min : 0.0
+Average : 17.875
+Max : 23.0
 
 
 Tounament 4
 -----------------------
-Agent 5	Advanced_D	40.0
-Agent 3	Naive_D	40.0
-Agent 6	Advanced_D	36.0
-Agent 4	Advanced_C	27.0
-Agent 2	Advanced_C	27.0
-Agent 1	Naive_C	24.0
+Agent 1	Advanced_C	29.0
+Agent 8	Advanced_D	28.0
+Agent 6	Naive_D	28.0
+Agent 4	Advanced_C	26.0
+Agent 5	Advanced_C	25.0
+Agent 3	Advanced_C	25.0
+Agent 2	Advanced_D	24.0
 
 Statistics 
- Min : 24.0
-Average : 32.333333333333336
-Max : 40.0
+ Min : 0.0
+Average : 23.125
+Max : 29.0
 
 EXPERIMENT 2
 -----------------------
@@ -71,47 +75,53 @@ EXPERIMENT 2
 
 Tounament 1
 -----------------------
-Agent 6	Advanced_D	13.0
-Agent 4	Naive_D	9.0
-Agent 3	Advanced_D	9.0
-Agent 2	Advanced_C	9.0
-Agent 1	Advanced_C	8.0
-Agent 5	Naive_C	6.0
+Agent 6	Advanced_C	12.0
+Agent 4	Advanced_D	11.0
+Agent 3	Naive_D	11.0
+Agent 2	Advanced_C	11.0
+Agent 1	Advanced_D	11.0
+Agent 8	Advanced_C	8.0
+Agent 7	Advanced_C	8.0
+Agent 5	Advanced_C	8.0
 
 Statistics 
- Min : 6.0
-Average : 9.0
-Max : 13.0
+ Min : 8.0
+Average : 10.0
+Max : 12.0
 
 
 Tounament 2
 -----------------------
-Agent 6	Advanced_D	22.0
-Agent 4	Naive_D	18.0
-Agent 3	Advanced_D	18.0
+Agent 6	Advanced_C	19.0
+Agent 4	Advanced_D	18.0
+Agent 3	Naive_D	18.0
 Agent 2	Advanced_C	18.0
-Agent 1	Advanced_C	17.0
-Agent 5	Naive_C	12.0
+Agent 1	Advanced_D	18.0
+Agent 8	Advanced_C	15.0
+Agent 7	Advanced_C	15.0
+Agent 5	Advanced_C	15.0
 
 Statistics 
- Min : 12.0
-Average : 17.5
-Max : 22.0
+ Min : 15.0
+Average : 17.0
+Max : 19.0
 
 
 Tounament 3
 -----------------------
-Agent 6	Advanced_D	31.0
-Agent 4	Naive_D	27.0
-Agent 3	Advanced_D	27.0
-Agent 2	Advanced_C	27.0
-Agent 1	Advanced_C	26.0
-Agent 5	Naive_C	18.0
+Agent 6	Advanced_C	26.0
+Agent 4	Advanced_D	25.0
+Agent 3	Naive_D	25.0
+Agent 2	Advanced_C	25.0
+Agent 1	Advanced_D	25.0
+Agent 8	Advanced_C	22.0
+Agent 7	Advanced_C	22.0
+Agent 5	Advanced_C	22.0
 
 Statistics 
- Min : 18.0
-Average : 26.0
-Max : 31.0
+ Min : 22.0
+Average : 24.0
+Max : 26.0
 
 
 Tounament 4
@@ -121,14 +131,16 @@ Tounament 4
 
 Tounament 4
 -----------------------
-Agent 6,Advanced_D,40.0
-Agent 4,Naive_D,36.0
-Agent 3,Advanced_D,36.0
-Agent 2,Advanced_C,36.0
-Agent 1,Advanced_C,35.0
-Agent 5,Naive_C,24.0
+Agent 6,Advanced_C,33.0
+Agent 4,Advanced_D,32.0
+Agent 3,Naive_D,32.0
+Agent 2,Advanced_C,32.0
+Agent 1,Advanced_D,32.0
+Agent 8,Advanced_C,29.0
+Agent 7,Advanced_C,29.0
+Agent 5,Advanced_C,29.0
 
 Statistics 
- Min : ,24.0
-Average : ,34.5
-Max : ,40.0
+ Min : ,29.0
+Average : ,31.0
+Max : ,33.0

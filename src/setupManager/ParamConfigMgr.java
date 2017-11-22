@@ -38,7 +38,7 @@ public class ParamConfigMgr {
 	private static final String ADVANCED_DEFECTOR = "Advanced_D";
 	
 	/**
-	 * initiate method begins the parameter Configuration Manager's function
+	 * Initiate method begins the parameter Configuration Manager's function
 	 * of reading and validating setup values and also notify the simulation
 	 * manager to begin simulations.
 	 * @throws IOException
@@ -172,7 +172,7 @@ public class ParamConfigMgr {
 	
 	/**
 	 * getSimulationParam method upon request from the simulation manager retrieves
-	 * experiment parameters and sends them to the Simulation Manager.
+	 * experiment parameters and sends them to the simulation manager.
 	 * 
 	 * @param i
 	 *            : index of current experiment
@@ -186,13 +186,13 @@ public class ParamConfigMgr {
 
 			String[] setupParam = lineParam.split(",");
 
-			int NumOfTournament = Integer.parseInt(setupParam[4]);
+			int numOfTournament = Integer.parseInt(setupParam[4]);
 			float uncertaintyLevel = Float.parseFloat(setupParam[5]);
 			int numOfAgents = StrategySetupManager.agents;
 			String[] Strategies = StrategySetupManager.Strategies;
 			int[] agentsRequestLimit = getRequestLimit();
 
-			HIM.initializeParameters(i, NumOfTournament, uncertaintyLevel,
+			HIM.initializeParameters(i, numOfTournament, uncertaintyLevel,
 					agentsRequestLimit, numOfAgents, setupParam,
 					requestLimitOption);
 

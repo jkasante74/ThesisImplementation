@@ -72,11 +72,10 @@ public class TournamentHandler {
 	 */
 	private static void printTournamentStats(float currentTournamentIndex) {
 
-		tournamentStats = "\nRound-Robin Tournament "
-				+ (currentTournamentIndex + 1) + "\n" + "===================\n";
+		tournamentStats = getTournamentTitleLog(currentTournamentIndex);
 		GUI_Simulation.txtSim.append(tournamentStats);
-		String tx = "\nRound-Robin Tournament " + (currentTournamentIndex + 1)
-				+ "\n";
+		String tx = getTournamentTitleForBoard(currentTournamentIndex);
+		
 		// Store current tournament title in tournament board
 		try {
 			Files.write(Paths.get(TOURNAMENTBOARD), tx.getBytes());
@@ -85,6 +84,33 @@ public class TournamentHandler {
 			JOptionPane.showMessageDialog(null, FILENOTFOUND);
 		}
 
+	}
+	
+	
+	/**
+	 * getTournamentTitleForBoard method returns current tournament title to be
+	 * stored on the tournament board for pickup by the HIM
+	 * @param currentTournamentIndex : current tournament number
+	 * @return	log : String of current tournament title
+	 */
+	private static String getTournamentTitleForBoard(
+			float currentTournamentIndex) {
+		String log = "\nRound-Robin Tournament " + (currentTournamentIndex + 1)
+		+ "\n";
+		return log;
+	}
+
+	
+	/**
+	 * getTournamentTitleLog method returns current tournament title to be
+	 * displayed on the simulation log
+	 * @param currentTournamentIndex : current tournament number
+	 * @return	log : String of current tournament title displayed in simulation log
+	 */
+	private static String getTournamentTitleLog(float currentTournamentIndex) {
+		String log = "\nRound-Robin Tournament "
+				+ (currentTournamentIndex + 1) + "\n" + "===================\n";
+		return log;
 	}
 
 }

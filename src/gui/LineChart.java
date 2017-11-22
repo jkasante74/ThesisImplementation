@@ -62,7 +62,7 @@ import java.awt.Font;
 
 public class LineChart extends JFrame {
 
-	/* Variables Declaration and initialization */
+	// Parameter variables 
 	private static final long serialVersionUID = 1L;
 	public static DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 	private static int expNum; // requested Experiment index
@@ -87,15 +87,12 @@ public class LineChart extends JFrame {
 		frame.setDefaultCloseOperation(frame.getDefaultCloseOperation());
 		JFreeChart lineChart = ChartFactory.createLineChart(chartTitle,
 				"Tournament", "Pay-Off", /** Modified from original code **/
-				createDataset(), PlotOrientation.VERTICAL, true, true, false); // plot
-																				// graph
+				createDataset(), PlotOrientation.VERTICAL, true, true, false); // plot graph
+																				
 		lineChart.setBackgroundPaint(Color.white); // set background color
 
 		ChartPanel chartPanel = new ChartPanel(lineChart);
-		chartPanel.setPreferredSize(new java.awt.Dimension(1200, 700)); // Create
-																		// dimensions
-																		// for
-																		// window
+		chartPanel.setPreferredSize(new java.awt.Dimension(1200, 700)); 
 		setContentPane(chartPanel);
 		chartPanel.setLayout(null);
 
@@ -121,10 +118,10 @@ public class LineChart extends JFrame {
 	 *         and tournament information.
 	 */
 	private DefaultCategoryDataset createDataset() {
-		/* clear dataset */
+		// clear dataset 
 		dataset.clear();
 
-		/* Query HIM to submit data for line chart display */
+		// Query HIM to submit data for line chart display 
 		HIM.getDataset(expNum);
 
 		return dataset; // add the data point (y-value, variable, x-value)
@@ -148,8 +145,7 @@ public class LineChart extends JFrame {
 				"Line Graph of Agent Pay-Off vrs Tournament", " ");
 		/** Title Modified from original code **/
 		chart.pack(); // resize the window to fit the graph
-		RefineryUtilities.centerFrameOnScreen(chart); // display chart on center
-														// screen
+		RefineryUtilities.centerFrameOnScreen(chart); // display chart on screen											
 		chart.setVisible(true); // show the chart
 	}
 }

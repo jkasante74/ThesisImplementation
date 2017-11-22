@@ -120,30 +120,30 @@ public class Agent {
 		char agentAction = 0, OpponentAction = 0;
 		currentTournament = presentTournament;
 
-		String a = agentStrategies[requestingAgentID];
-		String b = agentStrategies[opponentID];
+		String agentStrategi = agentStrategies[requestingAgentID];
+		String opponentStrategi = agentStrategies[opponentID];
 
 		// Get action of requesting agent
-		if (a.equalsIgnoreCase(NAIVE_COOPERATOR))
+		if (agentStrategi.equalsIgnoreCase(NAIVE_COOPERATOR))
 			agentAction = AgentStrategies.cooperateAll();
-		if (a.equalsIgnoreCase(NAIVE_DEFECTOR))
+		if (agentStrategi.equalsIgnoreCase(NAIVE_DEFECTOR))
 			agentAction = AgentStrategies.defectAll();
-		if (a.equalsIgnoreCase(ADVANCE_COOPERATOR))
+		if (agentStrategi.equalsIgnoreCase(ADVANCE_COOPERATOR))
 			agentAction = AgentStrategies.advanceCooperator(requestingAgentID,
 					opponentID, currentTournament, currentRound);
-		if (a.equalsIgnoreCase(ADVANCE_DEFECTOR))
+		if (agentStrategi.equalsIgnoreCase(ADVANCE_DEFECTOR))
 			agentAction = AgentStrategies.advanceDefector(requestingAgentID,
 					opponentID, currentTournament, currentRound);
-
+		
 		// Get action of opponent
-		if (b.equalsIgnoreCase(NAIVE_COOPERATOR))
+		if (opponentStrategi.equalsIgnoreCase(NAIVE_COOPERATOR))
 			OpponentAction = AgentStrategies.cooperateAll();
-		if (b.equalsIgnoreCase(NAIVE_DEFECTOR))
+		if (opponentStrategi.equalsIgnoreCase(NAIVE_DEFECTOR))
 			OpponentAction = AgentStrategies.defectAll();
-		if (b.equalsIgnoreCase(ADVANCE_COOPERATOR))
+		if (opponentStrategi.equalsIgnoreCase(ADVANCE_COOPERATOR))
 			OpponentAction = AgentStrategies.advanceCooperator(opponentID,
 					requestingAgentID, currentTournament, currentRound);
-		if (b.equalsIgnoreCase(ADVANCE_DEFECTOR))
+		if (opponentStrategi.equalsIgnoreCase(ADVANCE_DEFECTOR))
 			OpponentAction = AgentStrategies.advanceDefector(requestingAgentID,
 					opponentID, currentTournament, currentRound);
 
@@ -155,7 +155,7 @@ public class Agent {
 	}
 
 	/**
-	 * updateMatchedAgentsScores method Updates the score for each agent
+	 * updateMatchedAgentsScores method updates the score for each agent
 	 * participating in the current match
 	 * 
 	 * @param requestingAgentID
@@ -169,9 +169,8 @@ public class Agent {
 	 */
 	public static void updateMatchedAgentsScores(int requestingAgentID,
 			int opponentID, float[] matchScores) {
-		agentScores[requestingAgentID] = agentScores[requestingAgentID]
-				+ matchScores[0];
-		agentScores[opponentID] = agentScores[opponentID] + matchScores[1];
+		agentScores[requestingAgentID] += matchScores[0];
+		agentScores[opponentID] += matchScores[1];
 	}
 
 	/**
