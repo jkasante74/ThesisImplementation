@@ -12,12 +12,13 @@ public class AgentStrategies {
 	// Private Variables
 	private static final char COOPERATE = 'C';
 	private static final char DEFECT = 'D';
-	private static float tempt;
-	private static float reward;
-	private static float punish;
-	private static float sucker;
-	private static double ALPHA = 0.5, BETA = 0.5;
-	private static double Wcc = 1.0, Wcd = 1.0, Wdc = 1.0, Wdd = 1.0; 
+	private static float TEMPT;
+	private static float REWARD;
+	private static float PUNISH;
+	private static char opponentFirstAct;
+	@SuppressWarnings("unused")
+	private static float SUCKER;
+	private static double ALPHA = 0.5, BETA = 0.5,DISCOUNTFACTOR = 0.9;
 	/**
 	 * DefectAll strategy defects at all times no matter what the opponent does
 	 * 
@@ -83,87 +84,17 @@ public class AgentStrategies {
 			else if(opponentCooperateRatio <= 0.1)
 				matchAction = DEFECT;
 			
-			// Decide using Returns-based belief
+			// Make strategic decision if agent is advanced
 			else
-			//	matchAction = returnBasedBeliefAction(opponentCooperateRatio,requestingAgentID, opponentID);
-			//	matchAction = returnAltruisticReciprocityAction(opponentCooperateRatio,requestingAgentID, opponentID);
-				matchAction = returnSubjectiveExpcteduUtility(opponentCooperateRatio,requestingAgentID, opponentID);
-
+			//	matchAction = reciprocityAction(opponentCooperateRatio,requestingAgentID, opponentID);
+				matchAction = superRationalWithDiscountFactor(opponentCooperateRatio);
 		}
 
 		return matchAction;
 	}
 
-	/**
-	 * returnSubjectiveExpcteduUtility method returns the action based on the maximum expected outcome
-	 * and the opponent's cooperation index.
-	 * 
-	 * @param opponentCooperateRatio
-	 * @param requestingAgentID
-	 * @param opponentID
-	 * @return
-	 */
-	private static char returnSubjectiveExpcteduUtility(
-			double opponentCooperateRatio, int requestingAgentID, int opponentID) {
-		
-		char matchAction = COOPERATE; // Set default action
-		
-		// Calculate the game weight for different instances
-		double ccWeight = ((1 - ALPHA)*Wcc) + (ALPHA*reward);
-		double cdWeight = ((1 - ALPHA)*Wcd) + (ALPHA*sucker);
-		double dcWeight = ((1 - ALPHA)*Wdc) + (ALPHA*tempt);
-		double ddWeight = ((1 - ALPHA)*Wdd) + (ALPHA*punish);
-		
-		// Update values
-		Wcc = ccWeight;
-		Wcd = cdWeight;
-		Wdc = dcWeight;
-		Wdd = ddWeight;
-		
-		// Update Opponent probability of cooperation
-		double probOfCooperatingD = ((1 - BETA)*opponentCooperateRatio) +(BETA * 0);
-		double probOfCooperatingC = ((1 - BETA)*opponentCooperateRatio) +(BETA * 1);
-		
-		// Calculate subject game value
-		double cooperateValue = 0.0;
-		double defectValue = 0.0;
-	//	cooperateValue = (Wcc * reward * probOfCooperatingC) + (Wcd * sucker * (1 - probOfCooperatingD));
-	//	defectValue = (Wdc * tempt * probOfCooperatingC) + (Wdd * punish * (1 - probOfCooperatingD));
 	
-		cooperateValue = (reward * opponentCooperateRatio) + (sucker * (1 - opponentCooperateRatio));
-		defectValue = (tempt * opponentCooperateRatio) + (punish * (1 - opponentCooperateRatio));
-		
-		double probAction = (cooperateValue)/(cooperateValue + defectValue);
-		
-		if(probAction >= (1 - probAction))
-			matchAction = COOPERATE;
-		else
-			matchAction = DEFECT;
-		
-		return matchAction;
-	}
-
-	/**
-	 * returnAltruisticReciprocityAction method returns the action based on altruism reciprocity
-	 * such that the agent cooperate only when the opponent has a higher cooperating index else it defects
-	 * 
-	 * @param opponentCooperateRatio
-	 * @param requestingAgentID
-	 * @param opponentID
-	 * @return
-	 */
-	private static char returnAltruisticReciprocityAction(
-			double opponentCooperateRatio, int requestingAgentID, int opponentID) {
-		
-		char matchAction;
-		if(opponentCooperateRatio >= 0.5)
-			matchAction = COOPERATE;
-		else
-			matchAction = DEFECT;
-			
-		return matchAction;
-	}
-
+	//advance Defector here
 	/**
 	 * advancedDefector strategy cooperates or defects based on a strategic
 	 * analysis of acquired past information and updated belief on opponent with
@@ -197,12 +128,66 @@ public class AgentStrategies {
 			
 			// Decide using returns-based beliefs
 			else
-			//	matchAction = returnBasedBeliefAction(opponentCooperateRatio,requestingAgentID, opponentID);
-				matchAction = returnSubjectiveExpcteduUtility(opponentCooperateRatio,requestingAgentID, opponentID);
+			//	matchAction = reciprocityAction(opponentCooperateRatio,requestingAgentID, opponentID);
+				matchAction = superRationalWithDiscountFactor(opponentCooperateRatio);
 		}
 		return matchAction;
 	}
 
+	
+	private static char superRationalWithDiscountFactor(double opponentCooperateRatio) {
+		char matchAction; // Set default action
+
+		if(opponentFirstAct == COOPERATE)
+			matchAction = COOPERATE;
+		
+		else{
+		
+			// Find opponent defect ratio
+			double opponentDefectRatio = 1.0 - opponentCooperateRatio;
+		
+		
+			//Calculate opponent cooperate expected function
+			double opponentCooperateExpectation = opponentCooperateRatio * (REWARD / (1 - DISCOUNTFACTOR));
+			
+			//Calculate opponent defect expected function
+			double opponentDefectExpectation = opponentDefectRatio * (TEMPT + ((DISCOUNTFACTOR * PUNISH) / (1 - DISCOUNTFACTOR)));
+		
+			// JOptionPane.showMessageDialog(null, "Opponent Cooperate Expectation : "+opponentCooperateExpectation +"\n"+"Opponent Defect Expectation : "+opponentDefectExpectation);
+		
+			// Make decision based on opponent Expectations
+			if(opponentCooperateExpectation >= opponentDefectExpectation)
+				matchAction = COOPERATE;
+			else
+				matchAction = DEFECT;
+		}
+		
+		return matchAction;
+	}
+
+	
+	/**
+	 * returnAltruisticReciprocityAction method returns the action based on altruism reciprocity
+	 * such that the agent cooperate only when the opponent has a higher cooperating index else it defects
+	 * 
+	 * @param opponentCooperateRatio
+	 * @param requestingAgentID
+	 * @param opponentID
+	 * @return
+	 */
+	private static char reciprocityAction(
+			double opponentCooperateRatio, int requestingAgentID, int opponentID) {
+		
+		char matchAction;
+		if(opponentCooperateRatio >= 0.5)
+			matchAction = COOPERATE;
+		else
+			matchAction = DEFECT;
+			
+		return matchAction;
+	}
+
+	
 	/**
 	 * getOpponentPastInfo request for past opponent action from the HIM and
 	 * calculate the cooperating level of opponent which is stored in the
@@ -229,6 +214,7 @@ public class AgentStrategies {
 		case 0:
 			opponentInformation = HIM.requestOppPastInfo(requestingAgentID,
 					opponentID, pastInfoTypeIndex);
+			
 			if (infoAcquired) {
 				if (opponentInformation.equalsIgnoreCase("D"))
 					opponentCooperateRatio = 0.0;
@@ -252,8 +238,13 @@ public class AgentStrategies {
 		case 2:
 			opponentInformation = HIM.requestOppPastInfo(requestingAgentID,
 					opponentID, pastInfoTypeIndex);
-			if (infoAcquired)
+			
+			if (infoAcquired){
 				opponentCooperateRatio = calcOppRating(opponentInformation);
+				opponentFirstAct = opponentInformation.charAt(0);
+			//	JOptionPane.showMessageDialog(null, opponentFirstAct);
+
+			}
 			break;
 
 		// Request all opponent's past actions from a random tournament
@@ -262,6 +253,7 @@ public class AgentStrategies {
 					opponentID, pastInfoTypeIndex);
 			if (infoAcquired) {
 				opponentCooperateRatio = calcOppRating(opponentInformation);
+				opponentFirstAct = opponentInformation.charAt(0);
 			}
 			break;
 
@@ -329,69 +321,16 @@ public class AgentStrategies {
 		Agent.agentBeliefs[requestingAgentID][opponentID] = opponentCooperateRatio;
 	}
 
-	/**
-	 * returnBasedBeliefAction returns the requesting agent's action based on returns-based belief about the agent
-	 * @param opponentCooperateRatio
-	 * @param requestingAgentID
-	 * @param opponentID
-	 * @return
-	 */
-	private static char returnBasedBeliefAction(double opponentCRatio,
-			int requestingAgentID, int opponentID) {
-		
-		double gameValue = 0.0;
-		double gameValueInSig = 0.0;
-		char requestingAgentAction;
-		
-		
-		//Calculate opponent defect ratio
-		double opponentCooperateRatio = (Math.round((opponentCRatio)*100));
-		double opponentDRatio = 1 - opponentCRatio;
-		double opponentDefectRatio = (Math.round((opponentDRatio)*100));
-		
-		
-		// Calculate sum of rewards
-		double agentCooperateReward = ((reward + Agent.gameValue[requestingAgentID][opponentID]) * opponentCooperateRatio) 
-										+ ((sucker + Agent.gameValue[requestingAgentID][opponentID]) * opponentDefectRatio);
-		
-		double agentDefectionReward = ((tempt  + Agent.gameValue[requestingAgentID][opponentID]) * opponentCooperateRatio)  
-										+ ((punish  + Agent.gameValue[requestingAgentID][opponentID]) * opponentDefectRatio);
-		
-		// Calculate agent's probability of playing a strategy
-		double agentCooperateProbability = (agentCooperateReward / (agentCooperateReward + agentDefectionReward));
-		double agentDefectProbability =    (agentDefectionReward / (agentCooperateReward + agentDefectionReward));
-		
-		double agentCProbability = (Math.round(agentCooperateProbability * 100));
-		double agentDProbability = (Math.round(agentDefectProbability * 100));
-		
-	//	JOptionPane.showMessageDialog(null,"Agent "+ (requestingAgentID+1) +" : Cooperate Probability : " + (agentCProbability/100) + "\n" + "Defect Probability : " + (agentDProbability/100));
-		
-		// Calculate the game value
-		gameValue = (agentCooperateProbability* (agentCooperateProbability * reward) + (agentDefectProbability * sucker)) 
-				+ (agentDefectProbability* (agentCooperateProbability * tempt) + (agentDefectProbability * punish));
-		
-		gameValueInSig = Math.round(gameValue * 100);
-		
-		// Update game value with opponent
-		Agent.gameValue[requestingAgentID][opponentID] = (gameValueInSig/100); 
-		
-		// Return Action based on highest probability
-		if((agentDProbability/100) > (agentCProbability/100))
-			requestingAgentAction = DEFECT;
-		else
-			requestingAgentAction = COOPERATE;
-		
-		return requestingAgentAction;
-	}
+	
 	
 	
 	
 	public static void setPayOffValues(int[] currentSetupValues) {
 		
-		tempt = currentSetupValues[0];
-		reward = currentSetupValues[1];
-		punish = currentSetupValues[2];
-		sucker = currentSetupValues[3];
+		TEMPT = currentSetupValues[0];
+		REWARD = currentSetupValues[1];
+		PUNISH = currentSetupValues[2];
+		SUCKER = currentSetupValues[3];
 	}
 	
 	

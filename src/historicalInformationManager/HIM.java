@@ -2,6 +2,7 @@ package historicalInformationManager;
 
 import gui.AreaChart;
 import gui.BarChart;
+import gui.BarChartx;
 import gui.LineChart;
 
 import java.io.BufferedReader;
@@ -10,8 +11,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -340,7 +343,7 @@ public class HIM {
 			String[][] data) throws IOException {
 		String x_axis = "T " + (currentTournamentIndex + 1);
 		chartsInfo = chartsInfo + String.valueOf(currentExperimentIndex) + ","
-				+ HIR.data[i][2] + "," + HIR.data[i][0] + "," + x_axis + "\n";
+				+ HIR.data[i][2] + "," + HIR.data[i][0] + "," + HIR.data[i][1] + "," + x_axis + "\n";
 
 		Files.write(Paths.get(CHARTS_FILE), chartsInfo.getBytes());
 	}
@@ -650,10 +653,15 @@ public class HIM {
 	 *            a graph.
 	 */
 	public static void getDataset(int selectedExperimentIndex) {
-
+		
+		ArrayList<String> myAgentStrategies = new ArrayList<String>(Arrays.asList(StrategySetupManager.Strategies));
+		BarChart.agentStrategies = myAgentStrategies;
+		
 		readLines(selectedExperimentIndex);
 
 	}
+	
+
 
 	/**
 	 * readLines method locates the chartInfo file in HIR and reads all
@@ -687,17 +695,17 @@ public class HIM {
 						.valueOf((currentExperimentIndex + 1)))) {
 					LineChart.dataset.addValue(
 							Float.parseFloat(chartDataset[1]), chartDataset[2],
-							chartDataset[3]);
-					BarChart.dataset.addValue(
+							chartDataset[4]);
+					BarChartx.dataset.addValue(
 							Float.parseFloat(chartDataset[1]), chartDataset[2],
-							chartDataset[3]);
+							chartDataset[4]);
 					AreaChart.dataset.addValue(
 							Float.parseFloat(chartDataset[1]), chartDataset[2],
-							chartDataset[3]);
+							chartDataset[4]);
 
 				}
 			}
-
+			
 			b.close();
 		} catch (IOException err) {
 			JOptionPane.showMessageDialog(null, FILE_NOT_FOUND);

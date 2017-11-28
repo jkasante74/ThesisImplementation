@@ -664,6 +664,7 @@ public class GUI {
 						"All Opponent's Past Actions",
 						"Opponent's Past Action in Random Tournament",
 						"Past Actions of other Agents against Opponent" }));
+		cmbInfoReqApproach.setSelectedIndex(2);
 		cmbInfoReqApproach.setBounds(6, 23, 346, 27);
 		panel_5.add(cmbInfoReqApproach);
 
@@ -732,7 +733,7 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				String expIndex[] = { String.valueOf(cmbExpSel
 						.getSelectedIndex()) };
-				BarChart.main(expIndex);
+				BarChartx.main(expIndex);
 			}
 		});
 		btnBarChart.setBounds(240, 111, 117, 66);
