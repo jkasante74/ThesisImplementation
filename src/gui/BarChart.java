@@ -46,24 +46,33 @@ package gui;
 
 import historicalInformationManager.HIM;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Paint;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.ItemLabelAnchor;
+import org.jfree.chart.labels.ItemLabelPosition;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.RefineryUtilities;
+import org.jfree.ui.TextAnchor;
 
 import javax.swing.JLabel;
 
 import java.awt.Font;
+import java.util.ArrayList;
 
 /**
- * BarChart class creates and displays an area chart depending on selected
+ * BarChartx class creates and displays an area chart depending on selected
  * experiment number and using data from experimental results stored in HIR by
  * HIM.
  * 
@@ -77,11 +86,47 @@ public class BarChart extends JFrame {
 	public static DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 	private static final long serialVersionUID = 1L;
 	private static int expNum; // requested experiment index
+	public static ArrayList<String> agentStrategies = new ArrayList<String>();
+	
+	
+	class DifferenceBarRenderer extends BarRenderer {
+		  /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		public DifferenceBarRenderer() {
+		 }
 
+      /**
+       * Returns the paint for an item.  Overrides the default behaviour
+       * inherited from AbstractSeriesRenderer.
+       *
+       * @param row  the series.
+       * @param column  the category.
+       *
+       * @return The item color.
+       */
+      public Paint getItemPaint(int row, int column) {
+          //CategoryDataset dataset = getPlot().getDataset();
+       
+    	  double value = dataset.getValue(row, column).doubleValue();
+          if (value >= 0.70) {
+              return Color.green;
+          }
+          else {
+              return Color.red;
+          }
+      }
+	}
+	
+	
+	
+	
+	
 	/**
-	 * BarChart constructor. (For invocation by subclass constructors, typically
+	 * BarChartx constructor. (For invocation by subclass constructors, typically
 	 * implicit.) Creates a bar chart of Players' pay-offs against each
-	 * tournament of game played. BarChart constructor also defines a title for
+	 * tournament of game played. BarChartx constructor also defines a title for
 	 * the chart as well as the frame. Modified sections identified
 	 * 
 	 * @param frameTitle
@@ -97,6 +142,9 @@ public class BarChart extends JFrame {
 		final JFreeChart chart = ChartFactory.createBarChart(chartTitle,
 				"Tournament", "Pay-Off", /** Modified from original code **/
 				createDataset(), PlotOrientation.VERTICAL, true, true, false);
+		
+		
+		
 		final ChartPanel chartPanel = new ChartPanel(chart);
 		chartPanel.setPreferredSize(new Dimension(1200, 770));
 		setContentPane(chartPanel);
@@ -124,14 +172,18 @@ public class BarChart extends JFrame {
 	 *         and tournament information.
 	 */
 	private DefaultCategoryDataset createDataset() {
+		
 		dataset.clear();
-
+		
 		// Query HIM to submit data for bar chart display 
 		HIM.getDataset(expNum);
+		JOptionPane.showMessageDialog(null, agentStrategies);
 
 		return dataset; // add the data point (y-value, variable, x-value)
 	}
 
+	
+	
 	/**
 	 * Main method that creates Application frame, centers it on the screen, and
 	 * makes the chart visible.
@@ -150,6 +202,7 @@ public class BarChart extends JFrame {
 		demo.pack();
 		RefineryUtilities.centerFrameOnScreen(demo);
 		demo.setVisible(true);
-
 	}
 }
+
+

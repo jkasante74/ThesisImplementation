@@ -2,6 +2,7 @@ package historicalInformationManager;
 
 import gui.AreaChart;
 import gui.BarChart;
+import gui.BarChart3DDemo4;
 import gui.BarChartx;
 import gui.LineChart;
 
@@ -696,7 +697,11 @@ public class HIM {
 					LineChart.dataset.addValue(
 							Float.parseFloat(chartDataset[1]), chartDataset[2],
 							chartDataset[4]);
-					BarChartx.dataset.addValue(
+					BarChart.dataset.addValue(
+							Float.parseFloat(chartDataset[1]), chartDataset[2],
+							chartDataset[4]);
+
+					BarChart3DDemo4.dataset.addValue(
 							Float.parseFloat(chartDataset[1]), chartDataset[2],
 							chartDataset[4]);
 					AreaChart.dataset.addValue(

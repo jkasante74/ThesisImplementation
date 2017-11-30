@@ -733,7 +733,7 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				String expIndex[] = { String.valueOf(cmbExpSel
 						.getSelectedIndex()) };
-				BarChartx.main(expIndex);
+				BarChart.main(expIndex);
 			}
 		});
 		btnBarChart.setBounds(240, 111, 117, 66);
@@ -761,6 +761,18 @@ public class GUI {
 		lblSelectExperiment.setForeground(Color.DARK_GRAY);
 		lblSelectExperiment.setBounds(38, 16, 152, 16);
 		tbnGraph.add(lblSelectExperiment);
+		
+		final JButton btnBarChart3D = new JButton("Bar Chart 3D");
+		btnBarChart3D.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String expIndex[] = { String.valueOf(cmbExpSel
+						.getSelectedIndex()) };
+				BarChart3DDemo4.main(expIndex);
+			}
+		});
+		btnBarChart3D.setEnabled(false);
+		btnBarChart3D.setBounds(240, 202, 117, 66);
+		tbnGraph.add(btnBarChart3D);
 
 		tabbedPane.addChangeListener(new ChangeListener() { // add the Listener
 
@@ -811,6 +823,8 @@ public class GUI {
 								cmbExpSel.setEnabled(true);
 								btnLineChart.setEnabled(true);
 								btnBarChart.setEnabled(true);
+								btnBarChart3D.setEnabled(true);
+
 								btnAreaChart.setEnabled(true);
 
 							}
