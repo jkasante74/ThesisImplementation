@@ -94,8 +94,8 @@ public class AreaChart extends JFrame {
 		super(frameTitle); // Display frame title
 		JFrame frame = new JFrame(frameTitle);
 		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		JFreeChart areaChart = ChartFactory.createAreaChart(chartTitle,
-				"Tournament", "Pay-Off", /** Modified from original code **/
+		JFreeChart areaChart = ChartFactory.createAreaChart( "Experiment : "+ (expNum+1),
+				"Tournament", "Cummulative Pay-Off", /** Modified from original code **/
 				createDataset(), PlotOrientation.VERTICAL, true, true, false); // plot
 																				// graph
 		areaChart.setBackgroundPaint(Color.white); // set background color
@@ -105,17 +105,6 @@ public class AreaChart extends JFrame {
 
 		setContentPane(chartPanel);
 		chartPanel.setLayout(null);
-
-		JLabel lblExpNum = new JLabel("0");
-		lblExpNum.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		lblExpNum.setBounds(146, 11, 43, 16);
-		chartPanel.add(lblExpNum);
-		lblExpNum.setText(String.valueOf(expNum + 1));
-
-		JLabel label_1 = new JLabel("Experiment ");
-		label_1.setFont(new Font("Lucida Grande", Font.BOLD, 14));
-		label_1.setBounds(58, 6, 86, 25);
-		chartPanel.add(label_1);
 
 	}
 

@@ -66,7 +66,6 @@ public class LineChart extends JFrame {
 	private static final long serialVersionUID = 1L;
 	public static DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 	private static int expNum; // requested Experiment index
-	protected JLabel lblExpNum;
 
 	/**
 	 * LineChart constructor. (For invocation by subclass constructors,
@@ -85,8 +84,8 @@ public class LineChart extends JFrame {
 
 		final JFrame frame = new JFrame(frameTitle);
 		frame.setDefaultCloseOperation(frame.getDefaultCloseOperation());
-		JFreeChart lineChart = ChartFactory.createLineChart(chartTitle,
-				"Tournament", "Pay-Off", /** Modified from original code **/
+		JFreeChart lineChart = ChartFactory.createLineChart("Experiment : "+ (expNum+1),
+				"Tournament", "Cummulative Pay-Off", /** Modified from original code **/
 				createDataset(), PlotOrientation.VERTICAL, true, true, false); // plot graph
 																				
 		lineChart.setBackgroundPaint(Color.white); // set background color
@@ -95,17 +94,6 @@ public class LineChart extends JFrame {
 		chartPanel.setPreferredSize(new java.awt.Dimension(1200, 700)); 
 		setContentPane(chartPanel);
 		chartPanel.setLayout(null);
-
-		JLabel lblNewLabel = new JLabel("Experiment ");
-		lblNewLabel.setFont(new Font("Lucida Grande", Font.BOLD, 14));
-		lblNewLabel.setBounds(67, 6, 86, 25);
-		chartPanel.add(lblNewLabel);
-
-		lblExpNum = new JLabel("");
-		lblExpNum.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		lblExpNum.setBounds(155, 11, 43, 16);
-		chartPanel.add(lblExpNum);
-		lblExpNum.setText(String.valueOf(expNum + 1));
 
 	}
 

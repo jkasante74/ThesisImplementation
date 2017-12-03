@@ -31,7 +31,7 @@ public class ParamConfigMgr {
 	private static boolean startSim = false;
 	protected static int[] currentSetupValues;
 	private static float uncertaintyLevel;
-	private static int experimentCounter = 0;
+	public static int experimentCounter = 0;
 	private static int[] agentRequestLimit;
 	private static String requestLimitOption;
 	private static final String ADVANCED_COOPERATOR = "Advanced_C";
@@ -68,6 +68,7 @@ public class ParamConfigMgr {
 	 * experiment charting option for HIM to use during charting 
 	 */
 	private static void updateChartingOption() {
+		
 		for (int i = 0; i < experimentCounter; i++) {
 			String name = "Experiment " + (i + 1);
 			GUI.cmbExpSel.addItem(makeObj(name));
@@ -197,8 +198,11 @@ public class ParamConfigMgr {
 					requestLimitOption);
 
 			Scheduler.setSetupParam(setupParam, numOfAgents, Strategies);
-		} else
+		} else{
+			
 			return;
+		}
+			
 
 	}
 

@@ -8,8 +8,10 @@ import gui.LineChart;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -493,11 +495,10 @@ public class HIM {
 	private static String getOpponentPastInfo(int requestingAgentID,
 			int opponentID) {
 		String pastInfoAfterUncertainty = "";
-	
 		if (HIR.agentActs[opponentID] != null) {
 			opponentPastInfo = String.valueOf(HIR.agentActs[opponentID]);
-			System.out.println((opponentID + 1) + " has played : "
-					+ opponentPastInfo);
+			//JOptionPane.showMessageDialog(null,(opponentID + 1) + " has played : "
+				//	+ opponentPastInfo);
 			pastInfoAfterUncertainty = applyUncertaintyLimit(opponentPastInfo);
 		}
 
@@ -657,7 +658,8 @@ public class HIM {
 		
 		ArrayList<String> myAgentStrategies = new ArrayList<String>(Arrays.asList(StrategySetupManager.Strategies));
 		BarChart.agentStrategies = myAgentStrategies;
-		
+		BarChart3DDemo4.agentStrategies = myAgentStrategies;
+
 		readLines(selectedExperimentIndex);
 
 	}
@@ -687,7 +689,7 @@ public class HIM {
 			BufferedReader b = new BufferedReader(new FileReader(f));
 
 			String readLine = "";
-			readLine = b.readLine();
+		//	readLine = b.readLine();
 			while ((readLine = b.readLine()) != null) {
 
 				chartDataset = readLine.split(",");
@@ -717,6 +719,22 @@ public class HIM {
 		}
 
 		return null;
+	}
+	
+	
+	/**
+	 * The clarChartInfo method Cleans up the chartsInfo file 
+	 * to begin a new set of experiments
+	 * @throws FileNotFoundException 
+	 * 
+	 */
+	public static void clearChartInfo() throws FileNotFoundException {
+		chartsInfo = "";
+		PrintWriter writer = new PrintWriter(CHARTS_FILE);
+		writer.print("");
+		writer.close();
+		
+		
 	}
 
 }

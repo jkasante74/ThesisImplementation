@@ -44,6 +44,7 @@ package gui;
  *
  */
 
+import gui.BarChart3DDemo4.CustomBarRenderer3D;
 import historicalInformationManager.HIM;
 
 import java.awt.Color;
@@ -56,13 +57,21 @@ import javax.swing.WindowConstants;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.annotations.CategoryTextAnnotation;
+import org.jfree.chart.axis.CategoryAnchor;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.ItemLabelAnchor;
 import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.title.TextTitle;
+import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RefineryUtilities;
 import org.jfree.ui.TextAnchor;
 
@@ -82,7 +91,7 @@ import java.util.ArrayList;
  */
 public class BarChart extends JFrame {
 
-	/* Parameter variables */
+	// Parameter variables 
 	public static DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 	private static final long serialVersionUID = 1L;
 	private static int expNum; // requested experiment index
@@ -90,34 +99,39 @@ public class BarChart extends JFrame {
 	
 	
 	class DifferenceBarRenderer extends BarRenderer {
-		  /**
-		 * 
-		 */
+		
+		// Private variables
 		private static final long serialVersionUID = 1L;
+		
+		/**
+         * Creates a new renderer.
+         */
 		public DifferenceBarRenderer() {
 		 }
 
-      /**
-       * Returns the paint for an item.  Overrides the default behaviour
-       * inherited from AbstractSeriesRenderer.
-       *
-       * @param row  the series.
-       * @param column  the category.
-       *
-       * @return The item color.
-       */
-      public Paint getItemPaint(int row, int column) {
-          //CategoryDataset dataset = getPlot().getDataset();
-       
-    	  double value = dataset.getValue(row, column).doubleValue();
-          if (value >= 0.70) {
-              return Color.green;
-          }
-          else {
-              return Color.red;
-          }
-      }
-	}
+		/**
+         * Returns the paint for an item.  Overrides the default behaviour
+         * inherited from AbstractSeriesRenderer.
+         *
+         * @param row  the series.
+         * @param column  the category.
+         *
+         * @return The item color.
+         */
+        public Paint getItemPaint(int row, int column) {
+        	String s = dataset.getRowKey(row).toString();
+            int agentId = Integer.parseInt(s.substring(6));
+          JOptionPane.showMessageDialog(null, agentId);
+            if (agentStrategies.get(agentId-1).equalsIgnoreCase("Advanced_C")) 
+                return Color.CYAN;
+            else if (agentStrategies.get(agentId-1).equalsIgnoreCase("Naive_C")) 
+                return Color.BLUE;
+            else if (agentStrategies.get(agentId-1).equalsIgnoreCase("Naive_D")) 
+                return Color.YELLOW;
+            else
+                return Color.RED;
+        }
+    }
 	
 	
 	
@@ -139,27 +153,18 @@ public class BarChart extends JFrame {
 
 		super(frameTitle);
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		final JFreeChart chart = ChartFactory.createBarChart(chartTitle,
-				"Tournament", "Pay-Off", /** Modified from original code **/
-				createDataset(), PlotOrientation.VERTICAL, true, true, false);
-		
-		
+	//	final JFreeChart chart = ChartFactory.createBarChart(chartTitle,
+	//			"Tournament", "Cummulative Pay-Off", /** Modified from original code **/
+	//			createDataset(), PlotOrientation.VERTICAL, true, true, false);
+        
+		CategoryDataset dataset = createDataset();
+
+		JFreeChart chart = createChart(dataset);
 		
 		final ChartPanel chartPanel = new ChartPanel(chart);
 		chartPanel.setPreferredSize(new Dimension(1200, 770));
 		setContentPane(chartPanel);
 		chartPanel.setLayout(null);
-
-		JLabel label = new JLabel("Experiment ");
-		label.setFont(new Font("Lucida Grande", Font.BOLD, 14));
-		label.setBounds(56, 6, 86, 25);
-		chartPanel.add(label);
-
-		JLabel lblExpNum = new JLabel("0");
-		lblExpNum.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		lblExpNum.setBounds(144, 11, 43, 16);
-		chartPanel.add(lblExpNum);
-		lblExpNum.setText(String.valueOf(expNum + 1));
 
 	}
 
@@ -177,11 +182,66 @@ public class BarChart extends JFrame {
 		
 		// Query HIM to submit data for bar chart display 
 		HIM.getDataset(expNum);
-		JOptionPane.showMessageDialog(null, agentStrategies);
+		//JOptionPane.showMessageDialog(null, agentStrategies);
 
 		return dataset; // add the data point (y-value, variable, x-value)
 	}
 
+	
+    /**
+     * Creates a chart.
+     *
+     * @param dataset  the dataset.
+     *
+     * @return The chart.
+     */
+    private static JFreeChart createChart(CategoryDataset dataset) {
+
+        JFreeChart chart = ChartFactory.createBarChart(
+            "Experiment : "+ (expNum+1), 	// chart title
+        	"Tournament",               // domain axis label
+            "Cummulative Pay-Off",      // range axis label
+            dataset,                  // data
+            PlotOrientation.VERTICAL, // orientation
+            false,                     // include legend
+            true,                     // tooltips
+            false                     // urls
+        );
+      //  chart.getLegend().setPosition(RectangleEdge.RIGHT);
+        TextTitle legendText = new TextTitle("\n Naive_C     Naive_D    Advanced_C   Advanced_D \n \n");
+        legendText.setPosition(RectangleEdge.BOTTOM);
+        chart.addSubtitle(legendText);
+        CategoryPlot plot = chart.getCategoryPlot();
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+
+        // set the color (r,g,b) or (r,g,b,a)
+        Color color = new Color(79, 129, 189);
+ 
+        
+        for (int i = 0; i < dataset.getRowCount(); i++){
+            String s = dataset.getRowKey(i).toString(); 
+        	int agentId = Integer.parseInt(s.substring(6));
+        
+            if (agentStrategies.get(agentId-1).equalsIgnoreCase("Advanced_C")) 
+            	color = new Color(248,171,38);
+            else if (agentStrategies.get(agentId-1).equalsIgnoreCase("Naive_C")) 
+            	color = new Color(252,197,90);
+            else if (agentStrategies.get(agentId-1).equalsIgnoreCase("Naive_D")) 
+            	color = new Color(254,251,188);
+            else
+            	color = new Color(30,104,94);
+            renderer.getLegendItems();
+            renderer.setSeriesPaint(i, color);
+            
+        }
+        
+
+        return chart;
+
+    }
+	
+	
+	
 	
 	
 	/**

@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -31,6 +32,7 @@ import javax.swing.JRadioButton;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
+import setupManager.ParamConfigMgr;
 import setupManager.StrategySetupManager;
 
 import javax.swing.JComboBox;
@@ -127,7 +129,18 @@ public class GUI {
 				// Initialize parameters to be loaded into Setup reopsitory
 				String[] param = new String[8];
 				String[] agentNum = new String[5];
+				
+				// Reset for next experiment
 				startSimulation = true;
+				GUI.cmbExpSel.removeAllItems();
+				ParamConfigMgr.experimentCounter = 0;
+				
+				// Request to clean charts file
+				try {
+					HIM.clearChartInfo();
+				} catch (FileNotFoundException e2) {
+					e2.printStackTrace();
+				}
 
 				// Check if we are not loading setup from batch file 
 				if (!rdbtnLoadSetup.isSelected()) {
