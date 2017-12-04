@@ -1,24 +1,32 @@
-1,9.0,Agent 1,Advanced_C,T 1
-1,8.0,Agent 2,Advanced_D,T 1
-1,12.0,Agent 3,Advanced_C,T 1
-1,13.0,Agent 4,Advanced_D,T 1
-1,9.0,Agent 5,Naive_D,T 1
-1,6.0,Agent 6,Naive_C,T 1
-1,18.0,Agent 1,Advanced_C,T 2
-1,16.0,Agent 2,Advanced_D,T 2
-1,25.0,Agent 3,Advanced_C,T 2
-1,22.0,Agent 4,Advanced_D,T 2
-1,18.0,Agent 5,Naive_D,T 2
-1,12.0,Agent 6,Naive_C,T 2
-1,27.0,Agent 1,Advanced_C,T 3
-1,24.0,Agent 2,Advanced_D,T 3
-1,38.0,Agent 3,Advanced_C,T 3
-1,31.0,Agent 4,Advanced_D,T 3
-1,27.0,Agent 5,Naive_D,T 3
-1,18.0,Agent 6,Naive_C,T 3
-1,36.0,Agent 1,Advanced_C,T 4
-1,32.0,Agent 2,Advanced_D,T 4
-1,51.0,Agent 3,Advanced_C,T 4
-1,40.0,Agent 4,Advanced_D,T 4
-1,36.0,Agent 5,Naive_D,T 4
-1,24.0,Agent 6,Naive_C,T 4
+1,16.0,Agent 1(Advanced_C) ,Advanced_C,T 1
+1,16.0,Agent 2(Advanced_C) ,Advanced_C,T 1
+1,11.0,Agent 3(Advanced_D) ,Advanced_D,T 1
+1,10.0,Agent 4(Advanced_D) ,Advanced_D,T 1
+1,16.0,Agent 5(Advanced_C) ,Advanced_C,T 1
+1,12.0,Agent 6(Advanced_C) ,Advanced_C,T 1
+1,9.0,Agent 7(Advanced_D) ,Advanced_D,T 1
+1,11.0,Agent 8(Advanced_D) ,Advanced_D,T 1
+1,37.0,Agent 1(Advanced_C) ,Advanced_C,T 2
+1,33.0,Agent 2(Advanced_C) ,Advanced_C,T 2
+1,16.0,Agent 3(Advanced_D) ,Advanced_D,T 2
+1,15.0,Agent 4(Advanced_D) ,Advanced_D,T 2
+1,37.0,Agent 5(Advanced_C) ,Advanced_C,T 2
+1,29.0,Agent 6(Advanced_C) ,Advanced_C,T 2
+1,14.0,Agent 7(Advanced_D) ,Advanced_D,T 2
+1,18.0,Agent 8(Advanced_D) ,Advanced_D,T 2
+1,58.0,Agent 1(Advanced_C) ,Advanced_C,T 3
+1,50.0,Agent 2(Advanced_C) ,Advanced_C,T 3
+1,21.0,Agent 3(Advanced_D) ,Advanced_D,T 3
+1,20.0,Agent 4(Advanced_D) ,Advanced_D,T 3
+1,58.0,Agent 5(Advanced_C) ,Advanced_C,T 3
+1,46.0,Agent 6(Advanced_C) ,Advanced_C,T 3
+1,19.0,Agent 7(Advanced_D) ,Advanced_D,T 3
+1,25.0,Agent 8(Advanced_D) ,Advanced_D,T 3
+1,79.0,Agent 1(Advanced_C) ,Advanced_C,T 4
+1,67.0,Agent 2(Advanced_C) ,Advanced_C,T 4
+1,26.0,Agent 3(Advanced_D) ,Advanced_D,T 4
+1,25.0,Agent 4(Advanced_D) ,Advanced_D,T 4
+1,79.0,Agent 5(Advanced_C) ,Advanced_C,T 4
+1,63.0,Agent 6(Advanced_C) ,Advanced_C,T 4
+1,24.0,Agent 7(Advanced_D) ,Advanced_D,T 4
+1,32.0,Agent 8(Advanced_D) ,Advanced_D,T 4

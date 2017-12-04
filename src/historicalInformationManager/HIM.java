@@ -346,7 +346,7 @@ public class HIM {
 			String[][] data) throws IOException {
 		String x_axis = "T " + (currentTournamentIndex + 1);
 		chartsInfo = chartsInfo + String.valueOf(currentExperimentIndex) + ","
-				+ HIR.data[i][2] + "," + HIR.data[i][0] + "," + HIR.data[i][1] + "," + x_axis + "\n";
+				+ HIR.data[i][2] + "," + HIR.data[i][0] + "("+ HIR.data[i][1] + ")" +" ," + HIR.data[i][1] + "," + x_axis + "\n";
 
 		Files.write(Paths.get(CHARTS_FILE), chartsInfo.getBytes());
 	}

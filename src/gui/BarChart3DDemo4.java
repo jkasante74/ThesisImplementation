@@ -82,17 +82,27 @@ public class BarChart3DDemo4 extends JFrame {
          */
         public Paint getItemPaint(int row, int column) {
           	String s = dataset.getRowKey(row).toString();
-            int agentId = Integer.parseInt(s.substring(6));
+            int agentId = Integer.parseInt(s.substring(6,7));
             Color color = new Color(79, 129, 189);
-            if (agentStrategies.get(agentId-1).equalsIgnoreCase("Advanced_C")) 
-            	color = new Color(248,171,38);
-            else if (agentStrategies.get(agentId-1).equalsIgnoreCase("Naive_C")) 
-            	color = new Color(252,197,90);
-            else if (agentStrategies.get(agentId-1).equalsIgnoreCase("Naive_D")) 
-            	color = new Color(254,251,188);
-            else
-            	color = new Color(30,104,94);
-            return color;
+            
+            switch(agentStrategies.get(agentId-1)){	
+	        	case "Advanced_C": 
+	            	color = new Color(248,171,38);
+	            	break;
+	        	
+	        	case "Naive_C": 
+	            	color = new Color(252,197,90);
+	            	break;
+	            	
+	        	case "Naive_D": 
+	            	color = new Color(254,251,188);
+	            	break;
+	            	
+	        	case "Advanced_D": 
+	            	color = new Color(30,104,94);
+	            	break;
+	        }
+			return color;
         
         }
     }
@@ -142,7 +152,7 @@ public class BarChart3DDemo4 extends JFrame {
             "Cummulative Pay-Off",                  // range axis label
             dataset,                  // data
             PlotOrientation.VERTICAL, // orientation
-            false,                     // include legend
+            true,                     // include legend
             true,                     // tooltips
             false                     // urls
         );

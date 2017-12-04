@@ -213,10 +213,11 @@ public class BarChart extends JFrame {
         Font labelFont = new Font("Arial", Font.BOLD, 12);
         legend.setItemFont(labelFont);
         
-        
+       /* 
         TextTitle legendText = new TextTitle("\n Naive_C     Naive_D    Advanced_C   Advanced_D \n \n");
         legendText.setPosition(RectangleEdge.BOTTOM);
         chart.addSubtitle(legendText);
+        */
         CategoryPlot plot = chart.getCategoryPlot();
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
          
@@ -226,16 +227,26 @@ public class BarChart extends JFrame {
         
         for (int i = 0; i < dataset.getRowCount(); i++){
             String s = dataset.getRowKey(i).toString(); 
-        	int agentId = Integer.parseInt(s.substring(6));
+        	int agentId = Integer.parseInt(s.substring(6,7));
         
-            if (agentStrategies.get(agentId-1).equalsIgnoreCase("Advanced_C")) 
+        	switch(agentStrategies.get(agentId-1)){
+        	
+        	case "Advanced_C": 
             	color = new Color(248,171,38);
-            else if (agentStrategies.get(agentId-1).equalsIgnoreCase("Naive_C")) 
+            	break;
+        	
+        	case "Naive_C": 
             	color = new Color(252,197,90);
-            else if (agentStrategies.get(agentId-1).equalsIgnoreCase("Naive_D")) 
+            	break;
+            	
+        	case "Naive_D": 
             	color = new Color(254,251,188);
-            else
+            	break;
+            	
+        	case "Advanced_D": 
             	color = new Color(30,104,94);
+            	break;
+        	}
             renderer.getLegendItems();
             renderer.setSeriesPaint(i, color);
             
