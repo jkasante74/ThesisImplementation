@@ -68,6 +68,7 @@ import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -203,17 +204,22 @@ public class BarChart extends JFrame {
             "Cummulative Pay-Off",      // range axis label
             dataset,                  // data
             PlotOrientation.VERTICAL, // orientation
-            false,                     // include legend
+            true,                     // include legend
             true,                     // tooltips
             false                     // urls
         );
       //  chart.getLegend().setPosition(RectangleEdge.RIGHT);
+        LegendTitle legend = chart.getLegend();
+        Font labelFont = new Font("Arial", Font.BOLD, 12);
+        legend.setItemFont(labelFont);
+        
+        
         TextTitle legendText = new TextTitle("\n Naive_C     Naive_D    Advanced_C   Advanced_D \n \n");
         legendText.setPosition(RectangleEdge.BOTTOM);
         chart.addSubtitle(legendText);
         CategoryPlot plot = chart.getCategoryPlot();
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
-
+         
         // set the color (r,g,b) or (r,g,b,a)
         Color color = new Color(79, 129, 189);
  
