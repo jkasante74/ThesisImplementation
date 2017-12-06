@@ -29,6 +29,7 @@ public class MatchManager {
 	private static final char COOPERATE = 'C';
 	private static final char DEFECT = 'D';
 	private static final char DUMMY = 'A';
+	private static final String DUMMY_STRATEGY = "Dummy";
 	private static String TOURNAMENTBOARD = "TB/TB.csv";
 	private static String FILENOTFOUND = "File not found";
 
@@ -53,28 +54,29 @@ public class MatchManager {
 	protected static void matchMgr(String agentStrategy,
 			String opponentStrategy, int agentID, int opponentID,
 			int currentTournament, int currentRound) {
-
-		agentsAction = Agent.getMatchedAgentActions(agentID, opponentID,
-				currentTournament, currentRound);
-		String text = getMatchedAgentsLog();
-		GUI_Simulation.txtSim.append(text);
-
-		// Store mateched agents actions in Tournament Board
-		try {
-			Files.write(Paths.get(TOURNAMENTBOARD), text.getBytes());
-			HIM.updateLog(text);
-		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, FILENOTFOUND);
+		
+		if(opponentStrategy!= (DUMMY_STRATEGY)){
+			agentsAction = Agent.getMatchedAgentActions(agentID, opponentID,
+					currentTournament, currentRound);
+			String text = getMatchedAgentsLog();
+			GUI_Simulation.txtSim.append(text);
+	
+			// Store matched agents actions in Tournament Board
+			try {
+				Files.write(Paths.get(TOURNAMENTBOARD), text.getBytes());
+				HIM.updateLog(text);
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, FILENOTFOUND);
+			}
+	
+			float[] matchScores = MatchManager
+					.calcMatchedAgentsScores(agentsAction);
+	
+			Agent.updateMatchedAgentsScores(agentID, opponentID, matchScores);
+	
+			HIM.updateAgActionsInReposiory(currentTournament, agentID, opponentID,
+					agentsAction);
 		}
-
-		float[] matchScores = MatchManager
-				.calcMatchedAgentsScores(agentsAction);
-
-		Agent.updateMatchedAgentsScores(agentID, opponentID, matchScores);
-
-		HIM.updateAgActionsInReposiory(currentTournament, agentID, opponentID,
-				agentsAction);
-
 	}
 
 	/**
@@ -124,11 +126,13 @@ public class MatchManager {
 			agentScore = (Scheduler.punish);
 			opponentScore = (Scheduler.punish);
 		}
+		
 		// No score given to agents matched against Dummies
 		if (agentsActions[1] == DUMMY) {
 			agentScore = 0;
 			opponentScore = 0;
 		}
+		
 		matchScores[0] = agentScore;
 		matchScores[1] = opponentScore;
 
@@ -158,8 +162,8 @@ public class MatchManager {
 	 * @return log	: String of scores for both agent and opponent 
 	 */
 	private static String getCalculatedScoreLog(float matchScores[]) {
-		String log = matchScores[0] + "\t \t vrs \t "
+		String calcScores = matchScores[0] + "\t \t vrs \t "
 				+ matchScores[1] + "\n\n";
-		return log;
+		return calcScores;
 	}
 }
