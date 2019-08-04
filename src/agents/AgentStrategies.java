@@ -15,10 +15,11 @@ public class AgentStrategies {
 	private static float TEMPT;
 	private static float REWARD;
 	private static float PUNISH;
-	private static char opponentFirstAct;
+	private static String opponentFirstAct;
 	@SuppressWarnings("unused")
 	private static float SUCKER;
 	private static double ALPHA = 0.5, BETA = 0.5,DISCOUNTFACTOR = 0.9;
+	
 	/**
 	 * DefectAll strategy defects at all times no matter what the opponent does
 	 * 
@@ -64,7 +65,7 @@ public class AgentStrategies {
 		char matchAction = COOPERATE; // Set default action
 
 		// First action in a new experiment
-		if ((currentTournament == 0) && (currentRound == 0)) {
+		if (((currentTournament == 0) && (currentRound == 0))||(Agent.agentStrategies[opponentID].equalsIgnoreCase("Dummy"))) {
 			matchAction = COOPERATE;
 		}
 
@@ -109,7 +110,7 @@ public class AgentStrategies {
 		char matchAction = DEFECT; // Set default action
 
 		// First action in a new experiment
-		if ((currentTournament == 0) && (currentRound == 0)) {
+		if (((currentTournament == 0) && (currentRound == 0))||(Agent.agentStrategies[opponentID].equalsIgnoreCase("Dummy"))) {
 			matchAction = DEFECT;
 		}
 
@@ -138,7 +139,7 @@ public class AgentStrategies {
 	private static char superRationalWithDiscountFactor(double opponentCooperateRatio) {
 		char matchAction; // Set default action
 
-		if(opponentFirstAct == COOPERATE)
+		if(opponentFirstAct == "C")
 			matchAction = COOPERATE;
 		
 		else{
@@ -185,6 +186,18 @@ public class AgentStrategies {
 			matchAction = DEFECT;
 			
 		return matchAction;
+	}
+	
+	/**
+	 * dummy strategy returns a non-computable strategy 'A'
+	 * 
+	 * @return DUMMY : 'D'
+	 * 
+	
+	 */
+	static char dummy() {
+
+		return 'A';
 	}
 
 	
@@ -241,8 +254,10 @@ public class AgentStrategies {
 			
 			if (infoAcquired){
 				opponentCooperateRatio = calcOppRating(opponentInformation);
-				opponentFirstAct = opponentInformation.charAt(0);
-			//	JOptionPane.showMessageDialog(null, opponentFirstAct);
+			//	System.out.println(opponentInformation);
+				opponentFirstAct = opponentInformation.substring(0, 1);
+				
+				System.out.println(opponentFirstAct);
 
 			}
 			break;
@@ -253,7 +268,7 @@ public class AgentStrategies {
 					opponentID, pastInfoTypeIndex);
 			if (infoAcquired) {
 				opponentCooperateRatio = calcOppRating(opponentInformation);
-				opponentFirstAct = opponentInformation.charAt(0);
+				opponentFirstAct = opponentInformation.substring(0, 1);
 			}
 			break;
 
@@ -296,8 +311,6 @@ public class AgentStrategies {
 			opponentCooperateRatio = numOfCooperations
 					/ (numOfCooperations + numOfDefections);
 		
-	//	JOptionPane.showMessageDialog(null, "Agent has C : "+ numOfCooperations +  " D : "+ numOfDefections + " = " + (numOfCooperations/(numOfCooperations + numOfDefections)));
-
 		return opponentCooperateRatio;
 	}
 

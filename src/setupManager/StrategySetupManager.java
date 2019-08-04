@@ -217,10 +217,6 @@ public class StrategySetupManager {
 				case 3:
 					Strategies[(count)] = "Advanced_D";
 					break;
-
-				case 4: 
-					Strategies[(count)] = "Rater";
-					break;	
 				}
 				count++;
 			}
@@ -228,9 +224,23 @@ public class StrategySetupManager {
 
 		
 		 // Shuffle agent strategies so that position doesn't favor outcome in first round
-		Collections.shuffle(Arrays.asList(Strategies));
+		reshuffleStrategies();
 
 		return Strategies;
+	}
+
+
+	private static void reshuffleStrategies() {
+		Collections.shuffle(Arrays.asList(Strategies));
+		
+		for(int i = 0; i <Strategies.length; i++){
+			if(Strategies[i]=="Dummy"){
+				String temp = Strategies[i];
+				Strategies[i] = Strategies[Strategies.length-1];
+				Strategies[Strategies.length-1] = temp;
+			}
+		}
+		
 	}
 
 }

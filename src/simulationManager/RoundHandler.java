@@ -23,7 +23,7 @@ import javax.swing.JOptionPane;
 public class RoundHandler {
 	
 	//RoundHandler Parameters
-	private static String DUMMY = "Dummy";
+	private static String DUMMY_STRATEGY = "Dummy";
 	private static String TOURNAMENTBOARD = "TB/TB.csv";
 	private static String FILENOTFOUND = "File not found";
 	
@@ -85,8 +85,9 @@ public class RoundHandler {
 						.parseInt((String) (homeList.get(j))) - 1];
 				String opponentStrategy = Scheduler.strategies[Integer
 						.parseInt((String) (awayList.get(j))) - 1];
-
-				if (!opponentStrategy.contains(DUMMY)) {
+					
+				if(!opponentStrategy.equalsIgnoreCase(DUMMY_STRATEGY))
+				{	
 					String matchedAgentID = getMatchedAgentIDLog(homeList.get(j), awayList.get(j), 
 							agentStrategy, opponentStrategy);
 					GUI_Simulation.txtSim.append(matchedAgentID);
@@ -111,6 +112,7 @@ public class RoundHandler {
 					MatchManager.matchMgr(agentStrategy, opponentStrategy,
 							agentID, oppnentID, currentTournament, round);
 				}
+				
 
 			}
 		}

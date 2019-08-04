@@ -1,21 +1,24 @@
 
 Experiment 1
 ==========================
-Number of Tournament : ,4
+Agent_ID 	 Strategy 	Pay_Off    Cooperations Defections 
+
+Number of Tournament : ,10
 Payoffs : ,T = 5, R = 3, P = 1, S = 0
 Uncertainty Level : ,1.0
 Request Limit : ,Assigned
-Simulation Leaderboard
-------------------------
-Agent 3,Advanced_C,51.0
+
+
+ Agent_ID, Strategy , Pay_Off , Cooperations , Defections 
+Agent 2,Advanced_D,131.0,26,24
  
-Agent 4,Advanced_D,40.0
+Agent 3,Advanced_C,116.0,27,23
  
-Agent 5,Naive_D,36.0
+Agent 5,Advanced_C,111.0,28,22
  
-Agent 1,Advanced_C,36.0
+Agent 1,Advanced_D,104.0,7,43
  
-Agent 2,Advanced_D,32.0
+Agent 6,Naive_D,90.0,0,50
  
-Agent 6,Naive_C,24.0
+Agent 4,Naive_C,60.0,50,0
  

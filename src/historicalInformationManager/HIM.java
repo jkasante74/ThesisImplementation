@@ -186,9 +186,14 @@ public class HIM {
 			throws IOException {
 		experimentLeaderboard = experimentLeaderboard + "\nExperiment "
 				+ currentExpIndex
-				+ " Simulation Leaderboard\n=========================\n";
+				+ " Simulation Leaderboard\n=========================\n"
+				+ "Agent_ID \t Strategy \tPay_Off    Cooperations       "
+				+ "Defections \n---------------------------------------------------\n";
+				
 		currentExperimentResults = currentExperimentResults + "\nExperiment "
-				+ currentExpIndex + "\n==========================\n";
+				+ currentExpIndex + "\n==========================\n"
+				+ "Agent_ID \t Strategy \tPay_Off    Cooperations "
+				+ "Defections \n\n";
 		currentExperimentResults = currentExperimentResults
 				+ "Number of Tournament : ," + totalNumOfTournament + "\n";
 		currentExperimentResults = currentExperimentResults + "Payoffs : ,T = "
@@ -200,7 +205,8 @@ public class HIM {
 		currentExperimentResults = currentExperimentResults
 				+ "Request Limit : ," + requestLimitOptions + "\n";
 		currentExperimentResults = currentExperimentResults
-				+ "Simulation Leaderboard\n------------------------\n";
+				+ "\n\n Agent_ID, Strategy , Pay_Off , Cooperations , "
+				+ "Defections \n";
 
 		HIR.data = new String[HIR.agentsRequestLimit.length][3];
 		String[] Strategy = StrategySetupManager.Strategies;
@@ -224,11 +230,11 @@ public class HIM {
 		for (int i = HIR.data.length - 1; i >= 0; i--) {
 			if (HIR.data[i][1] != DUMMY) {
 				experimentLeaderboard = experimentLeaderboard + HIR.data[i][0]
-						+ "\t" + HIR.data[i][1] + "\t" + HIR.data[i][2]
-						+ "\n \n";
+						+ "\t" + HIR.data[i][1] + "\t" + HIR.data[i][2] + "\t"+numOfPastActions(HIR.data[i][0], 1)+"\t"
+						+numOfPastActions(HIR.data[i][0], 2) + "\n \n";
 				currentExperimentResults = currentExperimentResults
 						+ HIR.data[i][0] + "," + HIR.data[i][1] + ","
-						+ HIR.data[i][2] + "\n \n";
+						+ HIR.data[i][2] + ","+numOfPastActions(HIR.data[i][0], 1)+","+numOfPastActions(HIR.data[i][0], 2) +"\n \n";
 				;
 			}
 		}
@@ -237,6 +243,34 @@ public class HIM {
 
 		return experimentLeaderboard;
 
+	}
+	/**
+	 * numOfCooperation retuns the number of cooperative actions
+	 * performed by the current agent
+	 * @param string
+	 * @return
+	 */
+	private static int numOfPastActions(String agentName, int option) {
+		int numOfDefections = 0, numOfCooperations = 0;
+		
+		// Get Opponent Id
+		int agentID = Integer.parseInt(agentName.substring(6, 7));
+		
+		// Acquire past opponent action
+		String opponentInformation = HIR.agentActs[(agentID - 1)];
+		for (int i = 0; i < opponentInformation.length(); i++) {
+			if (opponentInformation.charAt(i) == 'D')
+				numOfDefections++;
+			else if(opponentInformation.charAt(i) == 'C')
+				numOfCooperations++;
+
+		}
+		
+		// Return  total number of actions based on request type
+ 		if(option == 1)
+			return numOfCooperations;
+		else
+			return numOfDefections;
 	}
 
 	/**
@@ -346,7 +380,7 @@ public class HIM {
 			String[][] data) throws IOException {
 		String x_axis = "T " + (currentTournamentIndex + 1);
 		chartsInfo = chartsInfo + String.valueOf(currentExperimentIndex) + ","
-				+ HIR.data[i][2] + "," + HIR.data[i][0] + "," + HIR.data[i][1] + "," + x_axis + "\n";
+				+ HIR.data[i][2] + "," + HIR.data[i][0] + "("+ HIR.data[i][1] + ")" +" ," + HIR.data[i][1] + "," + x_axis + "\n";
 
 		Files.write(Paths.get(CHARTS_FILE), chartsInfo.getBytes());
 	}

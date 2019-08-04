@@ -16,6 +16,7 @@ public class Agent {
 	private static final String ADVANCE_DEFECTOR = "Advanced_D";
 	private static final String NAIVE_DEFECTOR = "Naive_D";
 	private static final String NAIVE_COOPERATOR = "Naive_C";
+	private static final String DUMMY = "Dummy";
 
 	/**
 	 * setVariable method sets up the variables and data structures used by the
@@ -134,6 +135,9 @@ public class Agent {
 		if (agentStrategi.equalsIgnoreCase(ADVANCE_DEFECTOR))
 			agentAction = AgentStrategies.advanceDefector(requestingAgentID,
 					opponentID, currentTournament, currentRound);
+		if (agentStrategi.equalsIgnoreCase(DUMMY))
+			agentAction = 'A';
+		
 		
 		// Get action of opponent
 		if (opponentStrategi.equalsIgnoreCase(NAIVE_COOPERATOR))
@@ -146,6 +150,8 @@ public class Agent {
 		if (opponentStrategi.equalsIgnoreCase(ADVANCE_DEFECTOR))
 			OpponentAction = AgentStrategies.advanceDefector(requestingAgentID,
 					opponentID, currentTournament, currentRound);
+		if (opponentStrategi.equalsIgnoreCase(DUMMY))
+			OpponentAction = 'A';
 
 		actions[0] = agentAction;
 		actions[1] = OpponentAction;
